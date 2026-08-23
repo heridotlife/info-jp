@@ -1,4 +1,5 @@
 import type { ObservedRateSet } from '../../types/remittance';
+import { fetchBniTokyoRates } from './bni-tokyo';
 import { fetchCityExpressRates } from './city-express';
 import { fetchDcomRates } from './dcom';
 import { fetchInstaremRates } from './instarem';
@@ -43,6 +44,7 @@ export const RATE_ADAPTERS: Readonly<Record<string, RateAdapter>> = {
   jme: { fetchRates: (fetchImpl?: typeof fetch) => fetchJmeRates(fetchImpl ?? fetch) },
   dcom: { fetchRates: (fetchImpl?: typeof fetch) => fetchDcomRates(fetchImpl ?? fetch) },
   remitly: { fetchRates: (fetchImpl?: typeof fetch) => fetchRemitlyRates(fetchImpl ?? fetch) },
+  'bni-tokyo': { fetchRates: (fetchImpl?: typeof fetch) => fetchBniTokyoRates(fetchImpl ?? fetch) },
 };
 
 /**
@@ -53,7 +55,7 @@ export const RATE_ADAPTERS: Readonly<Record<string, RateAdapter>> = {
  *
  *   SBI Remit            8 POSTs (one per supported currency, one cached set)
  *   Wise                11 GETs  (one quote per supported currency)
- *   2 other adapters     ~4 fetches (PayForex needs 2 for its CSRF dance;
+ *   1 other adapter      ~3 fetches (PayForex needs 2 for its CSRF dance;
  *                        the +1 is already counted here)
  *   mid-market table     1 fetch (open.er-api.com, 10-min TTL)
  *   ────────────────────────────────────────────────────────────────────

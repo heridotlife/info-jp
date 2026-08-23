@@ -479,6 +479,33 @@ export const PROVIDERS: readonly Provider[] = [
     },
     note: 'Public page shows the new-customer promo rate (first transfer, capped at ¥100,000) — displayed as “Promo — new customers only” and never ranked as best value. Standard (everyday) rate varies by payment/delivery choice.',
   },
+  // --------------------------------------------------------------------------
+  // BNI TOKYO — new-provider onboarding 2026-08-23. Observed rates via the
+  // ptbni.co.jp express-remittance board (TTS send card; adapter supersedes
+  // the modeled markup below). Board updates business days ~09:20 JST.
+  // --------------------------------------------------------------------------
+  {
+    id: 'bni-tokyo',
+    name: 'BNI Tokyo',
+    logoText: 'BNI',
+    brandColor: '#f37021',
+    website: 'http://www.ptbni.co.jp/',
+    supportedCurrencies: ['IDR'],
+    deliveryTypes: ['bank'],
+    speed: { label: 'Hours – 1 day', rankMinutes: 480 },
+    rateMarkup: {
+      // Modeled placeholder only — superseded by the observed-rate adapter
+      // (live 2026-08-23: TTS 107.99 vs mid 111.37 → −3.09%).
+      default: 0.031,
+    },
+    fee: {
+      // VERIFIED JPY→IDR express fee (research P2, plan “Verified fee tier
+      // tables”, 2026-08-23); see docs/rate-sources.md.
+      kind: 'flat',
+      feeJPY: 3_500,
+    },
+    note: 'Express remittance to Indonesia; rate board updates on business days ~09:20 JST (TTS send card).',
+  },
 ];
 
 /** Total number of providers, handy for meta/analytics. */

@@ -78,6 +78,7 @@ the observation time and relies on the 12 h KV TTL for freshness.
 | JME | IDR | `GET https://japanremit.com/exchange-rate` (server-rendered tables; JME pane only — MoneyGram pane never read) | adapter (`src/lib/sources/jme.ts`) | BANK DEPOSIT method row per-1-JPY (live 110.1035); ⚠️ empty-method row is a promo ABOVE mid (112.4665) — structurally excluded | 12 h KV | **observed** (live 2026-08-23) | IDR **verified** (task plan table, 2026-08-23); global tiers = published schedule |
 | DCOM | IDR (board quotes 19 currencies) | `GET https://sendmoney.co.jp/jp/fx-rate/` (server-rendered table) | adapter (`src/lib/sources/dcom.ts`) | send column `JPY = X` cell (`IDR 111.0000`) per-1-JPY; inverse `X = JPY` cell never read | 12 h KV | **observed** (live 2026-08-23) | IDR **verified** (plan fee table, 2026-08-23); others illustrative |
 | Remitly Japan | IDR (promo) | `GET https://www.remitly.com/jp/ja/currency-converter/jpy-to-idr-rate` (server-rendered; embedded `merchandisingFacts` JSON) | adapter (`src/lib/sources/remitly.ts`) | `effectiveRateAsLowAs` per-1-JPY — **always `isPromo: true`** (new-customer rate, above mid); ⚠️ `secondaryMerchandisingFacts` block never read | 12 h KV | **observed — promo only** (live 2026-08-23: promo 111.42; everyday range 106.85–110.87 public on the page, exact per-config rate login-walled) | illustrative (¥100 flat placeholder; promo waives first-transfer fees) |
+| BNI Tokyo | IDR | `GET http://www.ptbni.co.jp/faq-et/?lang=ja` (plain HTTP — server-side fetch only) | adapter (`src/lib/sources/bni-tokyo.ts`) | TTS card's `( IDR per JPY )` row per-1-JPY (live 107.99; fallback: invert the IDR TTS row); ⚠️ TTB card explicitly ignored; board updates business days ~09:20 JST | 12 h KV | **observed** (live 2026-08-23; board 2026-08-21 09:20 — weekend lag accepted under rev-4 uniform TTL) | IDR **verified** (express flat ¥3,500, research P2 2026-08-23) |
 
 Rows are replaced as adapters land (tasks 9–20): each onboarding task fills in
 the URL/method/quoting-units columns and flips rate status to **observed** per
@@ -99,6 +100,7 @@ plan "Verified fee tier tables"); tiers are inclusive upper bounds:
 | City Express | bank + cash | <¥10k → ¥400 · <¥50k → ¥500 · <¥250k → ¥1,000 · ≤¥1M → ¥1,500 (public service-fee page, 2026-08-23) |
 | JME | bank | <¥10k → ¥400 · <¥50k → ¥500 · <¥250k → ¥1,000 · ≤¥1M → ¥1,500 (research P2, 2026-08-23) |
 | DCOM | bank | <¥30k → ¥400 · <¥250k → ¥1,000 · ≤¥1M → ¥1,750 (research P2, 2026-08-23) |
+| BNI Tokyo | bank (express) | flat **¥3,500** (research P2, 2026-08-23) |
 
 Every non-IDR corridor of these providers keeps the illustrative global tiers
 (marked above). Still unverified: Wise (percentage model by design), PayForex,
