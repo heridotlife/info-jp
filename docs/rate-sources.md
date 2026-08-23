@@ -76,6 +76,7 @@ the observation time and relies on the 12 h KV TTL for freshness.
 | Instarem | IDR | `GET https://www.instarem.com/api/v1/public/transaction/computed-value?source_currency=JPY&destination_currency=IDR&source_amount=10000` (anonymous) | adapter (`src/lib/sources/instarem.ts`) | `instarem_fx_rate` per-1-JPY (⚠️ NOT the reference `fx_rate`); promo cross-check vs `regular_instarem_fx_rate` — diverged quote → standard rate stored | 12 h KV | **observed** (live 2026-08-23: standard 110.8606; promo quote 110.9719 detected, not stored) | IDR **verified** (¥0, `regular_transaction_fee_amount: 0`, live 2026-08-23); corridor limit ¥5k–¥1M |
 | City Express | IDR NPR VND PHP INR BDT THB KRW | `GET https://exchange.city-remit.net/api/rates` (one JSON board) | adapter (`src/lib/sources/city-express.ts`) | `rate` per-1-JPY; `GOLDENRATE` promo rows dropped (§9) | 12 h KV | **observed** (8 corridors live 2026-08-23) | IDR **verified** (cityremit.com/service-fee, 2026-08-23); others illustrative |
 | JME | IDR | `GET https://japanremit.com/exchange-rate` (server-rendered tables; JME pane only — MoneyGram pane never read) | adapter (`src/lib/sources/jme.ts`) | BANK DEPOSIT method row per-1-JPY (live 110.1035); ⚠️ empty-method row is a promo ABOVE mid (112.4665) — structurally excluded | 12 h KV | **observed** (live 2026-08-23) | IDR **verified** (task plan table, 2026-08-23); global tiers = published schedule |
+| DCOM | IDR (board quotes 19 currencies) | `GET https://sendmoney.co.jp/jp/fx-rate/` (server-rendered table) | adapter (`src/lib/sources/dcom.ts`) | send column `JPY = X` cell (`IDR 111.0000`) per-1-JPY; inverse `X = JPY` cell never read | 12 h KV | **observed** (live 2026-08-23) | IDR **verified** (plan fee table, 2026-08-23); others illustrative |
 
 Rows are replaced as adapters land (tasks 9–20): each onboarding task fills in
 the URL/method/quoting-units columns and flips rate status to **observed** per
@@ -96,6 +97,7 @@ plan "Verified fee tier tables"); tiers are inclusive upper bounds:
 | Instarem | bank | flat **¥0** (verified live: `regular_transaction_fee_amount: 0`, 2026-08-23) |
 | City Express | bank + cash | <¥10k → ¥400 · <¥50k → ¥500 · <¥250k → ¥1,000 · ≤¥1M → ¥1,500 (public service-fee page, 2026-08-23) |
 | JME | bank | <¥10k → ¥400 · <¥50k → ¥500 · <¥250k → ¥1,000 · ≤¥1M → ¥1,500 (research P2, 2026-08-23) |
+| DCOM | bank | <¥30k → ¥400 · <¥250k → ¥1,000 · ≤¥1M → ¥1,750 (research P2, 2026-08-23) |
 
 Every non-IDR corridor of these providers keeps the illustrative global tiers
 (marked above). Still unverified: Wise (percentage model by design), PayForex,

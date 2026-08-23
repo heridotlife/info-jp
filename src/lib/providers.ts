@@ -412,6 +412,45 @@ export const PROVIDERS: readonly Provider[] = [
     },
     note: 'Rate shown is the standard BANK DEPOSIT rate — the page also displays campaign rates that this comparison never uses.',
   },
+  // --------------------------------------------------------------------------
+  // DCOM MONEY EXPRESS — new-provider onboarding 2026-08-23. Observed rates
+  // via the sendmoney.co.jp rate table (adapter supersedes the modeled
+  // markup below).
+  // --------------------------------------------------------------------------
+  {
+    id: 'dcom',
+    name: 'DCOM Money Express',
+    logoText: 'DC',
+    brandColor: '#0f7b3f',
+    website: 'https://sendmoney.co.jp',
+    supportedCurrencies: ['IDR'], // grown only as corridors verify (board quotes 19)
+    deliveryTypes: ['bank', 'cash'],
+    speed: { label: 'Minutes – 1 day', rankMinutes: 60 },
+    rateMarkup: {
+      // Modeled placeholder only — superseded by the observed-rate adapter
+      // (live 2026-08-23: IDR 111.0 vs mid 111.37 → −0.33%).
+      default: 0.005,
+    },
+    fee: {
+      kind: 'tiered',
+      // Global (illustrative for other corridors).
+      tiers: [
+        { upToJPY: 50_000, feeJPY: 500 },
+        { upToJPY: 250_000, feeJPY: 1_000 },
+        { upToJPY: null, feeJPY: 1_750 },
+      ],
+      // VERIFIED JPY→IDR fee table.
+      // Source: DCOM published fee schedule, verified 2026-08-23 (research
+      // pass 2, plan “Verified fee tier tables”); see docs/rate-sources.md.
+      byCurrency: {
+        IDR: [
+          { upToJPY: 30_000, feeJPY: 400 },
+          { upToJPY: 250_000, feeJPY: 1_000 },
+          { upToJPY: 1_000_000, feeJPY: 1_750 },
+        ],
+      },
+    },
+  },
 ];
 
 /** Total number of providers, handy for meta/analytics. */
