@@ -65,7 +65,7 @@ the observation time and relies on the 12 h KV TTL for freshness.
 | Provider | Corridor | Source URL | Method | Quoting units | Cache TTL | Rate status | Fee status |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | SBI Remit | IDR PHP VND NPR CNY THB | `POST https://www.remit.co.jp/kaigaisoukin/exchangeratecommission/exchange/` (form `currency=<CCY>&mode=receive&base=JPY`, one call per currency) | adapter (`src/lib/sources/sbi-remit.ts`) | API already per-1-JPY incl. CNY/THB (live-verified 2026-08-23; page *display* uses `data-rate` multipliers — CNY/USD/BRL only — which do NOT apply to the API) | 12 h KV | **observed** (INR, BDT: board returns `rate:null` → modeled) | IDR **verified** (task 8); others illustrative |
-| Wise | all | — | — | — | — | modeled | illustrative (percentage) |
+| Wise | USD EUR INR PHP IDR VND CNY NPR BDT THB KRW | `GET https://wise.com/gateway/v1/quotes/?source=JPY&target=<CCY>&rateType=FIXED&sourceAmount=10000` (one call per corridor) | adapter (`src/lib/sources/wise.ts`) | `rate` is per-1-JPY, arithmetic-verified 2026-08-23 ((¥10,000 − ¥289 fee) × 111.001 = targetAmount) | 12 h KV | **observed** (all 11 corridors live 2026-08-23; markup ≈ 0 as expected: IDR −0.33%) | illustrative (percentage — quote fees are amount-aware: ¥289 at ¥10k IDR) |
 | Seven Bank / WU | all | — | — | — | — | modeled | IDR **verified** (task 8); others illustrative |
 | PayForex | all | — | — | — | — | modeled | illustrative |
 | Revolut Japan | all | — | — | — | — | modeled ("per published terms" relabel: task 21) | illustrative |
@@ -101,5 +101,8 @@ JRF, Brastel, and all non-IDR corridors.
 
 - SBI board does not quote INR or BDT (`rate: null` as of 2026-08-23) — those
   corridors render modeled until the board changes.
+- Wise quote `fee` is amount-aware (¥289 at the ¥10,000 IDR reference quote) —
+  the registry keeps the percentage model; amount-tiered fee modeling is a
+  documented gap (plan §8).
 - Workers-egress confirmation for production (post-deploy cold request) is
   task 22; everything above ran on local workerd via `wrangler pages dev`.

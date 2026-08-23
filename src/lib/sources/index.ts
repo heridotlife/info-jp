@@ -1,5 +1,6 @@
 import type { ObservedRateSet } from '../../types/remittance';
 import { fetchSbiRemitRates } from './sbi-remit';
+import { fetchWiseRates } from './wise';
 
 /**
  * ============================================================================
@@ -25,6 +26,7 @@ export interface RateAdapter {
 
 export const RATE_ADAPTERS: Readonly<Record<string, RateAdapter>> = {
   'sbi-remit': { fetchRates: (fetchImpl?: typeof fetch) => fetchSbiRemitRates(fetchImpl ?? fetch) },
+  wise: { fetchRates: (fetchImpl?: typeof fetch) => fetchWiseRates(fetchImpl ?? fetch) },
 };
 
 /**
@@ -34,11 +36,12 @@ export const RATE_ADAPTERS: Readonly<Record<string, RateAdapter>> = {
  * full 15-provider registry (per plan; 6 providers not yet onboarded):
  *
  *   SBI Remit            8 POSTs (one per supported currency, one cached set)
- *   11 other adapters   ~11 fetches (1 each; PayForex needs 2–3 for its
+ *   Wise                11 GETs  (one quote per supported currency)
+ *   10 other adapters   ~10 fetches (1 each; PayForex needs 2–3 for its
  *                        CSRF dance → +2)
  *   mid-market table     1 fetch (open.er-api.com, 10-min TTL)
  *   ────────────────────────────────────────────────────────────────────
- *   ≈ 22 subrequests  «  50 limit
+ *   ≈ 32 subrequests  «  50 limit
  *
  * (The plan's "~13 adapters + 1 + 2–3 ≈ under 20" glossed SBI's per-currency
  * POSTs; the honest total is still comfortably inside the limit.) KV reads
