@@ -1,0 +1,28 @@
+<!--
+  Pinned 2026-08-23 from https://www.remit.co.jp/kaigaisoukin/exchangeratecommission/exchange/
+  (GET, ja version). Currency <select> of the rate calculator, verbatim.
+
+  The `data-rate` attribute is the PAGE-DISPLAY quoting unit: the site renders
+  "rate x data-rate" per data-rate yen (CNY/BRL are displayed per Y10,000,
+  USD per Y100, everything else per Y1).
+
+  IMPORTANT (live-verified 2026-08-23, see sbi-remit.ts): the POST API's
+  `rate` field is ALREADY per-1-JPY for every currency incl. CNY/THB
+  (CNY 0.0419 vs live mid 0.04240 = 1.2% markup; THB 0.2035 vs 0.20586
+  = 1.1%). Display multipliers must NOT be applied to API values.
+  This fixture documents the display units for provenance only.
+-->
+<select name="currency" class="coutry-select">
+                          <option value="USD" data-rate="100"  selected="selected">USD</option>
+                          <option value="PHP" data-rate="1" >PHP</option>
+                          <option value="CNY" data-rate="10000" >CNY</option>
+                          <option value="GBP" data-rate="1" >GBP</option>
+                          <option value="AUD" data-rate="1" >AUD</option>
+                          <option value="CAD" data-rate="1" >CAD</option>
+                          <option value="HKD" data-rate="1" >HKD</option>
+                          <option value="VND" data-rate="1" >VND</option>
+                          <option value="IDR" data-rate="1" >IDR</option>
+                          <option value="BRL" data-rate="10000" >BRL</option>
+                          <option value="THB" data-rate="1" >THB</option>
+                          <option value="MMK" data-rate="1" >MMK</option>
+                      </select>
