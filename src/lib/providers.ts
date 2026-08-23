@@ -81,11 +81,23 @@ export const PROVIDERS: readonly Provider[] = [
     },
     fee: {
       kind: 'tiered',
+      // Global (illustrative for non-IDR corridors).
       tiers: [
         { upToJPY: 30_000, feeJPY: 250 },
         { upToJPY: 100_000, feeJPY: 400 },
         { upToJPY: null, feeJPY: 880 },
       ],
+      // VERIFIED JPY→IDR bank-transfer fee table.
+      // Source: SBI Remit published fee schedule, verified 2026-08-23
+      // (research pass 2, plan “Verified fee tier tables”); see docs/rate-sources.md.
+      byCurrency: {
+        IDR: [
+          { upToJPY: 10_000, feeJPY: 460 },
+          { upToJPY: 50_000, feeJPY: 880 },
+          { upToJPY: 250_000, feeJPY: 1_480 },
+          { upToJPY: 1_000_000, feeJPY: 1_980 },
+        ],
+      },
     },
   },
 
@@ -108,11 +120,26 @@ export const PROVIDERS: readonly Provider[] = [
     },
     fee: {
       kind: 'tiered',
+      // Global (illustrative for non-IDR corridors).
       tiers: [
         { upToJPY: 30_000, feeJPY: 550 },
         { upToJPY: 100_000, feeJPY: 990 },
         { upToJPY: null, feeJPY: 1_500 },
       ],
+      // VERIFIED JPY→IDR fee table (Western Union cash pickup via Seven Bank ATM).
+      // Source: Seven Bank send-charge schedule (Sendcharge), verified 2026-08-23
+      // (research pass 2, plan “Verified fee tier tables”); see docs/rate-sources.md.
+      byCurrency: {
+        IDR: [
+          { upToJPY: 10_000, feeJPY: 400 },
+          { upToJPY: 30_000, feeJPY: 450 },
+          { upToJPY: 50_000, feeJPY: 500 },
+          { upToJPY: 100_000, feeJPY: 890 },
+          { upToJPY: 250_000, feeJPY: 990 },
+          { upToJPY: 500_000, feeJPY: 1_350 },
+          { upToJPY: 1_000_000, feeJPY: 1_750 },
+        ],
+      },
     },
     note: 'Cash pickup at Western Union agents worldwide, often within minutes.',
   },
@@ -162,6 +189,9 @@ export const PROVIDERS: readonly Provider[] = [
       kind: 'flat',
       feeJPY: 300, // representative Standard-plan transfer fee
     },
+    // Cloudflare-walled (research P2) — never labeled observed; the modeled
+    // basis is their published terms, so the breakdown says so (task 21).
+    modeledSourceLabel: 'per published terms (weekday interbank + 1 % weekend)',
     note: 'Mid-market rate on weekdays; ~1% FX markup on weekends (Standard plan).',
   },
 
@@ -180,11 +210,23 @@ export const PROVIDERS: readonly Provider[] = [
     rateMarkup: { default: 0.015 },
     fee: {
       kind: 'tiered',
+      // Global (illustrative for non-IDR corridors).
       tiers: [
         { upToJPY: 50_000, feeJPY: 400 },
         { upToJPY: 100_000, feeJPY: 600 },
         { upToJPY: null, feeJPY: 990 },
       ],
+      // VERIFIED JPY→IDR bank-transfer fee table.
+      // Source: Smiles published fee schedule, verified 2026-08-23
+      // (research pass 2, plan “Verified fee tier tables”); see docs/rate-sources.md.
+      byCurrency: {
+        IDR: [
+          { upToJPY: 10_000, feeJPY: 400 },
+          { upToJPY: 50_000, feeJPY: 600 },
+          { upToJPY: 250_000, feeJPY: 1_000 },
+          { upToJPY: 1_000_000, feeJPY: 1_450 },
+        ],
+      },
     },
     note: 'Earn/redeem points to offset the transfer fee.',
   },
@@ -204,11 +246,23 @@ export const PROVIDERS: readonly Provider[] = [
     rateMarkup: { default: 0.017 },
     fee: {
       kind: 'tiered',
+      // Global (illustrative for non-IDR corridors).
       tiers: [
         { upToJPY: 50_000, feeJPY: 500 },
         { upToJPY: 100_000, feeJPY: 700 },
         { upToJPY: null, feeJPY: 1_000 },
       ],
+      // VERIFIED JPY→IDR bank-transfer fee table.
+      // Source: Kyodai Remittance published fee schedule, verified 2026-08-23
+      // (research pass 2, plan “Verified fee tier tables”); see docs/rate-sources.md.
+      byCurrency: {
+        IDR: [
+          { upToJPY: 10_000, feeJPY: 450 },
+          { upToJPY: 50_000, feeJPY: 880 },
+          { upToJPY: 250_000, feeJPY: 1_480 },
+          { upToJPY: 1_000_000, feeJPY: 1_980 },
+        ],
+      },
     },
   },
 
@@ -220,19 +274,36 @@ export const PROVIDERS: readonly Provider[] = [
     name: 'Japan Remit Finance (JRF)',
     logoText: 'JRF',
     brandColor: '#c8102e',
-    website: 'https://www.jrf.co.jp/',
+    website: 'https://www.jpremit.com/',
     supportedCurrencies: ['PHP', 'VND', 'IDR', 'INR', 'NPR', 'THB'],
     deliveryTypes: ['bank', 'wallet'],
     speed: { label: 'Hours – 1 day', rankMinutes: 480 },
-    rateMarkup: { default: 0.016 },
+    rateMarkup: {
+      // Modeled placeholder only — superseded by the observed-rate adapter
+      // (live 2026-08-23: IDR 111.2 vs mid 111.37 → −0.15%; spike task 20).
+      default: 0.016,
+    },
     fee: {
       kind: 'tiered',
+      // Global (illustrative for non-IDR corridors).
       tiers: [
         { upToJPY: 50_000, feeJPY: 450 },
         { upToJPY: 100_000, feeJPY: 650 },
         { upToJPY: null, feeJPY: 900 },
       ],
+      // VERIFIED JPY→IDR bank-deposit (acc_depo) fee table.
+      // Source: JRF's own public fee API POST /api/country/service/fee/all
+      // (Indonesia, acc_depo), fetched live 2026-08-23 during the task-20
+      // spike; ranges ¥1k–¥60k / ¥60,001–¥300k / ¥300,001–¥1M.
+      byCurrency: {
+        IDR: [
+          { upToJPY: 60_000, feeJPY: 850 },
+          { upToJPY: 300_000, feeJPY: 1_450 },
+          { upToJPY: 1_000_000, feeJPY: 1_950 },
+        ],
+      },
     },
+    note: 'Rates and fees from jpremit.com (today-rates board + published fee schedule, Indonesia).',
   },
 
   // --------------------------------------------------------------------------
@@ -256,6 +327,204 @@ export const PROVIDERS: readonly Provider[] = [
         { upToJPY: null, feeJPY: 1_200 },
       ],
     },
+  },
+  // --------------------------------------------------------------------------
+  // INSTAREM — new-provider onboarding 2026-08-23. Observed rates via its
+  // computed-value quote API (adapter supersedes the modeled markup below).
+  // --------------------------------------------------------------------------
+  {
+    id: 'instarem',
+    name: 'Instarem',
+    logoText: 'IN',
+    brandColor: '#5b53ff',
+    website: 'https://www.instarem.com/en-jp/',
+    supportedCurrencies: ['IDR'], // grown only as corridors verify
+    deliveryTypes: ['bank'],
+    speed: { label: 'Hours – 1 day', rankMinutes: 480 },
+    rateMarkup: {
+      // Modeled placeholder only — superseded by the observed-rate adapter
+      // (live 2026-08-23: regular pricing margin ≈ 0.35% on IDR).
+      default: 0.003,
+      byCurrency: { IDR: 0.0035 },
+    },
+    fee: {
+      // Verified live IDR, `regular_transaction_fee_amount: 0` (research P2,
+      // reconfirmed from our egress 2026-08-23).
+      kind: 'flat',
+      feeJPY: 0,
+    },
+    note: 'Corridor limit ¥5,000–¥1,000,000 (JPY→IDR). ¥0 transfer fee verified. Quotes can carry a first-transaction rate bonus — the comparison stores the standard (regular) rate when they diverge.',
+  },
+  // --------------------------------------------------------------------------
+  // CITY EXPRESS (cityremit.com) — new-provider onboarding 2026-08-23.
+  // Observed rates via the exchange.city-remit.net JSON board (adapter
+  // supersedes the modeled markup below).
+  // --------------------------------------------------------------------------
+  {
+    id: 'city-express',
+    name: 'City Express',
+    logoText: 'CE',
+    brandColor: '#e65100',
+    website: 'https://www.cityremit.com/',
+    supportedCurrencies: ['IDR', 'NPR', 'VND', 'PHP', 'INR', 'BDT', 'THB', 'KRW'],
+    deliveryTypes: ['bank', 'cash'],
+    speed: { label: 'Minutes – 1 day', rankMinutes: 120 },
+    rateMarkup: {
+      // Modeled placeholder only — superseded by the observed-rate adapter
+      // (live 2026-08-23: IDR −0.15%, NPR −1.1% vs mid).
+      default: 0.01,
+      byCurrency: { IDR: 0.004 },
+    },
+    fee: {
+      kind: 'tiered',
+      // Global (illustrative for other corridors).
+      tiers: [
+        { upToJPY: 50_000, feeJPY: 500 },
+        { upToJPY: 250_000, feeJPY: 1_000 },
+        { upToJPY: null, feeJPY: 1_500 },
+      ],
+      // VERIFIED JPY→IDR fee table (bank transfer; cash pickup identical).
+      // Source: https://cityremit.com/service-fee (public page), verified
+      // 2026-08-23 during onboarding — the /api/rates payload carries no fee
+      // fields; see docs/rate-sources.md.
+      byCurrency: {
+        IDR: [
+          { upToJPY: 10_000, feeJPY: 400 },
+          { upToJPY: 50_000, feeJPY: 500 },
+          { upToJPY: 250_000, feeJPY: 1_000 },
+          { upToJPY: 1_000_000, feeJPY: 1_500 },
+        ],
+      },
+    },
+    note: 'The rate board also carries “GOLDENRATE” promo rates — the comparison always uses the standard rate.',
+  },
+  // --------------------------------------------------------------------------
+  // JME (Japan Money Express) — new-provider onboarding 2026-08-23. Observed
+  // rates via the japanremit.com/exchange-rate table (adapter supersedes the
+  // modeled markup below).
+  // --------------------------------------------------------------------------
+  {
+    id: 'jme',
+    name: 'JME (Japan Money Express)',
+    logoText: 'JME',
+    brandColor: '#d71920',
+    website: 'https://japanremit.com',
+    supportedCurrencies: ['IDR'], // grown only as corridors verify
+    deliveryTypes: ['bank', 'cash'],
+    speed: { label: 'Within hours', rankMinutes: 240 },
+    rateMarkup: {
+      // Modeled placeholder only — superseded by the observed-rate adapter
+      // (live 2026-08-23: bank-deposit IDR 110.1035 vs mid 111.37 → −1.14%).
+      default: 0.011,
+    },
+    fee: {
+      kind: 'tiered',
+      // VERIFIED JPY→IDR fee table (research pass 2, verified 2026-08-23,
+      // plan “Verified fee tier tables”). Global tiers: JME is IDR-first and
+      // this schedule is its published standard; other corridors flagged
+      // illustrative in docs/rate-sources.md.
+      tiers: [
+        { upToJPY: 10_000, feeJPY: 400 },
+        { upToJPY: 50_000, feeJPY: 500 },
+        { upToJPY: 250_000, feeJPY: 1_000 },
+        { upToJPY: 1_000_000, feeJPY: 1_500 },
+      ],
+    },
+    note: 'Rate shown is the standard BANK DEPOSIT rate — the page also displays campaign rates that this comparison never uses.',
+  },
+  // --------------------------------------------------------------------------
+  // DCOM MONEY EXPRESS — new-provider onboarding 2026-08-23. Observed rates
+  // via the sendmoney.co.jp rate table (adapter supersedes the modeled
+  // markup below).
+  // --------------------------------------------------------------------------
+  {
+    id: 'dcom',
+    name: 'DCOM Money Express',
+    logoText: 'DC',
+    brandColor: '#0f7b3f',
+    website: 'https://sendmoney.co.jp',
+    supportedCurrencies: ['IDR'], // grown only as corridors verify (board quotes 19)
+    deliveryTypes: ['bank', 'cash'],
+    speed: { label: 'Minutes – 1 day', rankMinutes: 60 },
+    rateMarkup: {
+      // Modeled placeholder only — superseded by the observed-rate adapter
+      // (live 2026-08-23: IDR 111.0 vs mid 111.37 → −0.33%).
+      default: 0.005,
+    },
+    fee: {
+      kind: 'tiered',
+      // Global (illustrative for other corridors).
+      tiers: [
+        { upToJPY: 50_000, feeJPY: 500 },
+        { upToJPY: 250_000, feeJPY: 1_000 },
+        { upToJPY: null, feeJPY: 1_750 },
+      ],
+      // VERIFIED JPY→IDR fee table.
+      // Source: DCOM published fee schedule, verified 2026-08-23 (research
+      // pass 2, plan “Verified fee tier tables”); see docs/rate-sources.md.
+      byCurrency: {
+        IDR: [
+          { upToJPY: 30_000, feeJPY: 400 },
+          { upToJPY: 250_000, feeJPY: 1_000 },
+          { upToJPY: 1_000_000, feeJPY: 1_750 },
+        ],
+      },
+    },
+  },
+  // --------------------------------------------------------------------------
+  // REMITLY JAPAN — new-provider onboarding 2026-08-23. Observed rates are
+  // the PUBLIC PAGE'S NEW-CUSTOMER PROMO RATE (always `isPromo` — never
+  // eligible for `best-value`, plan “Approach” §9).
+  // --------------------------------------------------------------------------
+  {
+    id: 'remitly',
+    name: 'Remitly',
+    logoText: 'RE',
+    brandColor: '#0071bc',
+    website: 'https://www.remitly.com/jp',
+    supportedCurrencies: ['IDR'], // grown only as corridors verify
+    deliveryTypes: ['bank', 'cash', 'wallet'],
+    speed: { label: 'Minutes – hours', rankMinutes: 30 },
+    rateMarkup: {
+      // Modeled placeholder only — superseded by the promo-flagged observed
+      // rate (live 2026-08-23: promo 111.42, everyday range 106.85–110.87).
+      default: 0.015,
+    },
+    fee: {
+      // ILLUSTRATIVE (flagged — plan gap list): ¥100 representative flat
+      // fee; the promo waives first-transfer fees, everyday fees vary by
+      // pay/delivery config. See docs/rate-sources.md.
+      kind: 'flat',
+      feeJPY: 100,
+    },
+    note: 'Public page shows the new-customer promo rate (first transfer, capped at ¥100,000) — displayed as “Promo — new customers only” and never ranked as best value. Standard (everyday) rate varies by payment/delivery choice.',
+  },
+  // --------------------------------------------------------------------------
+  // BNI TOKYO — new-provider onboarding 2026-08-23. Observed rates via the
+  // ptbni.co.jp express-remittance board (TTS send card; adapter supersedes
+  // the modeled markup below). Board updates business days ~09:20 JST.
+  // --------------------------------------------------------------------------
+  {
+    id: 'bni-tokyo',
+    name: 'BNI Tokyo',
+    logoText: 'BNI',
+    brandColor: '#f37021',
+    website: 'http://www.ptbni.co.jp/',
+    supportedCurrencies: ['IDR'],
+    deliveryTypes: ['bank'],
+    speed: { label: 'Hours – 1 day', rankMinutes: 480 },
+    rateMarkup: {
+      // Modeled placeholder only — superseded by the observed-rate adapter
+      // (live 2026-08-23: TTS 107.99 vs mid 111.37 → −3.09%).
+      default: 0.031,
+    },
+    fee: {
+      // VERIFIED JPY→IDR express fee (research P2, plan “Verified fee tier
+      // tables”, 2026-08-23); see docs/rate-sources.md.
+      kind: 'flat',
+      feeJPY: 3_500,
+    },
+    note: 'Express remittance to Indonesia; rate board updates on business days ~09:20 JST (TTS send card).',
   },
 ];
 

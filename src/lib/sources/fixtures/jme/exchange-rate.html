@@ -1,0 +1,1490 @@
+<!DOCTYPE html>
+<html lang="lang="en-US"">
+<head>
+
+    <!-- Required Meta Tags -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Title -->
+    <title> Exchange Rate | JME Remittance</title>
+
+    <!-- Linking Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Phudu:wght@300..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+    <meta name='robots' content='max-image-preview:large' />
+	<style>img:is([sizes="auto" i], [sizes^="auto," i]) { contain-intrinsic-size: 3000px 1500px }</style>
+	<link rel='dns-prefetch' href='//code.jquery.com' />
+<link rel='dns-prefetch' href='//cdn.jsdelivr.net' />
+<link rel='dns-prefetch' href='//cdnjs.cloudflare.com' />
+<link rel='dns-prefetch' href='//www.googletagmanager.com' />
+<link rel='dns-prefetch' href='//stats.wp.com' />
+<script type="text/javascript">
+/* <![CDATA[ */
+window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/svg\/","svgExt":".svg","source":{"wpemoji":"https:\/\/japanremit.com\/wp-includes\/js\/wp-emoji.js?ver=6.7.7","twemoji":"https:\/\/japanremit.com\/wp-includes\/js\/twemoji.js?ver=6.7.7"}};
+/**
+ * @output wp-includes/js/wp-emoji-loader.js
+ */
+
+/**
+ * Emoji Settings as exported in PHP via _print_emoji_detection_script().
+ * @typedef WPEmojiSettings
+ * @type {object}
+ * @property {?object} source
+ * @property {?string} source.concatemoji
+ * @property {?string} source.twemoji
+ * @property {?string} source.wpemoji
+ * @property {?boolean} DOMReady
+ * @property {?Function} readyCallback
+ */
+
+/**
+ * Support tests.
+ * @typedef SupportTests
+ * @type {object}
+ * @property {?boolean} flag
+ * @property {?boolean} emoji
+ */
+
+/**
+ * IIFE to detect emoji support and load Twemoji if needed.
+ *
+ * @param {Window} window
+ * @param {Document} document
+ * @param {WPEmojiSettings} settings
+ */
+( function wpEmojiLoader( window, document, settings ) {
+	if ( typeof Promise === 'undefined' ) {
+		return;
+	}
+
+	var sessionStorageKey = 'wpEmojiSettingsSupports';
+	var tests = [ 'flag', 'emoji' ];
+
+	/**
+	 * Checks whether the browser supports offloading to a Worker.
+	 *
+	 * @since 6.3.0
+	 *
+	 * @private
+	 *
+	 * @returns {boolean}
+	 */
+	function supportsWorkerOffloading() {
+		return (
+			typeof Worker !== 'undefined' &&
+			typeof OffscreenCanvas !== 'undefined' &&
+			typeof URL !== 'undefined' &&
+			URL.createObjectURL &&
+			typeof Blob !== 'undefined'
+		);
+	}
+
+	/**
+	 * @typedef SessionSupportTests
+	 * @type {object}
+	 * @property {number} timestamp
+	 * @property {SupportTests} supportTests
+	 */
+
+	/**
+	 * Get support tests from session.
+	 *
+	 * @since 6.3.0
+	 *
+	 * @private
+	 *
+	 * @returns {?SupportTests} Support tests, or null if not set or older than 1 week.
+	 */
+	function getSessionSupportTests() {
+		try {
+			/** @type {SessionSupportTests} */
+			var item = JSON.parse(
+				sessionStorage.getItem( sessionStorageKey )
+			);
+			if (
+				typeof item === 'object' &&
+				typeof item.timestamp === 'number' &&
+				new Date().valueOf() < item.timestamp + 604800 && // Note: Number is a week in seconds.
+				typeof item.supportTests === 'object'
+			) {
+				return item.supportTests;
+			}
+		} catch ( e ) {}
+		return null;
+	}
+
+	/**
+	 * Persist the supports in session storage.
+	 *
+	 * @since 6.3.0
+	 *
+	 * @private
+	 *
+	 * @param {SupportTests} supportTests Support tests.
+	 */
+	function setSessionSupportTests( supportTests ) {
+		try {
+			/** @type {SessionSupportTests} */
+			var item = {
+				supportTests: supportTests,
+				timestamp: new Date().valueOf()
+			};
+
+			sessionStorage.setItem(
+				sessionStorageKey,
+				JSON.stringify( item )
+			);
+		} catch ( e ) {}
+	}
+
+	/**
+	 * Checks if two sets of Emoji characters render the same visually.
+	 *
+	 * This function may be serialized to run in a Worker. Therefore, it cannot refer to variables from the containing
+	 * scope. Everything must be passed by parameters.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @private
+	 *
+	 * @param {CanvasRenderingContext2D} context 2D Context.
+	 * @param {string} set1 Set of Emoji to test.
+	 * @param {string} set2 Set of Emoji to test.
+	 *
+	 * @return {boolean} True if the two sets render the same.
+	 */
+	function emojiSetsRenderIdentically( context, set1, set2 ) {
+		// Cleanup from previous test.
+		context.clearRect( 0, 0, context.canvas.width, context.canvas.height );
+		context.fillText( set1, 0, 0 );
+		var rendered1 = new Uint32Array(
+			context.getImageData(
+				0,
+				0,
+				context.canvas.width,
+				context.canvas.height
+			).data
+		);
+
+		// Cleanup from previous test.
+		context.clearRect( 0, 0, context.canvas.width, context.canvas.height );
+		context.fillText( set2, 0, 0 );
+		var rendered2 = new Uint32Array(
+			context.getImageData(
+				0,
+				0,
+				context.canvas.width,
+				context.canvas.height
+			).data
+		);
+
+		return rendered1.every( function ( rendered2Data, index ) {
+			return rendered2Data === rendered2[ index ];
+		} );
+	}
+
+	/**
+	 * Determines if the browser properly renders Emoji that Twemoji can supplement.
+	 *
+	 * This function may be serialized to run in a Worker. Therefore, it cannot refer to variables from the containing
+	 * scope. Everything must be passed by parameters.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @private
+	 *
+	 * @param {CanvasRenderingContext2D} context 2D Context.
+	 * @param {string} type Whether to test for support of "flag" or "emoji".
+	 * @param {Function} emojiSetsRenderIdentically Reference to emojiSetsRenderIdentically function, needed due to minification.
+	 *
+	 * @return {boolean} True if the browser can render emoji, false if it cannot.
+	 */
+	function browserSupportsEmoji( context, type, emojiSetsRenderIdentically ) {
+		var isIdentical;
+
+		switch ( type ) {
+			case 'flag':
+				/*
+				 * Test for Transgender flag compatibility. Added in Unicode 13.
+				 *
+				 * To test for support, we try to render it, and compare the rendering to how it would look if
+				 * the browser doesn't render it correctly (white flag emoji + transgender symbol).
+				 */
+				isIdentical = emojiSetsRenderIdentically(
+					context,
+					'\uD83C\uDFF3\uFE0F\u200D\u26A7\uFE0F', // as a zero-width joiner sequence
+					'\uD83C\uDFF3\uFE0F\u200B\u26A7\uFE0F' // separated by a zero-width space
+				);
+
+				if ( isIdentical ) {
+					return false;
+				}
+
+				/*
+				 * Test for UN flag compatibility. This is the least supported of the letter locale flags,
+				 * so gives us an easy test for full support.
+				 *
+				 * To test for support, we try to render it, and compare the rendering to how it would look if
+				 * the browser doesn't render it correctly ([U] + [N]).
+				 */
+				isIdentical = emojiSetsRenderIdentically(
+					context,
+					'\uD83C\uDDFA\uD83C\uDDF3', // as the sequence of two code points
+					'\uD83C\uDDFA\u200B\uD83C\uDDF3' // as the two code points separated by a zero-width space
+				);
+
+				if ( isIdentical ) {
+					return false;
+				}
+
+				/*
+				 * Test for English flag compatibility. England is a country in the United Kingdom, it
+				 * does not have a two letter locale code but rather a five letter sub-division code.
+				 *
+				 * To test for support, we try to render it, and compare the rendering to how it would look if
+				 * the browser doesn't render it correctly (black flag emoji + [G] + [B] + [E] + [N] + [G]).
+				 */
+				isIdentical = emojiSetsRenderIdentically(
+					context,
+					// as the flag sequence
+					'\uD83C\uDFF4\uDB40\uDC67\uDB40\uDC62\uDB40\uDC65\uDB40\uDC6E\uDB40\uDC67\uDB40\uDC7F',
+					// with each code point separated by a zero-width space
+					'\uD83C\uDFF4\u200B\uDB40\uDC67\u200B\uDB40\uDC62\u200B\uDB40\uDC65\u200B\uDB40\uDC6E\u200B\uDB40\uDC67\u200B\uDB40\uDC7F'
+				);
+
+				return ! isIdentical;
+			case 'emoji':
+				/*
+				 * Four and twenty blackbirds baked in a pie.
+				 *
+				 * To test for Emoji 15.0 support, try to render a new emoji: Blackbird.
+				 *
+				 * The Blackbird is a ZWJ sequence combining 🐦 Bird and ⬛ large black square.,
+				 *
+				 * 0x1F426 (\uD83D\uDC26) == Bird
+				 * 0x200D == Zero-Width Joiner (ZWJ) that links the code points for the new emoji or
+				 * 0x200B == Zero-Width Space (ZWS) that is rendered for clients not supporting the new emoji.
+				 * 0x2B1B == Large Black Square
+				 *
+				 * When updating this test for future Emoji releases, ensure that individual emoji that make up the
+				 * sequence come from older emoji standards.
+				 */
+				isIdentical = emojiSetsRenderIdentically(
+					context,
+					'\uD83D\uDC26\u200D\u2B1B', // as the zero-width joiner sequence
+					'\uD83D\uDC26\u200B\u2B1B' // separated by a zero-width space
+				);
+
+				return ! isIdentical;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Checks emoji support tests.
+	 *
+	 * This function may be serialized to run in a Worker. Therefore, it cannot refer to variables from the containing
+	 * scope. Everything must be passed by parameters.
+	 *
+	 * @since 6.3.0
+	 *
+	 * @private
+	 *
+	 * @param {string[]} tests Tests.
+	 * @param {Function} browserSupportsEmoji Reference to browserSupportsEmoji function, needed due to minification.
+	 * @param {Function} emojiSetsRenderIdentically Reference to emojiSetsRenderIdentically function, needed due to minification.
+	 *
+	 * @return {SupportTests} Support tests.
+	 */
+	function testEmojiSupports( tests, browserSupportsEmoji, emojiSetsRenderIdentically ) {
+		var canvas;
+		if (
+			typeof WorkerGlobalScope !== 'undefined' &&
+			self instanceof WorkerGlobalScope
+		) {
+			canvas = new OffscreenCanvas( 300, 150 ); // Dimensions are default for HTMLCanvasElement.
+		} else {
+			canvas = document.createElement( 'canvas' );
+		}
+
+		var context = canvas.getContext( '2d', { willReadFrequently: true } );
+
+		/*
+		 * Chrome on OS X added native emoji rendering in M41. Unfortunately,
+		 * it doesn't work when the font is bolder than 500 weight. So, we
+		 * check for bold rendering support to avoid invisible emoji in Chrome.
+		 */
+		context.textBaseline = 'top';
+		context.font = '600 32px Arial';
+
+		var supports = {};
+		tests.forEach( function ( test ) {
+			supports[ test ] = browserSupportsEmoji( context, test, emojiSetsRenderIdentically );
+		} );
+		return supports;
+	}
+
+	/**
+	 * Adds a script to the head of the document.
+	 *
+	 * @ignore
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param {string} src The url where the script is located.
+	 *
+	 * @return {void}
+	 */
+	function addScript( src ) {
+		var script = document.createElement( 'script' );
+		script.src = src;
+		script.defer = true;
+		document.head.appendChild( script );
+	}
+
+	settings.supports = {
+		everything: true,
+		everythingExceptFlag: true
+	};
+
+	// Create a promise for DOMContentLoaded since the worker logic may finish after the event has fired.
+	var domReadyPromise = new Promise( function ( resolve ) {
+		document.addEventListener( 'DOMContentLoaded', resolve, {
+			once: true
+		} );
+	} );
+
+	// Obtain the emoji support from the browser, asynchronously when possible.
+	new Promise( function ( resolve ) {
+		var supportTests = getSessionSupportTests();
+		if ( supportTests ) {
+			resolve( supportTests );
+			return;
+		}
+
+		if ( supportsWorkerOffloading() ) {
+			try {
+				// Note that the functions are being passed as arguments due to minification.
+				var workerScript =
+					'postMessage(' +
+					testEmojiSupports.toString() +
+					'(' +
+					[
+						JSON.stringify( tests ),
+						browserSupportsEmoji.toString(),
+						emojiSetsRenderIdentically.toString()
+					].join( ',' ) +
+					'));';
+				var blob = new Blob( [ workerScript ], {
+					type: 'text/javascript'
+				} );
+				var worker = new Worker( URL.createObjectURL( blob ), { name: 'wpTestEmojiSupports' } );
+				worker.onmessage = function ( event ) {
+					supportTests = event.data;
+					setSessionSupportTests( supportTests );
+					worker.terminate();
+					resolve( supportTests );
+				};
+				return;
+			} catch ( e ) {}
+		}
+
+		supportTests = testEmojiSupports( tests, browserSupportsEmoji, emojiSetsRenderIdentically );
+		setSessionSupportTests( supportTests );
+		resolve( supportTests );
+	} )
+		// Once the browser emoji support has been obtained from the session, finalize the settings.
+		.then( function ( supportTests ) {
+			/*
+			 * Tests the browser support for flag emojis and other emojis, and adjusts the
+			 * support settings accordingly.
+			 */
+			for ( var test in supportTests ) {
+				settings.supports[ test ] = supportTests[ test ];
+
+				settings.supports.everything =
+					settings.supports.everything && settings.supports[ test ];
+
+				if ( 'flag' !== test ) {
+					settings.supports.everythingExceptFlag =
+						settings.supports.everythingExceptFlag &&
+						settings.supports[ test ];
+				}
+			}
+
+			settings.supports.everythingExceptFlag =
+				settings.supports.everythingExceptFlag &&
+				! settings.supports.flag;
+
+			// Sets DOMReady to false and assigns a ready function to settings.
+			settings.DOMReady = false;
+			settings.readyCallback = function () {
+				settings.DOMReady = true;
+			};
+		} )
+		.then( function () {
+			return domReadyPromise;
+		} )
+		.then( function () {
+			// When the browser can not render everything we need to load a polyfill.
+			if ( ! settings.supports.everything ) {
+				settings.readyCallback();
+
+				var src = settings.source || {};
+
+				if ( src.concatemoji ) {
+					addScript( src.concatemoji );
+				} else if ( src.wpemoji && src.twemoji ) {
+					addScript( src.twemoji );
+					addScript( src.wpemoji );
+				}
+			}
+		} );
+} )( window, document, window._wpemojiSettings );
+
+/* ]]> */
+</script>
+<style id='wp-emoji-styles-inline-css' type='text/css'>
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+</style>
+<link rel='stylesheet' id='wp-block-library-css' href='https://japanremit.com/wp-includes/css/dist/block-library/style.css?ver=6.7.7' type='text/css' media='all' />
+<link rel='stylesheet' id='zolo-container-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/container/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<link rel='stylesheet' id='zolo-accordion-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/accordion/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<link rel='stylesheet' id='zolo-advanced-button-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/advanced-button/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<link rel='stylesheet' id='zolo-advanced-heading-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/advanced-heading/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<link rel='stylesheet' id='zolo-advanced-icon-box-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/advanced-icon-box/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<link rel='stylesheet' id='zolo-advanced-image-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/advanced-image/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<style id='zolo-advanced-paragraph-style-inline-css' type='text/css'>
+.wp-block-zolo-advanced-paragraph{margin:0}.wp-block-zolo-advanced-paragraph a{color:#2667ff}.wp-block-zolo-advanced-paragraph a:hover{color:#084be9}.wp-block-zolo-advanced-paragraph.zolo-text-gradient-color{background:-webkit-linear-gradient(45deg,#09009f,#00ff95 80%);-webkit-background-clip:text;display:block;-webkit-text-fill-color:transparent;background-position:50%;background-size:contain;color:transparent}.wp-block-zolo-advanced-paragraph.has-dropcap{text-align:left!important}.wp-block-zolo-advanced-paragraph.has-dropcap:first-letter{float:left;font-size:2em;font-weight:700;line-height:1;margin-right:.1em}
+
+</style>
+<link rel='stylesheet' id='zolo-advanced-search-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/advanced-search/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<link rel='stylesheet' id='zolo-author-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/author/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<style id='zolo-brand-child-style-inline-css' type='text/css'>
+.zb-brand-title-link{display:inline-block}
+
+</style>
+<link rel='stylesheet' id='zolo-brand-grid-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/brand-grid/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<style id='zolo-breadcrumbs-style-inline-css' type='text/css'>
+.zolo-breadcrumbs-wrap .breadcrumb-items{list-style:none;margin:0;padding:0}.zolo-breadcrumbs-wrap .breadcrumb-item,.zolo-breadcrumbs-wrap .breadcrumb-item a,.zolo-breadcrumbs-wrap .breadcrumb-items{align-items:center;display:inline-flex;gap:6px}.zolo-breadcrumbs-wrap.hide-current .breadcrumb-item.current,.zolo-breadcrumbs-wrap.hide-current .breadcrumb-item:nth-last-child(2) .separator,.zolo-breadcrumbs-wrap.hide-home .breadcrumb-item.home{display:none}.zolo-breadcrumbs-wrap svg{display:block;height:1em;width:1em}.zolo-breadcrumbs-wrap .name{color:#4c4c4e;font-size:16px;text-decoration:none;transition:color .3s}.zolo-breadcrumbs-wrap .separator svg{fill:currentColor;font-size:14px}
+
+</style>
+<style id='zolo-business-hour-style-inline-css' type='text/css'>
+.wp-block-zolo-business-hour{display:flex;flex-direction:column;gap:20px}.wp-block-zolo-business-hour .zolo-biz-hours-item,.wp-block-zolo-business-hour .zolo-biz-hours-item-closed{align-items:center;display:flex;gap:15px;justify-content:space-between}.wp-block-zolo-business-hour .zolo-biz-time-wrap{align-items:center;display:flex;gap:6px}.wp-block-zolo-business-hour .zolo-biz-day,.wp-block-zolo-business-hour .zolo-biz-day-closed{font-size:clamp(1rem,1.5vw,1.125rem);font-weight:500}.wp-block-zolo-business-hour .zolo-biz-day-closed,.wp-block-zolo-business-hour .zolo-business-closed{color:red}.wp-block-zolo-business-hour .zolo-biz-time{color:#46474b;font-size:16px}.wp-block-zolo-business-hour .zolo-business-closed-time{color:red;display:inline-block}.wp-block-zolo-business-hour .zolo-biz-closed-text{font-size:clamp(1rem,1.5vw,1.125rem)}.wp-block-zolo-business-hour .zolo-biz-current-date .zolo-biz-day,.wp-block-zolo-business-hour .zolo-biz-current-date .zolo-biz-time,.wp-block-zolo-business-hour .zolo-biz-current-date .zolo-biz-time-separator{color:#4680ff;font-weight:700}.wp-block-zolo-business-hour.zolo-biz-hours-style-2{gap:0}.wp-block-zolo-business-hour.zolo-biz-hours-style-2 .zolo-biz-hours-item{border-radius:4px;padding:20px 15px}.wp-block-zolo-business-hour.zolo-biz-hours-style-2 .zolo-biz-hours-item-closed{border-radius:4px;color:red;padding:20px 15px}.wp-block-zolo-business-hour.zolo-biz-hours-style-2 .zolo-biz-hours-item-closed.zolo-hour-closed:nth-of-type(odd),.wp-block-zolo-business-hour.zolo-biz-hours-style-2 .zolo-biz-hours-item:nth-of-type(odd){background-color:#f5f5f5}
+
+</style>
+<style id='zolo-charts-style-inline-css' type='text/css'>
+.wp-block-zolo-charts{border:1px solid #e6e6e6;border-radius:4px;box-shadow:0 1px 1px rgba(0,0,0,.04);box-sizing:border-box;height:auto;padding:20px;width:100%}
+
+</style>
+<style id='zolo-checkbox-field-style-inline-css' type='text/css'>
+.wp-block-zolo-checkbox-field .zolo-field-input-item{display:flex;gap:10px}.wp-block-zolo-checkbox-field .zolo-field-input-item label{align-items:center;display:flex;gap:10px}.wp-block-zolo-checkbox-field.zolo-form-checkbox-col .zolo-field-input-item{flex-direction:column}.wp-block-zolo-checkbox-field.zolo-form-checkbox-row .zolo-field-input-item{flex-direction:row}.wp-block-zolo-checkbox-field input[type=checkbox]:checked:before{opacity:0}
+
+</style>
+<link rel='stylesheet' id='zolo-countdown-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/countdown/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<link rel='stylesheet' id='zolo-counter-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/counter/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<link rel='stylesheet' id='zolo-cta-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/cta/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<style id='zolo-dual-button-style-inline-css' type='text/css'>
+.wp-block-zolo-dual-button{align-items:center;display:flex;justify-content:center}.wp-block-zolo-dual-button .zolo-btn-group{align-items:center;display:flex;gap:0;position:relative;width:350px}.wp-block-zolo-dual-button .zolo-btn{align-items:center;border:0;color:#fff;cursor:pointer;display:inline-flex;font-size:14px;font-weight:700;gap:10px;justify-content:center;padding:18px;text-decoration:none;transition:all .3s ease;width:100%}.wp-block-zolo-dual-button .zolo-btn-first{background:var(--zoloblocks-brand-color);border-bottom-left-radius:var(--zoloblocks-button-border-radius);border-top-left-radius:var(--zoloblocks-button-border-radius)}.wp-block-zolo-dual-button .zolo-btn-first:hover{background:var(--zoloblocks-brand-color-hover)}.wp-block-zolo-dual-button .zolo-btn-second{background:#1b1e2d;border-bottom-right-radius:var(--zoloblocks-button-border-radius);border-top-right-radius:var(--zoloblocks-button-border-radius)}.wp-block-zolo-dual-button .zolo-btn-second:hover{background:#000}.wp-block-zolo-dual-button .zolo__display-icon svg{display:block;fill:currentColor;height:18px;width:18px}.wp-block-zolo-dual-button .zolo-btn-label{position:relative;z-index:2}.wp-block-zolo-dual-button .zolo-btn-separator{align-items:center;background:#fff;border-radius:50%;box-shadow:0 0 0 6px hsla(0,0%,100%,.2);color:#4d4c54;display:flex;font-size:14px;font-weight:500;height:34px;justify-content:center;left:50%;position:absolute;top:50%;transform:translate(-50%,-50%);width:34px;z-index:10}@media(max-width:768px){.wp-block-zolo-dual-button .zolo-btn-group{width:100%}}
+
+</style>
+<style id='zolo-fancy-list-style-inline-css' type='text/css'>
+.wp-block-zolo-fancy-list{box-sizing:border-box}.wp-block-zolo-fancy-list .zolo-fancy-list-container{align-items:center;display:grid}.wp-block-zolo-fancy-list .zolo-fancy-list-container .wp-block-zolo-fancy-list-child{text-decoration:none}
+
+</style>
+<link rel='stylesheet' id='zolo-fancy-list-child-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/fancy-list-child/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<style id='zolo-flexbox-style-inline-css' type='text/css'>
+.zolo-flexbox{align-items:center;display:flex;justify-content:center}.zolo-flexbox .zolo-flexbox{width:100%}
+
+</style>
+<link rel='stylesheet' id='zolo-flipbox-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/flipbox/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<link rel='stylesheet' id='zolo-form-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/form/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<style id='zolo-google-map-style-inline-css' type='text/css'>
+.wp-block-zolo-google-map{--zolo-map-height:clamp(18.75rem,50vw,43.75rem);--zolo-marker-info-margin:10px 0 0;--zolo-gm-style-padding:15px}.wp-block-zolo-google-map .zolo-gmap-wrapper{height:var(--zolo-map-height);overflow:hidden}.wp-block-zolo-google-map .zolo-gmap-wrapper .gm-style-iw.gm-style-iw-c{line-height:1.4;max-width:300px!important;padding:var(--zolo-gm-style-padding);top:-35px}.wp-block-zolo-google-map .zolo-gmap-wrapper .gm-style-iw-tc{top:-35px}.wp-block-zolo-google-map .zolo-gmap-wrapper button.gm-ui-hover-effect{right:0!important;top:0!important}.wp-block-zolo-google-map .zolo-gmap-wrapper .zolo-gmap-marker-info{margin:var(--zolo-marker-info-margin)}
+
+</style>
+<style id='zolo-icon-style-inline-css' type='text/css'>
+.wp-block-zolo-icon{--zolo-icon-size:48px;align-items:center;display:flex;justify-content:center}.wp-block-zolo-icon .zolo__display-icon svg{display:block;height:var(--zolo-icon-size);width:var(--zolo-icon-size)}.wp-block-zolo-icon.zolo-icon-medium{--zolo-icon-size:64px}.wp-block-zolo-icon.zolo-icon-large{--zolo-icon-size:96px}
+
+</style>
+<link rel='stylesheet' id='zolo-image-compare-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/image-compare/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<link rel='stylesheet' id='zolo-image-gallery-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/image-gallery/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<link rel='stylesheet' id='zolo-lightbox-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/lightbox/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<link rel='stylesheet' id='zolo-list-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/list/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<style id='zolo-megamenu-style-inline-css' type='text/css'>
+
+
+</style>
+<link rel='stylesheet' id='zolo-navigation-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/navigation/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<link rel='stylesheet' id='zolo-navigation-item-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/navigation-item/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<style id='zolo-navigation-submenu-style-inline-css' type='text/css'>
+.zolo-navigation-submenu-wrapper .wp-block-zolo-navigation-submenu{background-color:#fff;box-shadow:0 5px 12px rgba(0,0,0,.15);min-width:200px;padding:20px;position:relative;transition:all .4s ease;z-index:99}.zolo-navigation-submenu-wrapper .wp-block-zolo-navigation-submenu .zolo-navigation-submenu-add-btn{background:transparent;border:2px solid var(--zoloblocks-brand-color)!important;border-radius:6px!important;bottom:-50px;box-shadow:none!important;color:var(--zoloblocks-brand-color)!important;cursor:pointer;font-size:12px;font-weight:600;left:0;padding:12px;position:absolute}.zolo-navigation-submenu-wrapper .zolo-navigation-item{margin-bottom:15px}.zolo-navigation-submenu-wrapper .zolo-navigation-item:last-child{margin-bottom:0}.zolo-navigation-submenu-wrapper .zolo-navigation-item a{box-sizing:border-box;color:#2f2f33;font-size:14px;font-weight:400;width:100%}.zolo-navigation-submenu-wrapper .zolo-navigation-item a:hover{color:var(--zoloblocks-brand-color)}.zolo-navigation-submenu-wrapper .zolo-navigation-submenu-items{list-style-type:none;margin:0;padding:0}
+
+</style>
+<link rel='stylesheet' id='zolo-newsletter-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/newsletter/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<link rel='stylesheet' id='zolo-notice-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/notice/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<link rel='stylesheet' id='zolo-popup-builder-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/popup-builder/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<link rel='stylesheet' id='zolo-post-carousel-style-2-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/post-carousel/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<link rel='stylesheet' id='zolo-post-category-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/post-category/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<style id='zolo-post-comments-style-inline-css' type='text/css'>
+.zolo-post-comments-wrap{display:grid;grid-template-columns:repeat(1,1fr);grid-gap:50px}.zolo-post-comments-wrap .zolo-meta{align-items:center;display:flex;margin-bottom:15px}.zolo-post-comments-wrap .zolo-meta .zolo-avatar{margin-right:15px}.zolo-post-comments-wrap .zolo-meta .zolo-avatar img{--zolo-avatar-size:80px;border-radius:50%;height:var(--zolo-avatar-size);max-width:unset;vertical-align:middle;width:var(--zolo-avatar-size)}.zolo-post-comments-wrap .zolo-meta .zolo-author-name{color:#2b2d42;display:-webkit-box;font-size:18px;font-weight:500;-webkit-line-clamp:1;overflow:hidden;text-overflow:ellipsis;text-transform:capitalize;transition:color .3s ease;-webkit-box-orient:vertical;margin:0 0 7px;text-decoration:none}.zolo-post-comments-wrap .zolo-meta .zolo-author-name:hover{color:#ef233c}.zolo-post-comments-wrap .zolo-meta .zolo-date,.zolo-post-comments-wrap .zolo-text{color:#798184;font-size:14px}.zolo-post-comments-wrap .zolo-text{line-height:1.6;margin:0}
+
+</style>
+<link rel='stylesheet' id='zolo-post-comments-form-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/post-comments-form/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<style id='zolo-post-content-style-inline-css' type='text/css'>
+.wp-block-zolo-post-content a{display:inline-block}
+
+</style>
+<style id='zolo-post-featured-image-style-inline-css' type='text/css'>
+.wp-block-zolo-post-featured-image img{height:100%;-o-object-fit:cover;object-fit:cover;transition:all .35s cubic-bezier(.645,.045,.355,1);vertical-align:middle;width:100%}
+
+</style>
+<link rel='stylesheet' id='zolo-post-grid-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/post-grid/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<link rel='stylesheet' id='zolo-post-list-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/post-list/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<style id='zolo-post-meta-style-inline-css' type='text/css'>
+.wp-block-zolo-post-meta{align-items:center;display:flex;flex-wrap:wrap;gap:14px}.wp-block-zolo-post-meta .zolo-meta-info,.wp-block-zolo-post-meta .zolo-meta-info a{align-items:center;color:#7c7b7f;display:flex;font-size:16px;font-weight:400;gap:6px;text-decoration:none;transition:color .3s}.wp-block-zolo-post-meta .zolo-meta-info a:hover{color:#45454c}.wp-block-zolo-post-meta .zolo-meta-info.terms .zolo-text{display:flex;flex-wrap:wrap;gap:5px}.wp-block-zolo-post-meta .zolo-icon svg{color:currentColor;display:block;height:1em;width:1em}.wp-block-zolo-post-meta .zolo-separator{color:#005cff}.wp-block-zolo-post-meta.separator-dot .zolo-separator{background-color:#005cff;border-radius:50%;height:5px;width:5px}.wp-block-zolo-post-meta.separator-line .zolo-separator{background-color:#005cff;height:2px;width:14px}
+
+</style>
+<link rel='stylesheet' id='zolo-post-navigation-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/post-navigation/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<link rel='stylesheet' id='zolo-post-timeline-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/post-timeline/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<style id='zolo-post-title-style-inline-css' type='text/css'>
+.wp-block-zolo-post-title.zolo-block{font-size:clamp(1.5rem,4vw,2.25rem);font-weight:700;margin:0}.wp-block-zolo-post-title.zolo-block a{display:inline-block;font-size:clamp(1.5rem,4vw,2.25rem);font-weight:700}
+
+</style>
+<link rel='stylesheet' id='zolo-pricing-table-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/pricing-table/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<link rel='stylesheet' id='zolo-profile-card-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/profile-card/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<style id='zolo-progress-bar-style-inline-css' type='text/css'>
+.zolo-progress-bars-wrap{display:grid;grid-template-columns:repeat(1,1fr);grid-gap:35px}
+
+</style>
+<link rel='stylesheet' id='zolo-progress-bar-child-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/progress-bar-child/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<style id='zolo-progress-pie-style-inline-css' type='text/css'>
+.wp-block-zolo-progress-pie{position:relative}.wp-block-zolo-progress-pie .progress-content{left:50%;position:absolute;text-align:center;top:50%;transform:translate(-50%,-50%)}.wp-block-zolo-progress-pie .progress-pie-progress{transition:stroke-dasharray 1s cubic-bezier(.15,1.06,.58,1),stroke-dashoffset 1s cubic-bezier(.15,1.06,.58,1)}.wp-block-zolo-progress-pie .progress-pie-text{transform:translateY(.25em)}.wp-block-zolo-progress-pie .progress-pie-number{font-size:5em;font-weight:700;line-height:1;margin-bottom:10px;text-anchor:middle}.wp-block-zolo-progress-pie .progress-pie-label{font-size:1em;line-height:1;text-anchor:middle;text-transform:uppercase}
+
+</style>
+<link rel='stylesheet' id='zolo-qrcode-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/qrcode/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<style id='zolo-radio-field-style-inline-css' type='text/css'>
+.wp-block-zolo-radio-field .zolo-field-input-item{display:flex;gap:10px}.wp-block-zolo-radio-field .zolo-field-input-item label{align-items:center;display:flex;gap:8px}.wp-block-zolo-radio-field.zolo-form-radio-col .zolo-field-input-item{flex-direction:column}.wp-block-zolo-radio-field.zolo-form-radio-row .zolo-field-input-item{flex-direction:row}.wp-block-zolo-radio-field input[type=radio]:checked:before{opacity:0}.wp-block-zolo-form.style-3 .wp-block-zolo-checkbox-field .zolo-label-wrapper,.wp-block-zolo-form.style-3 .wp-block-zolo-radio-field .zolo-label-wrapper{backdrop-filter:unset;background:var(--zolo-label-bg);margin:var(--zolo-label-margin);padding:0;position:unset}
+
+</style>
+<link rel='stylesheet' id='zolo-review-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/review/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<link rel='stylesheet' id='zolo-review-carousel-style-2-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/review-carousel/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<link rel='stylesheet' id='zolo-review-child-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/review-child/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<style id='zolo-review-grid-style-inline-css' type='text/css'>
+.wp-block-zolo-review-grid.grid{box-sizing:border-box;display:grid;gap:30px;grid-template-columns:repeat(1,1fr)}.wp-block-zolo-review-grid.column.column{box-sizing:border-box;clear:both;-moz-column-count:3;column-count:3;gap:30px}.wp-block-zolo-review-grid.column.column .wp-block-zolo-review-child{-moz-column-break-inside:avoid;break-inside:avoid-column}.wp-block-zolo-review-grid.column.column .wp-block-zolo-review-child.swiper-slide{height:auto}.wp-block-zolo-review-grid.column .swiper-slide+.swiper-slide{margin-top:30px}@media screen and (min-width:768px){.wp-block-zolo-review-grid.grid{grid-template-columns:repeat(2,1fr)}.wp-block-zolo-review-grid.column{-moz-column-count:2;column-count:2}}@media screen and (min-width:1024px){.wp-block-zolo-review-grid.grid{grid-template-columns:repeat(2,1fr)}}
+
+</style>
+<style id='zolo-slide-style-inline-css' type='text/css'>
+.wp-block-zolo-slide{background-color:var(--zoloblocks-item-bg-color);box-sizing:border-box;position:relative;z-index:1}.wp-block-zolo-slide:before{content:"";height:100%;left:0;position:absolute;top:0;width:100%;z-index:-1}.wp-block-zolo-slide{height:500px}
+
+</style>
+<link rel='stylesheet' id='zolo-slider-style-2-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/slider/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<style id='zolo-social-count-style-inline-css' type='text/css'>
+.wp-block-zolo-social-count{box-sizing:border-box;display:grid;gap:clamp(30px,5vw,50px);grid-template-columns:repeat(1,1fr)}@media screen and (min-width:768px){.wp-block-zolo-social-count{grid-template-columns:repeat(4,1fr)}}@media screen and (min-width:1024px){.wp-block-zolo-social-count{grid-template-columns:repeat(2,1fr)}}
+
+</style>
+<style id='zolo-social-count-child-style-inline-css' type='text/css'>
+.wp-block-zolo-social-count-child .zolo-item{color:unset;display:block;text-align:center;text-decoration:none!important;transition:all .3s ease}.wp-block-zolo-social-count-child .zolo-item:hover .zolo-icon{transform:translateY(-5px)}.wp-block-zolo-social-count-child .zolo-icon{align-items:center;border:1px solid #c8c6c6;border-radius:100%;color:#565252;display:inline-flex;justify-content:center;margin-bottom:10px;padding:10px;text-decoration:none;transform:translateY(0);transition:transform .3s ease;transition:all .3s ease}.wp-block-zolo-social-count-child .zolo-icon .zolo__display-icon svg{box-sizing:content-box;display:block;fill:#29272e;height:16px;width:16px}.wp-block-zolo-social-count-child .zolo-icon svg{display:block;height:18px;width:18px}.wp-block-zolo-social-count-child .zolo-icon:hover{color:#000}.wp-block-zolo-social-count-child .zolo-count{color:#383535;font-size:14px;font-weight:700;margin-bottom:4px;text-transform:uppercase;transition:color .3s ease}.wp-block-zolo-social-count-child .zolo-meta{color:#626262;font-size:14px;text-transform:capitalize;transition:color .3s ease}
+
+</style>
+<link rel='stylesheet' id='zolo-social-links-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/social-links/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<link rel='stylesheet' id='zolo-social-share-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/social-share/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<style id='zolo-spline-viewer-style-inline-css' type='text/css'>
+.wp-block-zolo-spline-viewer{aspect-ratio:4/3;display:flex;justify-content:center}.wp-block-zolo-spline-viewer .zolo-spline-loader{align-items:center;display:flex;justify-content:center;width:100%}
+
+</style>
+<style id='zolo-star-rating-style-inline-css' type='text/css'>
+.wp-block-zolo-star-rating{--zolo-star-rating-gap:3px;--zolo-start-rating-color:#f0ad4e;--zolo-star-rating-size:18px;--zolo-rating-title-margin:0;--zolo-star-rating-inner-gap:10px;--zolo-icon-img-size:60px;--zolo-icon-img-radius:6px;--zolo-icon-size:26px;--zolo-icon-color:#1e7bff}.wp-block-zolo-star-rating .start-rating-wrapper{display:flex}.wp-block-zolo-star-rating .star-rating-inner{align-items:center;display:flex;justify-content:center}.wp-block-zolo-star-rating .star-rating-inner.top{flex-direction:column}.wp-block-zolo-star-rating .star-rating-inner.bottom{flex-direction:column-reverse}.wp-block-zolo-star-rating .star-rating-inner.left{flex-direction:column}.wp-block-zolo-star-rating .star-rating-inner.right{flex-direction:column-reverse}.wp-block-zolo-star-rating .zolo-star-rating{display:inline-flex;gap:var(--zolo-star-rating-gap)}.wp-block-zolo-star-rating .zolo-star-rating svg{fill:var(--zolo-start-rating-color);height:var(--zolo-star-rating-size);width:var(--zolo-star-rating-size)}.wp-block-zolo-star-rating .start-rating-title{margin:var(--zolo-rating-title-margin)!important}.wp-block-zolo-star-rating .star-rating-inner{gap:var(--zolo-star-rating-inner-gap)}.wp-block-zolo-star-rating .zolo-image img{border-radius:var(--zolo-icon-img-radius);height:var(--zolo-icon-img-size);-o-object-fit:cover;object-fit:cover;vertical-align:middle;width:var(--zolo-icon-img-size)}.wp-block-zolo-star-rating .star-rating_inner-icon svg{display:block;fill:var(--zolo-icon-color);height:var(--zolo-icon-size);width:var(--zolo-icon-size)}@media(min-width:768px){.wp-block-zolo-star-rating .star-rating-inner.left{flex-direction:row}.wp-block-zolo-star-rating .star-rating-inner.right{flex-direction:row-reverse}}
+
+</style>
+<style id='zolo-tab-style-inline-css' type='text/css'>
+
+
+</style>
+<link rel='stylesheet' id='zolo-table-of-content-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/table-of-content/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<link rel='stylesheet' id='zolo-tabs-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/tabs/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<style id='zolo-tag-cloud-style-inline-css' type='text/css'>
+.zolo-tag-cloud-wrap{display:flex;flex-wrap:wrap;gap:15px}.zolo-tag-cloud-wrap .zolo-item{align-items:center;background:#2b2d42;border-radius:6px;display:flex;gap:15px;justify-content:space-between;padding:8px 16px;position:relative;text-decoration:none!important;transition:all .3s ease}.zolo-tag-cloud-wrap .zolo-name{color:#fff;font-size:14px;font-weight:600;letter-spacing:.5px;line-height:1;transition:all .3s ease}.zolo-tag-cloud-wrap .zolo-count{background:hsla(0,0%,100%,.3);border-radius:2px;color:#fff;display:inline-flex;font-size:13px;line-height:1;padding:3px 5px;transition:all .3s ease}.zolo-tag-cloud-wrap .zolo-item:last-child{margin-right:0}
+
+</style>
+<link rel='stylesheet' id='zolo-team-child-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/team-child/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<style id='zolo-team-grid-style-inline-css' type='text/css'>
+.wp-block-zolo-team-grid{box-sizing:border-box;display:grid;gap:clamp(30px,5vw,50px);grid-template-columns:repeat(1,1fr)}@media screen and (min-width:768px){.wp-block-zolo-team-grid{grid-template-columns:repeat(2,1fr)}}@media screen and (min-width:1024px){.wp-block-zolo-team-grid{grid-template-columns:repeat(2,1fr)}}
+
+</style>
+<style id='zolo-text-path-style-inline-css' type='text/css'>
+:root{--width:500px;--text-path-circle-transition:10000ms}.wp-block-zolo-text-path svg{height:auto;max-width:100%;overflow:visible;transform:rotate(5deg);width:var(--width)}.wp-block-zolo-text-path svg path{fill:transparent}.wp-block-zolo-text-path a.zolo-textpath{text-decoration:none}@keyframes rotate-animation{0%{transform:rotate(0deg)}50%{transform:rotate(var(--zolo-rotate-animation-50))}to{transform:rotate(var(--zolo-rotate-animation-100))}}.wp-block-zolo-text-path .zolo-circle-path-wrap{display:inline-block;position:relative}.wp-block-zolo-text-path .zolo-circle-image{left:50%;position:absolute;top:50%;transform:translate(-50%,-50%)}.wp-block-zolo-text-path .zolo-circle-image .zolo-img{border-radius:inherit;display:block;height:100%;width:100%}
+
+</style>
+<link rel='stylesheet' id='zolo-video-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/blocks/video/style-index.css?ver=6.7.7' type='text/css' media='all' />
+<link rel='stylesheet' id='mediaelement-css' href='https://japanremit.com/wp-includes/js/mediaelement/mediaelementplayer-legacy.min.css?ver=4.2.17' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css' href='https://japanremit.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=6.7.7' type='text/css' media='all' />
+<style id='jetpack-sharing-buttons-style-inline-css' type='text/css'>
+.jetpack-sharing-buttons__services-list{display:flex;flex-direction:row;flex-wrap:wrap;gap:0;list-style-type:none;margin:5px;padding:0}.jetpack-sharing-buttons__services-list.has-small-icon-size{font-size:12px}.jetpack-sharing-buttons__services-list.has-normal-icon-size{font-size:16px}.jetpack-sharing-buttons__services-list.has-large-icon-size{font-size:24px}.jetpack-sharing-buttons__services-list.has-huge-icon-size{font-size:36px}@media print{.jetpack-sharing-buttons__services-list{display:none!important}}.editor-styles-wrapper .wp-block-jetpack-sharing-buttons{gap:0;padding-inline-start:0}ul.jetpack-sharing-buttons__services-list.has-background{padding:1.25em 2.375em}
+</style>
+<link rel='stylesheet' id='zolo-common-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/common/style-index.css?ver=2.5.2' type='text/css' media='all' />
+<link rel='stylesheet' id='swiper-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/assets/css/swiper/swiper-bundle.min.css?ver=2.5.2' type='text/css' media='all' />
+<link rel='stylesheet' id='zolo-transform-style-css' href='https://japanremit.com/wp-content/plugins/zoloblocks/build/extensions/transform/style-index.css?ver=2.5.2' type='text/css' media='all' />
+<style id='classic-theme-styles-inline-css' type='text/css'>
+/**
+ * These rules are needed for backwards compatibility.
+ * They should match the button element rules in the base theme.json file.
+ */
+.wp-block-button__link {
+	color: #ffffff;
+	background-color: #32373c;
+	border-radius: 9999px; /* 100% causes an oval, but any explicit but really high value retains the pill shape. */
+
+	/* This needs a low specificity so it won't override the rules from the button element if defined in theme.json. */
+	box-shadow: none;
+	text-decoration: none;
+
+	/* The extra 2px are added to size solids the same as the outline versions.*/
+	padding: calc(0.667em + 2px) calc(1.333em + 2px);
+
+	font-size: 1.125em;
+}
+
+.wp-block-file__button {
+	background: #32373c;
+	color: #ffffff;
+	text-decoration: none;
+}
+
+</style>
+<style id='global-styles-inline-css' type='text/css'>
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);--wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}
+:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}
+:root :where(.wp-block-pullquote){font-size: 1.5em;line-height: 1.6;}
+</style>
+<link rel='stylesheet' id='channel_io_dashicons-css' href='https://japanremit.com/wp-content/plugins/channel-io/css/channelicons.css?ver=6.7.7' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css' href='https://japanremit.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=6.1.4' type='text/css' media='all' />
+<style id='contact-form-7-inline-css' type='text/css'>
+.wpcf7 .wpcf7-recaptcha iframe {margin-bottom: 0;}.wpcf7 .wpcf7-recaptcha[data-align="center"] > div {margin: 0 auto;}.wpcf7 .wpcf7-recaptcha[data-align="right"] > div {margin: 0 0 0 auto;}
+</style>
+<style id='wpxpo-global-style-inline-css' type='text/css'>
+:root { --preset-color1: #037fff --preset-color2: #026fe0 --preset-color3: #071323 --preset-color4: #132133 --preset-color5: #34495e --preset-color6: #787676 --preset-color7: #f0f2f3 --preset-color8: #f8f9fa --preset-color9: #ffffff }
+</style>
+<style id='ultp-preset-colors-style-inline-css' type='text/css'>
+:root { --postx_preset_Base_1_color: #fffcfc; --postx_preset_Base_2_color: #fce5ec; --postx_preset_Base_3_color: #D6B4BC; --postx_preset_Primary_color: #f01f50; --postx_preset_Secondary_color: #ff5878; --postx_preset_Tertiary_color: #431B23; --postx_preset_Contrast_3_color: #72545B; --postx_preset_Contrast_2_color: #4d2029; --postx_preset_Contrast_1_color: #36141b; --postx_preset_Over_Primary_color: #ffffff; --postx_preset_Custom_2l_color: #000;  }
+</style>
+<style id='ultp-preset-gradient-style-inline-css' type='text/css'>
+:root { --postx_preset_Primary_to_Secondary_to_Right_gradient: linear-gradient(90deg, var(--postx_preset_Primary_color) 0%, var(--postx_preset_Secondary_color) 100%); --postx_preset_Primary_to_Secondary_to_Bottom_gradient: linear-gradient(180deg, var(--postx_preset_Primary_color) 0%, var(--postx_preset_Secondary_color) 100%); --postx_preset_Secondary_to_Primary_to_Right_gradient: linear-gradient(90deg, var(--postx_preset_Secondary_color) 0%, var(--postx_preset_Primary_color) 100%); --postx_preset_Secondary_to_Primary_to_Bottom_gradient: linear-gradient(180deg, var(--postx_preset_Secondary_color) 0%, var(--postx_preset_Primary_color) 100%); --postx_preset_Cold_Evening_gradient: linear-gradient(0deg, rgb(12, 52, 131) 0%, rgb(162, 182, 223) 100%, rgb(107, 140, 206) 100%, rgb(162, 182, 223) 100%); --postx_preset_Purple_Division_gradient: linear-gradient(0deg, rgb(112, 40, 228) 0%, rgb(229, 178, 202) 100%); --postx_preset_Over_Sun_gradient: linear-gradient(60deg, rgb(171, 236, 214) 0%, rgb(251, 237, 150) 100%); --postx_preset_Morning_Salad_gradient: linear-gradient(-255deg, rgb(183, 248, 219) 0%, rgb(80, 167, 194) 100%); --postx_preset_Fabled_Sunset_gradient: linear-gradient(-270deg, rgb(35, 21, 87) 0%, rgb(68, 16, 122) 29%, rgb(255, 19, 97) 67%, rgb(255, 248, 0) 100%);  }
+</style>
+<style id='ultp-preset-typo-style-inline-css' type='text/css'>
+@import url('https://fonts.googleapis.com/css?family=Arvo:400,400i,700,700i'); @import url('https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i'); :root { --postx_preset_Heading_typo_font_family: Arvo; --postx_preset_Heading_typo_font_family_type: serif; --postx_preset_Heading_typo_font_weight: 700; --postx_preset_Heading_typo_text_transform: capitalize; --postx_preset_Body_and_Others_typo_font_family: Roboto; --postx_preset_Body_and_Others_typo_font_family_type: sans-serif; --postx_preset_Body_and_Others_typo_font_weight: 400; --postx_preset_Body_and_Others_typo_text_transform: lowercase; --postx_preset_body_typo_font_size_lg: 16px; --postx_preset_paragraph_1_typo_font_size_lg: 12px; --postx_preset_paragraph_2_typo_font_size_lg: 12px; --postx_preset_paragraph_3_typo_font_size_lg: 12px; --postx_preset_heading_h1_typo_font_size_lg: 42px; --postx_preset_heading_h2_typo_font_size_lg: 36px; --postx_preset_heading_h3_typo_font_size_lg: 30px; --postx_preset_heading_h4_typo_font_size_lg: 24px; --postx_preset_heading_h5_typo_font_size_lg: 20px; --postx_preset_heading_h6_typo_font_size_lg: 16px; }
+</style>
+<link rel='stylesheet' id='bootstrap-style-css' href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css?ver=6.7.7' type='text/css' media='all' />
+<link rel='stylesheet' id='fontawesome-style-css' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css?ver=6.7.7' type='text/css' media='all' />
+<link rel='stylesheet' id='nice-select-css-css' href='https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css?ver=1.1.0' type='text/css' media='all' />
+<link rel='stylesheet' id='slick-style-css' href='https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css?ver=6.7.7' type='text/css' media='all' />
+<link rel='stylesheet' id='slickslider-style-css' href='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css?ver=6.7.7' type='text/css' media='all' />
+<link rel='stylesheet' id='fancybox-style-css' href='https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.css?ver=6.7.7' type='text/css' media='all' />
+<link rel='stylesheet' id='default-style-css' href='https://japanremit.com/wp-content/themes/jme/assets/css/extra.css?ver=6.7.7' type='text/css' media='all' />
+<link rel='stylesheet' id='extra-style-css' href='https://japanremit.com/wp-content/themes/jme/style.css?ver=6.7.7' type='text/css' media='all' />
+<script type="text/javascript" src="https://japanremit.com/wp-includes/js/jquery/jquery.js?ver=3.7.1" id="jquery-core-js"></script>
+<script type="text/javascript" src="https://japanremit.com/wp-includes/js/jquery/jquery-migrate.js?ver=3.4.1" id="jquery-migrate-js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.7.0.min.js?ver=6.7.7" id="jquery-script-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js?ver=6.7.7" id="bootstrapbundle-script-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js?ver=6.7.7" id="popperjs-script-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js?ver=6.7.7" id="bootstrap-script-js"></script>
+<script type="text/javascript" src="https://japanremit.com/wp-content/themes/jme/assets/js/bootstrap.min.js?ver=6.7.7" id="bootstrap-script-icon-js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js?ver=6.7.7" id="slick-script-js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.3.3/js/swiper.js?ver=6.7.7" id="swiper-script-js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.js?ver=6.7.7" id="fancybox-script-js"></script>
+<script type="text/javascript" src="https://japanremit.com/wp-content/themes/jme/assets/js/jquery.nice-select.js?ver=6.7.7" id="nice-select-js-js"></script>
+<script type="text/javascript" src="https://japanremit.com/wp-content/themes/jme/assets/js/app.js?ver=6.7.7" id="app-script-js"></script>
+<script type="text/javascript" src="https://japanremit.com/wp-content/themes/jme/assets/js/track.js?ver=6.7.7" id="track-script-js"></script>
+
+<!-- Google tag (gtag.js) snippet added by Site Kit -->
+<!-- Google Analytics snippet added by Site Kit -->
+<script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=GT-WVJVPQW" id="google_gtagjs-js" async></script>
+<script type="text/javascript" id="google_gtagjs-js-after">
+/* <![CDATA[ */
+window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}
+gtag("set","linker",{"domains":["japanremit.com"]});
+gtag("js", new Date());
+gtag("set", "developer_id.dZTNiMT", true);
+gtag("config", "GT-WVJVPQW");
+/* ]]> */
+</script>
+<link rel="https://api.w.org/" href="https://japanremit.com/wp-json/" /><link rel="alternate" title="JSON" type="application/json" href="https://japanremit.com/wp-json/wp/v2/pages/924" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://japanremit.com/xmlrpc.php?rsd" />
+<meta name="generator" content="WordPress 6.7.7" />
+<link rel="canonical" href="https://japanremit.com/exchange-rate/" />
+<link rel='shortlink' href='https://japanremit.com/?p=924' />
+<link rel="alternate" title="oEmbed (JSON)" type="application/json+oembed" href="https://japanremit.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fjapanremit.com%2Fexchange-rate%2F" />
+<link rel="alternate" title="oEmbed (XML)" type="text/xml+oembed" href="https://japanremit.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fjapanremit.com%2Fexchange-rate%2F&#038;format=xml" />
+<meta name="generator" content="Site Kit by Google 1.181.0" />	<style>img#wpstats{display:none}</style>
+		<!-- Analytics by WP Statistics - https://wp-statistics.com -->
+<link rel="icon" href="https://japanremit.com/wp-content/uploads/2024/11/cropped-fav-icon-32x32.jpg" sizes="32x32" />
+<link rel="icon" href="https://japanremit.com/wp-content/uploads/2024/11/cropped-fav-icon-192x192.jpg" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://japanremit.com/wp-content/uploads/2024/11/cropped-fav-icon-180x180.jpg" />
+<meta name="msapplication-TileImage" content="https://japanremit.com/wp-content/uploads/2024/11/cropped-fav-icon-270x270.jpg" />
+		<style type="text/css" id="wp-custom-css">
+			.grecaptcha-badge {
+    left: 0 !important;
+    right: auto !important;
+}
+/* ================================
+   JME Campaign Blog Styling
+   ================================ */
+
+.content-area {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 35px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Headings */
+.content-area .wp-block-heading {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #1a237e;
+  margin: 35px 0 18px;
+  position: relative;
+}
+
+.content-area .wp-block-heading::before {
+  content: "";
+  position: absolute;
+  left: -18px;
+  top: 0;
+  width: 6px;
+  height: 100%;
+  background: #ff9800;
+  border-radius: 4px;
+}
+
+/* Paragraphs */
+.content-area p {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #444;
+  margin-bottom: 18px;
+}
+
+/* Strong Text */
+.content-area strong {
+  color: #222;
+  font-weight: 600;
+}
+
+/* Lists */
+.content-area .wp-block-list {
+  margin: 15px 0 25px 25px;
+}
+
+.content-area .wp-block-list li {
+  font-size: 15.5px;
+  margin-bottom: 10px;
+  line-height: 1.7;
+}
+
+/* Highlight Important Sections */
+.content-area p strong:first-child {
+  color: #c62828;
+}
+
+/* Pro Tip Styling */
+.content-area p strong:contains("Pro Tip"),
+.content-area p strong:contains("Pro tip") {
+  color: #e65100;
+}
+
+/* Links */
+.content-area a {
+  color: #c62828;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.content-area a:hover {
+  text-decoration: underline;
+}
+
+/* Note / Disclaimer */
+.content-area p strong:contains("NOTE"),
+.content-area p strong:contains("Note") {
+  color: #b71c1c;
+}
+
+/* Final CTA Paragraph */
+.content-area p:last-of-type {
+  margin-top: 35px;
+  padding-top: 25px;
+  border-top: 1px solid #eee;
+  font-size: 16.5px;
+  text-align: center;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .content-area {
+    padding: 22px;
+    margin: 20px;
+  }
+
+  .content-area .wp-block-heading {
+    font-size: 1.4rem;
+  }
+
+  .content-area p {
+    font-size: 15.5px;
+  }
+}
+
+		</style>
+		</head>
+<body class="page-template page-template-template-exchange-rates page-template-template-exchange-rates-php page page-id-924 wp-custom-logo postx-page zolo-frontend classic-theme ">
+
+    <main role="main" class="jme-main">
+
+        <div class="jme-top-header d-none d-md-block">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-9 col-lg-8">
+                        <p>🔥 Notice: Get cashback on your LAWSON Deposits</p>                    </div>
+                    <div class="col-md-3 col-lg-4">
+                        <ul class="jme-top-header__right">
+                            <li>
+                                <a href="https://japanremit.com/how-to-register/">
+                                    How To Register
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://japanremit.com/contact-us/">
+                                    Contact Us
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <header class="jme-header jme-header--inner" role="banner">
+            <div class="container">
+                <div class="row align-items-center justify-content-between">
+                    <div class="col-9 col-md-4 col-xl-2">
+                        <div class="jme-header__logo">
+                                                            <a href="https://japanremit.com/" class="custom-logo-link" rel="home"><img width="336" height="115" src="https://japanremit.com/wp-content/uploads/2024/10/cropped-site-logo.jpg" class="custom-logo" alt="Japan Money Express" decoding="async" srcset="https://japanremit.com/wp-content/uploads/2024/10/cropped-site-logo.jpg 336w, https://japanremit.com/wp-content/uploads/2024/10/cropped-site-logo-300x103.jpg 300w" sizes="(max-width: 336px) 100vw, 336px" /></a>                                                    </div>
+                    </div>
+                    <div class="col-3 col-md-8 col-xl-10">
+                        <div class="text-end d-xl-none">
+                            <button class="navbar-toggle">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </button>
+                        </div>
+                        <div class="jme-header__navigation">
+                            <div class="text-end d-xl-none">
+                                <button class="navbar-toggle navbar-toggle-close">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </button>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-xl-end">
+                                <ul id="menu-primary-menu" class="d-xl-flex align-items-xl-center justify-content-xl-end"><li id="menu-item-1287" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-1287"><a href="#">About Us</a>
+<ul class="sub-menu">
+	<li id="menu-item-1289" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1289"><a href="https://japanremit.com/about-us/">Company Profile</a></li>
+	<li id="menu-item-1288" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1288"><a href="https://japanremit.com/message-from-ceo/">Message from CEO</a></li>
+</ul>
+</li>
+<li id="menu-item-1290" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-1290"><a href="#">Branches</a>
+<ul class="sub-menu">
+	<li id="menu-item-1292" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1292"><a href="https://japanremit.com/counters/">Counters</a></li>
+	<li id="menu-item-1291" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1291"><a href="https://japanremit.com/agents/">Agents</a></li>
+</ul>
+</li>
+<li id="menu-item-1293" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-1293"><a href="#">How to Load Money</a>
+<ul class="sub-menu">
+	<li id="menu-item-1536" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1536"><a href="https://japanremit.com/load-money/">Load Money</a></li>
+	<li id="menu-item-1294" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1294"><a href="https://japanremit.com/cash-payment/">Cash Payment</a></li>
+	<li id="menu-item-1295" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1295"><a href="https://japanremit.com/jp-post-furikomi/">JP Post Furikomi</a></li>
+	<li id="menu-item-1296" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1296"><a href="https://japanremit.com/lawson-card-deposit/">Lawson Card Deposit</a></li>
+</ul>
+</li>
+<li id="menu-item-1297" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-ancestor current-menu-parent menu-item-has-children menu-item-1297"><a href="#">Fee &#038; Exchange Rates</a>
+<ul class="sub-menu">
+	<li id="menu-item-1298" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-924 current_page_item menu-item-1298"><a href="https://japanremit.com/exchange-rate/" aria-current="page">Exchange Rate</a></li>
+	<li id="menu-item-1713" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1713"><a href="https://japanremit.com/service-fee/">Service Fee</a></li>
+</ul>
+</li>
+<li id="menu-item-1301" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1301"><a href="https://japanremit.com/news-announcement/">News &amp; Announcement</a>
+<ul class="sub-menu">
+	<li id="menu-item-1391" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1391"><a href="https://japanremit.com/blog/">Blog</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-gtranslate menu-item-has-children notranslate"><a href="#" data-gt-lang="en" class="gt-current-wrapper notranslate"><img src="https://cdn.gtranslate.net/flags/svg/en.svg" width="24" height="24" alt="en" loading="lazy"> <span>EN</span></a><ul class="dropdown-menu sub-menu"><li class="menu-item menu-item-gtranslate-child"><a href="#" data-gt-lang="en" class="gt-current-lang notranslate"><img src="https://cdn.gtranslate.net/flags/svg/en.svg" width="24" height="24" alt="en" loading="lazy"> <span>EN</span></a></li><li class="menu-item menu-item-gtranslate-child"><a href="#" data-gt-lang="ja" class="notranslate"><img src="https://cdn.gtranslate.net/flags/svg/ja.svg" width="24" height="24" alt="ja" loading="lazy"> <span>JA</span></a></li></ul></li></ul>                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+
+
+
+    
+
+
+
+
+
+ 
+
+<!-- Section Page Leadspace -->
+<section class="section-page-leadspace text-center">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb justify-content-center">
+                <li class="breadcrumb-item"><a href="https://japanremit.com/">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Exchange Rate</li>
+            </ol>
+        </nav>
+        <h1 class="page-title text-white">
+            Exchange rate
+        </h1>
+    </div>
+</section>
+<!-- /Section Page Leadspace -->
+
+
+<!-- Section Exchange Rates -->
+<section class="section-exchange-rates">
+    <div class="container">
+        <div class="exchange-rates-tabs d-flex justify-content-center">
+            <ul class="nav nav-tabs" id="exchangeTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="counter-tab" data-bs-toggle="tab" data-bs-target="#counter-pane" type="button" role="tab" aria-controls="counter-pane" aria-selected="true">Counter</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="mobile-tab" data-bs-toggle="tab" data-bs-target="#mobile-pane" type="button" role="tab" aria-controls="mobile-pane" aria-selected="false">Mobile</button>
+                </li>
+            </ul>
+        </div>
+
+        <div class="tab-content" id="exchangeTabContent">
+            <!-- Counter Tab Content -->
+            <div class="tab-pane fade show active" id="counter-pane" role="tabpanel" aria-labelledby="counter-tab">
+                <div class="exchange-rates-tabs exchange-rates-tabs-inner d-flex justify-content-center">
+                    <ul class="nav nav-tabs" id="counterInnerTabs" role="tablist">
+                        <li class="nav-item">
+                            <button class="nav-link nav-inner active" id="counter-exrate-tab" data-bs-toggle="tab" data-bs-target="#counter-exrate-pane" type="button" role="tab" aria-controls="counter-exrate-pane" aria-selected="true">Exchange rate</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link nav-inner" id="counter-mg-tab" data-bs-toggle="tab" data-bs-target="#counter-mg-pane" type="button" role="tab" aria-controls="counter-mg-pane" aria-selected="false">Moneygram Exchange rate</button>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="exchange-rates-content tab-content">
+                    <div class="tab-pane fade show active" id="counter-exrate-pane" role="tabpanel" aria-labelledby="counter-exrate-tab">
+                        <div class="table-wrapper">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Country</th>
+                                        <th>Payment Method</th>
+                                        <th>Currency</th>
+                                        <th>Rate</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/australia-flag.svg" alt="Australia Flag">&nbsp;&nbsp;Australia</td><td>BANK DEPOSIT</td><td>AUD</td><td>0.0086</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/australia-flag.svg" alt="Australia Flag">&nbsp;&nbsp;Australia</td><td>Card Payment</td><td>AUD</td><td>0.0081</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/bangladesh-flag.svg" alt="Bangladesh Flag">&nbsp;&nbsp;Bangladesh</td><td>CASH PICK UP</td><td>BDT</td><td>0.7694</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/bangladesh-flag.svg" alt="Bangladesh Flag">&nbsp;&nbsp;Bangladesh</td><td>BANK DEPOSIT</td><td>BDT</td><td>0.7666</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/bangladesh-flag.svg" alt="Bangladesh Flag">&nbsp;&nbsp;Bangladesh</td><td>MOBILE CASH</td><td>BDT</td><td>0.7621</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/bangladesh-flag.svg" alt="Bangladesh Flag">&nbsp;&nbsp;Bangladesh</td><td></td><td>BDT</td><td>0.7557</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/bangladesh-flag.svg" alt="Bangladesh Flag">&nbsp;&nbsp;Bangladesh</td><td>Card Payment</td><td>BDT</td><td>0.7528</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/brazil-flag.svg" alt="Brazil Flag">&nbsp;&nbsp;Brazil</td><td>Card Payment</td><td>BRL</td><td>0.0319</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/cambodia-flag.svg" alt="Cambodia Flag">&nbsp;&nbsp;Cambodia</td><td>ALL</td><td>USD</td><td>0.006245</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/cambodia-flag.svg" alt="Cambodia Flag">&nbsp;&nbsp;Cambodia</td><td>Card Payment</td><td>USD</td><td>0.0062</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/cameroon-flag.svg" alt="Cameroon Flag">&nbsp;&nbsp;Cameroon</td><td>Card Payment</td><td>USD</td><td>0.0062</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/canada-flag.svg" alt="Canada Flag">&nbsp;&nbsp;Canada</td><td>BANK DEPOSIT</td><td>CAD</td><td>0.0084</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/canada-flag.svg" alt="Canada Flag">&nbsp;&nbsp;Canada</td><td>Card Payment</td><td>CAD</td><td>0.0083</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/china-flag.svg" alt="China Flag">&nbsp;&nbsp;China</td><td>Card Payment</td><td>CNY</td><td>0.0417</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/france-flag.svg" alt="France Flag">&nbsp;&nbsp;France</td><td>Card Payment</td><td>EUR</td><td>0.0053</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/germany-flag.svg" alt="Germany Flag">&nbsp;&nbsp;Germany</td><td>Card Payment</td><td>EUR</td><td>0.0053</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/india-flag.svg" alt="India Flag">&nbsp;&nbsp;India</td><td>BANK DEPOSIT, MOBILE CASH</td><td>INR</td><td>0.5994</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/india-flag.svg" alt="India Flag">&nbsp;&nbsp;India</td><td>CASH PICK UP</td><td>INR</td><td>0.5991</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/india-flag.svg" alt="India Flag">&nbsp;&nbsp;India</td><td></td><td>INR</td><td>0.5969</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/india-flag.svg" alt="India Flag">&nbsp;&nbsp;India</td><td>Card Payment</td><td>INR</td><td>0.5917</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/indonesia-flag.svg" alt="Indonesia Flag">&nbsp;&nbsp;Indonesia</td><td></td><td>IDR</td><td>112.4665</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/indonesia-flag.svg" alt="Indonesia Flag">&nbsp;&nbsp;Indonesia</td><td>Card Payment</td><td>IDR</td><td>110.297</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/indonesia-flag.svg" alt="Indonesia Flag">&nbsp;&nbsp;Indonesia</td><td>BANK DEPOSIT, CASH PICK UP</td><td>IDR</td><td>110.1035</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/italy-flag.svg" alt="Italy Flag">&nbsp;&nbsp;Italy</td><td>Card Payment</td><td>EUR</td><td>0.0053</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/kenya-flag.svg" alt="Kenya Flag">&nbsp;&nbsp;Kenya</td><td>Card Payment</td><td>KES</td><td>0.8012</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/malaysia-flag.svg" alt="Malaysia Flag">&nbsp;&nbsp;Malaysia</td><td>Card Payment</td><td>MYR</td><td>0.025</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/mongolia-flag.svg" alt="Mongolia Flag">&nbsp;&nbsp;Mongolia</td><td>Card Payment</td><td>MNT</td><td>22.3028</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/myanmar-flag.svg" alt="Myanmar Flag">&nbsp;&nbsp;Myanmar</td><td>Card Payment</td><td>MMK</td><td>22.7025</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/nepal-flag.svg" alt="Nepal Flag">&nbsp;&nbsp;Nepal</td><td>BANK DEPOSIT, Cash Payment, Mobile Wallet</td><td>NPR</td><td>0.9605</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/netherlands-flag.svg" alt="Netherlands Flag">&nbsp;&nbsp;Netherlands</td><td>Card Payment</td><td>EUR</td><td>0.0053</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/new_zealand-flag.svg" alt="New Zealand Flag">&nbsp;&nbsp;New Zealand</td><td>Bank Deposit, Card Payment</td><td>NZD</td><td>0.0093</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/pakistan-flag.svg" alt="Pakistan Flag">&nbsp;&nbsp;Pakistan</td><td></td><td>PKR</td><td>1.7586</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/pakistan-flag.svg" alt="Pakistan Flag">&nbsp;&nbsp;Pakistan</td><td>BANK DEPOSIT</td><td>PKR</td><td>1.7357</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/pakistan-flag.svg" alt="Pakistan Flag">&nbsp;&nbsp;Pakistan</td><td>CASH PICK UP</td><td>PKR</td><td>1.7336</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/pakistan-flag.svg" alt="Pakistan Flag">&nbsp;&nbsp;Pakistan</td><td>Card Payment</td><td>PKR</td><td>1.7115</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/peru-flag.svg" alt="Peru Flag">&nbsp;&nbsp;Peru</td><td>Card Payment</td><td>PEN</td><td>0.0208</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/philippines-flag.svg" alt="Philippines Flag">&nbsp;&nbsp;Philippines</td><td>BANK DEPOSIT, CASH PICK UP, MOBILE CASH</td><td>PHP</td><td>0.3857</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/philippines-flag.svg" alt="Philippines Flag">&nbsp;&nbsp;Philippines</td><td></td><td>PHP</td><td>0.3831</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/philippines-flag.svg" alt="Philippines Flag">&nbsp;&nbsp;Philippines</td><td>Card Payment</td><td>PHP</td><td>0.3794</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/portugal-flag.svg" alt="Portugal Flag">&nbsp;&nbsp;Portugal</td><td>Card Payment</td><td>EUR</td><td>0.0053</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/qatar-flag.svg" alt="Qatar Flag">&nbsp;&nbsp;Qatar</td><td></td><td>QAR</td><td>0.0229</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/qatar-flag.svg" alt="Qatar Flag">&nbsp;&nbsp;Qatar</td><td>Card Payment</td><td>QAR</td><td>0.0226</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/saudi_arabia-flag.svg" alt="Saudi Arabia Flag">&nbsp;&nbsp;Saudi Arabia</td><td>Card Payment</td><td>SAR</td><td>0.0233</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/senegal-flag.svg" alt="Senegal Flag">&nbsp;&nbsp;Senegal</td><td>Card Payment</td><td>XOF</td><td>3.4763</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/singapore-flag.svg" alt="Singapore Flag">&nbsp;&nbsp;Singapore</td><td>Card Payment</td><td>SGD</td><td>0.0079</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/south_africa-flag.svg" alt="South Africa Flag">&nbsp;&nbsp;South Africa</td><td>ALL</td><td>ZAR</td><td>0.0992</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/south_korea-flag.svg" alt="South Korea Flag">&nbsp;&nbsp;South Korea</td><td>ALL</td><td>KRW</td><td>8.96</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/south_korea-flag.svg" alt="South Korea Flag">&nbsp;&nbsp;South Korea</td><td>BANK DEPOSIT</td><td>KRW</td><td>8.7164</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/spain-flag.svg" alt="Spain Flag">&nbsp;&nbsp;Spain</td><td>Card Payment</td><td>EUR</td><td>0.0053</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/sri_lanka-flag.svg" alt="Sri Lanka Flag">&nbsp;&nbsp;Sri Lanka</td><td>ALL</td><td>LKR</td><td>2.0651</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/sri_lanka-flag.svg" alt="Sri Lanka Flag">&nbsp;&nbsp;Sri Lanka</td><td>ALL</td><td>LKR</td><td>2.0651</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/switzerland-flag.svg" alt="Switzerland Flag">&nbsp;&nbsp;Switzerland</td><td>Card Payment</td><td>CHF</td><td>0.005</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/taiwan-flag.svg" alt="Taiwan Flag">&nbsp;&nbsp;Taiwan</td><td>Card Payment</td><td>TWD</td><td>0.1972</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/thailand-flag.svg" alt="Thailand Flag">&nbsp;&nbsp;Thailand</td><td></td><td>THB</td><td>0.2032</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/thailand-flag.svg" alt="Thailand Flag">&nbsp;&nbsp;Thailand</td><td>Card Payment</td><td>THB</td><td>0.2024</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/turkey-flag.svg" alt="Turkey Flag">&nbsp;&nbsp;Turkey</td><td>Card Payment</td><td>TRY</td><td>0.2959</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/united_arab_emirates-flag.svg" alt="United Arab Emirates Flag">&nbsp;&nbsp;United Arab Emirates</td><td></td><td>AED</td><td>0.0231</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/united_arab_emirates-flag.svg" alt="United Arab Emirates Flag">&nbsp;&nbsp;United Arab Emirates</td><td>ALL</td><td>AED</td><td>0.0228</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/united_kingdom-flag.svg" alt="United Kingdom Flag">&nbsp;&nbsp;United Kingdom</td><td>BANK DEPOSIT</td><td>GBP</td><td>0.0046</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/united_kingdom-flag.svg" alt="United Kingdom Flag">&nbsp;&nbsp;United Kingdom</td><td>Card Payment</td><td>GBP</td><td>0.0045</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/united_states_of_america-flag.svg" alt="United States Of America Flag">&nbsp;&nbsp;United States Of America</td><td>BANK DEPOSIT</td><td>USD</td><td>0.0063</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/united_states_of_america-flag.svg" alt="United States Of America Flag">&nbsp;&nbsp;United States Of America</td><td>Card Payment</td><td>USD</td><td>0.0062</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/uzbekistan-flag.svg" alt="Uzbekistan Flag">&nbsp;&nbsp;Uzbekistan</td><td>Card Payment</td><td>UZS</td><td>73.5411</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/vietnam-flag.svg" alt="Vietnam Flag">&nbsp;&nbsp;Vietnam</td><td>ALL</td><td>VND</td><td>164.05</td></tr>                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="counter-mg-pane" role="tabpanel" aria-labelledby="counter-mg-tab">
+                        <div class="table-wrapper">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Country</th>
+                                        <th>Payment Method</th>
+                                        <th>Currency</th>
+                                        <th>Rate</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/australia-flag.svg" alt="Australia Flag">&nbsp;&nbsp;Australia</td><td>10 Minute Service, Bank Deposit - All Banks</td><td>AUD</td><td>0.008603</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/bangladesh-flag.svg" alt="Bangladesh Flag">&nbsp;&nbsp;Bangladesh</td><td>10 Minute Service</td><td>BDT</td><td>0.76</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/bangladesh-flag.svg" alt="Bangladesh Flag">&nbsp;&nbsp;Bangladesh</td><td>Cash Pickup - Islamibank</td><td>BDT</td><td>0.762213</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/bangladesh-flag.svg" alt="Bangladesh Flag">&nbsp;&nbsp;Bangladesh</td><td>Bank Deposit - All Banks</td><td>BDT</td><td>0.7665</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/bangladesh-flag.svg" alt="Bangladesh Flag">&nbsp;&nbsp;Bangladesh</td><td>Mobile Wallet Deposit - bKash</td><td>BDT</td><td>0.760635</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/bolivia-flag.svg" alt="Bolivia Flag">&nbsp;&nbsp;Bolivia</td><td>10 Minute Service</td><td>BOB</td><td>0.057497</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/bolivia-flag.svg" alt="Bolivia Flag">&nbsp;&nbsp;Bolivia</td><td>Bank Deposit - All Banks</td><td>BOB</td><td>0.070126</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/brazil-flag.svg" alt="Brazil Flag">&nbsp;&nbsp;Brazil</td><td>Bank Deposit - PIX</td><td>BRL</td><td>0.032276</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/brazil-flag.svg" alt="Brazil Flag">&nbsp;&nbsp;Brazil</td><td>10 Minute Service</td><td>BRL</td><td>0.030913</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/cambodia-flag.svg" alt="Cambodia Flag">&nbsp;&nbsp;Cambodia</td><td>10 Minute Service, Bank Deposit - All Banks</td><td>USD</td><td>0.006245</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/cambodia-flag.svg" alt="Cambodia Flag">&nbsp;&nbsp;Cambodia</td><td>Mobile Wallet Deposit - eMoney</td><td>USD</td><td>0.006223</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/cambodia-flag.svg" alt="Cambodia Flag">&nbsp;&nbsp;Cambodia</td><td>10 Minute Service, Bank Deposit - All Banks, Mobile Wallet Deposit - eMoney</td><td>KHR</td><td>24.57624</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/cameroon-flag.svg" alt="Cameroon Flag">&nbsp;&nbsp;Cameroon</td><td>10 Minute Service</td><td>XAF</td><td>3.4003</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/cameroon-flag.svg" alt="Cameroon Flag">&nbsp;&nbsp;Cameroon</td><td>Cash Pickup - Express Exchange</td><td>XAF</td><td>3.453154</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/cameroon-flag.svg" alt="Cameroon Flag">&nbsp;&nbsp;Cameroon</td><td>Bank Deposit - All Banks</td><td>XAF</td><td>3.46261</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/cameroon-flag.svg" alt="Cameroon Flag">&nbsp;&nbsp;Cameroon</td><td>Mobile Wallet Deposit - Select Wallets</td><td>XAF</td><td>3.397262</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/canada-flag.svg" alt="Canada Flag">&nbsp;&nbsp;Canada</td><td>10 Minute Service, Bank Deposit - All Banks</td><td>CAD</td><td>0.008383</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/canada-flag.svg" alt="Canada Flag">&nbsp;&nbsp;Canada</td><td>Cash Pickup - Canada Post</td><td>CAD</td><td>0.008469</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/china-flag.svg" alt="China Flag">&nbsp;&nbsp;China</td><td>Bank Deposit - UnionPay Cards</td><td>CNY</td><td>0.0419</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/china-flag.svg" alt="China Flag">&nbsp;&nbsp;China</td><td>Mobile Wallet Deposit - WeChat</td><td>CNY</td><td>0.0422</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/china-flag.svg" alt="China Flag">&nbsp;&nbsp;China</td><td>10 Minute Service</td><td>USD</td><td>0.006223</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/france-flag.svg" alt="France Flag">&nbsp;&nbsp;France</td><td>10 Minute Service, Bank Deposit - All Banks</td><td>EUR</td><td>0.005237</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/germany-flag.svg" alt="Germany Flag">&nbsp;&nbsp;Germany</td><td>10 Minute Service, Bank Deposit - All Banks</td><td>EUR</td><td>0.005237</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/india-flag.svg" alt="India Flag">&nbsp;&nbsp;India</td><td>10 Minute Service, Bank Deposit - All Banks</td><td>INR</td><td>0.5981</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/italy-flag.svg" alt="Italy Flag">&nbsp;&nbsp;Italy</td><td>10 Minute Service, Bank Deposit - All Banks</td><td>EUR</td><td>0.005237</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/italy-flag.svg" alt="Italy Flag">&nbsp;&nbsp;Italy</td><td>Cash Pickup - Poste Italiane</td><td>EUR</td><td>0.005264</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/kenya-flag.svg" alt="Kenya Flag">&nbsp;&nbsp;Kenya</td><td>10 Minute Service</td><td>KES</td><td>0.789683</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/kenya-flag.svg" alt="Kenya Flag">&nbsp;&nbsp;Kenya</td><td>10 Minute Service to</td><td>KES</td><td>0.808122</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/kenya-flag.svg" alt="Kenya Flag">&nbsp;&nbsp;Kenya</td><td>Bank Deposit - All Banks</td><td>KES</td><td>0.789073</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/kenya-flag.svg" alt="Kenya Flag">&nbsp;&nbsp;Kenya</td><td>Mobile Wallet Deposit - Select Wallets</td><td>KES</td><td>0.788586</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/malaysia-flag.svg" alt="Malaysia Flag">&nbsp;&nbsp;Malaysia</td><td>10 Minute Service</td><td>MYR</td><td>0.024139</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/malaysia-flag.svg" alt="Malaysia Flag">&nbsp;&nbsp;Malaysia</td><td>Bank Deposit - All Banks, Mobile Wallet Deposit - Select Wallets</td><td>MYR</td><td>0.024647</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/mongolia-flag.svg" alt="Mongolia Flag">&nbsp;&nbsp;Mongolia</td><td>Bank Deposit - All Banks</td><td>MNT</td><td>22.292133</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/mongolia-flag.svg" alt="Mongolia Flag">&nbsp;&nbsp;Mongolia</td><td>10 Minute Service</td><td>USD</td><td>0.006223</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/myanmar-flag.svg" alt="Myanmar Flag">&nbsp;&nbsp;Myanmar</td><td>10 Minute Service</td><td>MMK</td><td>24.90001</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/myanmar-flag.svg" alt="Myanmar Flag">&nbsp;&nbsp;Myanmar</td><td>Bank Deposit - Select Banks</td><td>MMK</td><td>24.75165</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/nepal-flag.svg" alt="Nepal Flag">&nbsp;&nbsp;Nepal</td><td>10 Minute Service, Bank Deposit - All Banks, Mobile Wallet Deposit - Select Wallets</td><td>NPR</td><td>0.960583</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/nepal-flag.svg" alt="Nepal Flag">&nbsp;&nbsp;Nepal</td><td>10 Minute Service to</td><td>NPR</td><td>0.957701</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/netherlands-flag.svg" alt="Netherlands Flag">&nbsp;&nbsp;Netherlands</td><td>10 Minute Service, Bank Deposit - All Banks</td><td>EUR</td><td>0.005237</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/new_zealand-flag.svg" alt="New Zealand Flag">&nbsp;&nbsp;New Zealand</td><td>10 Minute Service</td><td>NZD</td><td>0.0102</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/peru-flag.svg" alt="Peru Flag">&nbsp;&nbsp;Peru</td><td>10 Minute Service</td><td>PEN</td><td>0.02082</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/peru-flag.svg" alt="Peru Flag">&nbsp;&nbsp;Peru</td><td>Bank Deposit - All Banks, Mobile Wallet Deposit - YAPE</td><td>PEN</td><td>0.02039</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/peru-flag.svg" alt="Peru Flag">&nbsp;&nbsp;Peru</td><td>10 Minute Service, Bank Deposit - All Banks</td><td>USD</td><td>0.006223</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/philippines-flag.svg" alt="Philippines Flag">&nbsp;&nbsp;Philippines</td><td>10 Minute Service, Cash Pickup - Cebuana, Bank Deposit - BDO Direct</td><td>PHP</td><td>0.386861</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/philippines-flag.svg" alt="Philippines Flag">&nbsp;&nbsp;Philippines</td><td>Mobile Wallet Deposit - GCash</td><td>PHP</td><td>0.384926</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/philippines-flag.svg" alt="Philippines Flag">&nbsp;&nbsp;Philippines</td><td>10 Minute Service</td><td>USD</td><td>0.006223</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/portugal-flag.svg" alt="Portugal Flag">&nbsp;&nbsp;Portugal</td><td>10 Minute Service, Bank Deposit - All Banks</td><td>EUR</td><td>0.005237</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/qatar-flag.svg" alt="Qatar Flag">&nbsp;&nbsp;Qatar</td><td>10 Minute Service</td><td>QAR</td><td>0.02179</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/saudi_arabia-flag.svg" alt="Saudi Arabia Flag">&nbsp;&nbsp;Saudi Arabia</td><td>10 Minute Service</td><td>SAR</td><td>0.022896</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/senegal-flag.svg" alt="Senegal Flag">&nbsp;&nbsp;Senegal</td><td>10 Minute Service, Bank Deposit - All Banks</td><td>XOF</td><td>3.4003</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/senegal-flag.svg" alt="Senegal Flag">&nbsp;&nbsp;Senegal</td><td>Cash Pickup - Orabank</td><td>XOF</td><td>3.453154</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/senegal-flag.svg" alt="Senegal Flag">&nbsp;&nbsp;Senegal</td><td>Mobile Wallet Deposit - Orange</td><td>XOF</td><td>3.431303</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/singapore-flag.svg" alt="Singapore Flag">&nbsp;&nbsp;Singapore</td><td>10 Minute Service</td><td>SGD</td><td>0.007577</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/south_africa-flag.svg" alt="South Africa Flag">&nbsp;&nbsp;South Africa</td><td>10 Minute Service</td><td>ZAR</td><td>0.094842</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/south_africa-flag.svg" alt="South Africa Flag">&nbsp;&nbsp;South Africa</td><td>Bank Deposit - All Banks</td><td>ZAR</td><td>0.097662</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/spain-flag.svg" alt="Spain Flag">&nbsp;&nbsp;Spain</td><td>10 Minute Service, Bank Deposit - All Banks</td><td>EUR</td><td>0.005237</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/switzerland-flag.svg" alt="Switzerland Flag">&nbsp;&nbsp;Switzerland</td><td>10 Minute Service</td><td>CHF</td><td>0.004771</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/thailand-flag.svg" alt="Thailand Flag">&nbsp;&nbsp;Thailand</td><td>10 Minute Service</td><td>THB</td><td>0.20115</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/thailand-flag.svg" alt="Thailand Flag">&nbsp;&nbsp;Thailand</td><td>Cash Pickup - GSB (Aomsin)</td><td>THB</td><td>0.201355</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/thailand-flag.svg" alt="Thailand Flag">&nbsp;&nbsp;Thailand</td><td>Bank Deposit - Most Banks</td><td>THB</td><td>0.2035</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/turkey-flag.svg" alt="Turkey Flag">&nbsp;&nbsp;Turkey</td><td>10 Minute Service</td><td>EUR</td><td>0.005237</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/turkey-flag.svg" alt="Turkey Flag">&nbsp;&nbsp;Turkey</td><td>Cash Pickup - PTT Turkish Post</td><td>EUR</td><td>0.005264</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/turkey-flag.svg" alt="Turkey Flag">&nbsp;&nbsp;Turkey</td><td>10 Minute Service, Bank Deposit - All Banks</td><td>TRY</td><td>0.293065</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/turkey-flag.svg" alt="Turkey Flag">&nbsp;&nbsp;Turkey</td><td>Cash Pickup - PTT Turkish Post</td><td>TRY</td><td>0.293367</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/turkey-flag.svg" alt="Turkey Flag">&nbsp;&nbsp;Turkey</td><td>10 Minute Service</td><td>USD</td><td>0.006223</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/turkey-flag.svg" alt="Turkey Flag">&nbsp;&nbsp;Turkey</td><td>Cash Pickup - PTT Turkish Post</td><td>USD</td><td>0.00616</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/united_arab_emirates-flag.svg" alt="United Arab Emirates Flag">&nbsp;&nbsp;United Arab Emirates</td><td>10 Minute Service</td><td>AED</td><td>0.022397</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/united_arab_emirates-flag.svg" alt="United Arab Emirates Flag">&nbsp;&nbsp;United Arab Emirates</td><td>Bank Deposit - All Banks</td><td>AED</td><td>0.022628</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/united_kingdom-flag.svg" alt="United Kingdom Flag">&nbsp;&nbsp;United Kingdom</td><td>10 Minute Service, Bank Deposit - All Banks</td><td>GBP</td><td>0.004488</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/united_states_of_america-flag.svg" alt="United States Of America Flag">&nbsp;&nbsp;United States Of America</td><td>10 Minute Service, Bank Deposit - All Banks, Mobile Wallet Deposit - MoneyGram</td><td>USD</td><td>0.006223</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/united_states_of_america-flag.svg" alt="United States Of America Flag">&nbsp;&nbsp;United States Of America</td><td>Cash Pickup - Walmart</td><td>USD</td><td>0.006241</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/uzbekistan-flag.svg" alt="Uzbekistan Flag">&nbsp;&nbsp;Uzbekistan</td><td>10 Minute Service</td><td>USD</td><td>0.006223</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/uzbekistan-flag.svg" alt="Uzbekistan Flag">&nbsp;&nbsp;Uzbekistan</td><td>Cash Pickup - National Bank</td><td>USD</td><td>0.006248</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/uzbekistan-flag.svg" alt="Uzbekistan Flag">&nbsp;&nbsp;Uzbekistan</td><td>10 Minute Service</td><td>UZS</td><td>73.804828</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/vietnam-flag.svg" alt="Vietnam Flag">&nbsp;&nbsp;Vietnam</td><td>10 Minute Service</td><td>USD</td><td>0.006223</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/vietnam-flag.svg" alt="Vietnam Flag">&nbsp;&nbsp;Vietnam</td><td>Cash Pickup - HD Bank</td><td>USD</td><td>0.00616</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/vietnam-flag.svg" alt="Vietnam Flag">&nbsp;&nbsp;Vietnam</td><td>10 Minute Service, Bank Deposit - All Banks</td><td>VND</td><td>163.800108</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/vietnam-flag.svg" alt="Vietnam Flag">&nbsp;&nbsp;Vietnam</td><td>Cash Pickup - HD Bank</td><td>VND</td><td>163.145722</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/vietnam-flag.svg" alt="Vietnam Flag">&nbsp;&nbsp;Vietnam</td><td>Mobile Wallet Deposit - Select Wallets</td><td>VND</td><td>162.981756</td></tr>                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Tab Content -->
+            <div class="tab-pane fade" id="mobile-pane" role="tabpanel" aria-labelledby="mobile-tab">
+                <div class="exchange-rates-tabs exchange-rates-tabs-inner d-flex justify-content-center">
+                    <ul class="nav nav-tabs" id="mobileInnerTabs" role="tablist">
+                        <li class="nav-item">
+                            <button class="nav-link nav-inner active" id="mobile-exrate-tab" data-bs-toggle="tab" data-bs-target="#mobile-exrate-pane" type="button" role="tab" aria-controls="mobile-exrate-pane" aria-selected="true">Exchange rate</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link nav-inner" id="mobile-mg-tab" data-bs-toggle="tab" data-bs-target="#mobile-mg-pane" type="button" role="tab" aria-controls="mobile-mg-pane" aria-selected="false">Moneygram Exchange rate</button>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="exchange-rates-content tab-content">
+                    <div class="tab-pane fade show active" id="mobile-exrate-pane" role="tabpanel" aria-labelledby="mobile-exrate-tab">
+                        <div class="table-wrapper">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Country</th>
+                                        <th>Payment Method</th>
+                                        <th>Currency</th>
+                                        <th>Rate</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/australia-flag.svg" alt="Australia Flag">&nbsp;&nbsp;Australia</td><td>BANK DEPOSIT</td><td>AUD</td><td>0.0086</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/australia-flag.svg" alt="Australia Flag">&nbsp;&nbsp;Australia</td><td>Card Payment</td><td>AUD</td><td>0.0081</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/bangladesh-flag.svg" alt="Bangladesh Flag">&nbsp;&nbsp;Bangladesh</td><td>CASH PICK UP</td><td>BDT</td><td>0.7694</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/bangladesh-flag.svg" alt="Bangladesh Flag">&nbsp;&nbsp;Bangladesh</td><td>BANK DEPOSIT</td><td>BDT</td><td>0.7666</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/bangladesh-flag.svg" alt="Bangladesh Flag">&nbsp;&nbsp;Bangladesh</td><td>MOBILE CASH</td><td>BDT</td><td>0.7621</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/bangladesh-flag.svg" alt="Bangladesh Flag">&nbsp;&nbsp;Bangladesh</td><td></td><td>BDT</td><td>0.7557</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/bangladesh-flag.svg" alt="Bangladesh Flag">&nbsp;&nbsp;Bangladesh</td><td>Card Payment</td><td>BDT</td><td>0.7528</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/brazil-flag.svg" alt="Brazil Flag">&nbsp;&nbsp;Brazil</td><td>Card Payment</td><td>BRL</td><td>0.0319</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/cambodia-flag.svg" alt="Cambodia Flag">&nbsp;&nbsp;Cambodia</td><td>ALL</td><td>USD</td><td>0.006245</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/cambodia-flag.svg" alt="Cambodia Flag">&nbsp;&nbsp;Cambodia</td><td>Card Payment</td><td>USD</td><td>0.0062</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/cameroon-flag.svg" alt="Cameroon Flag">&nbsp;&nbsp;Cameroon</td><td>Card Payment</td><td>USD</td><td>0.0062</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/canada-flag.svg" alt="Canada Flag">&nbsp;&nbsp;Canada</td><td>BANK DEPOSIT</td><td>CAD</td><td>0.0084</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/canada-flag.svg" alt="Canada Flag">&nbsp;&nbsp;Canada</td><td>Card Payment</td><td>CAD</td><td>0.0083</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/china-flag.svg" alt="China Flag">&nbsp;&nbsp;China</td><td>Card Payment</td><td>CNY</td><td>0.0417</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/france-flag.svg" alt="France Flag">&nbsp;&nbsp;France</td><td>Card Payment</td><td>EUR</td><td>0.0053</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/germany-flag.svg" alt="Germany Flag">&nbsp;&nbsp;Germany</td><td>Card Payment</td><td>EUR</td><td>0.0053</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/india-flag.svg" alt="India Flag">&nbsp;&nbsp;India</td><td>BANK DEPOSIT, MOBILE CASH</td><td>INR</td><td>0.5994</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/india-flag.svg" alt="India Flag">&nbsp;&nbsp;India</td><td>CASH PICK UP</td><td>INR</td><td>0.5991</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/india-flag.svg" alt="India Flag">&nbsp;&nbsp;India</td><td></td><td>INR</td><td>0.5969</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/india-flag.svg" alt="India Flag">&nbsp;&nbsp;India</td><td>Card Payment</td><td>INR</td><td>0.5917</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/indonesia-flag.svg" alt="Indonesia Flag">&nbsp;&nbsp;Indonesia</td><td></td><td>IDR</td><td>112.4665</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/indonesia-flag.svg" alt="Indonesia Flag">&nbsp;&nbsp;Indonesia</td><td>Card Payment</td><td>IDR</td><td>110.297</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/indonesia-flag.svg" alt="Indonesia Flag">&nbsp;&nbsp;Indonesia</td><td>BANK DEPOSIT, CASH PICK UP</td><td>IDR</td><td>110.1035</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/italy-flag.svg" alt="Italy Flag">&nbsp;&nbsp;Italy</td><td>Card Payment</td><td>EUR</td><td>0.0053</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/kenya-flag.svg" alt="Kenya Flag">&nbsp;&nbsp;Kenya</td><td>Card Payment</td><td>KES</td><td>0.8012</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/malaysia-flag.svg" alt="Malaysia Flag">&nbsp;&nbsp;Malaysia</td><td>Card Payment</td><td>MYR</td><td>0.025</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/mongolia-flag.svg" alt="Mongolia Flag">&nbsp;&nbsp;Mongolia</td><td>Card Payment</td><td>MNT</td><td>22.3028</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/myanmar-flag.svg" alt="Myanmar Flag">&nbsp;&nbsp;Myanmar</td><td>Card Payment</td><td>MMK</td><td>22.7025</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/nepal-flag.svg" alt="Nepal Flag">&nbsp;&nbsp;Nepal</td><td>BANK DEPOSIT, Cash Payment, Mobile Wallet</td><td>NPR</td><td>0.9605</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/netherlands-flag.svg" alt="Netherlands Flag">&nbsp;&nbsp;Netherlands</td><td>Card Payment</td><td>EUR</td><td>0.0053</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/new_zealand-flag.svg" alt="New Zealand Flag">&nbsp;&nbsp;New Zealand</td><td>Bank Deposit, Card Payment</td><td>NZD</td><td>0.0093</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/pakistan-flag.svg" alt="Pakistan Flag">&nbsp;&nbsp;Pakistan</td><td></td><td>PKR</td><td>1.7586</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/pakistan-flag.svg" alt="Pakistan Flag">&nbsp;&nbsp;Pakistan</td><td>BANK DEPOSIT</td><td>PKR</td><td>1.7357</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/pakistan-flag.svg" alt="Pakistan Flag">&nbsp;&nbsp;Pakistan</td><td>CASH PICK UP</td><td>PKR</td><td>1.7336</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/pakistan-flag.svg" alt="Pakistan Flag">&nbsp;&nbsp;Pakistan</td><td>Card Payment</td><td>PKR</td><td>1.7115</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/peru-flag.svg" alt="Peru Flag">&nbsp;&nbsp;Peru</td><td>Card Payment</td><td>PEN</td><td>0.0208</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/philippines-flag.svg" alt="Philippines Flag">&nbsp;&nbsp;Philippines</td><td>BANK DEPOSIT, CASH PICK UP, MOBILE CASH</td><td>PHP</td><td>0.3857</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/philippines-flag.svg" alt="Philippines Flag">&nbsp;&nbsp;Philippines</td><td></td><td>PHP</td><td>0.3831</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/philippines-flag.svg" alt="Philippines Flag">&nbsp;&nbsp;Philippines</td><td>Card Payment</td><td>PHP</td><td>0.3794</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/portugal-flag.svg" alt="Portugal Flag">&nbsp;&nbsp;Portugal</td><td>Card Payment</td><td>EUR</td><td>0.0053</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/qatar-flag.svg" alt="Qatar Flag">&nbsp;&nbsp;Qatar</td><td></td><td>QAR</td><td>0.0229</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/qatar-flag.svg" alt="Qatar Flag">&nbsp;&nbsp;Qatar</td><td>Card Payment</td><td>QAR</td><td>0.0226</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/saudi_arabia-flag.svg" alt="Saudi Arabia Flag">&nbsp;&nbsp;Saudi Arabia</td><td>Card Payment</td><td>SAR</td><td>0.0233</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/senegal-flag.svg" alt="Senegal Flag">&nbsp;&nbsp;Senegal</td><td>Card Payment</td><td>XOF</td><td>3.4763</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/singapore-flag.svg" alt="Singapore Flag">&nbsp;&nbsp;Singapore</td><td>Card Payment</td><td>SGD</td><td>0.0079</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/south_africa-flag.svg" alt="South Africa Flag">&nbsp;&nbsp;South Africa</td><td>ALL</td><td>ZAR</td><td>0.0992</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/south_korea-flag.svg" alt="South Korea Flag">&nbsp;&nbsp;South Korea</td><td>ALL</td><td>KRW</td><td>8.96</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/south_korea-flag.svg" alt="South Korea Flag">&nbsp;&nbsp;South Korea</td><td>BANK DEPOSIT</td><td>KRW</td><td>8.7164</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/spain-flag.svg" alt="Spain Flag">&nbsp;&nbsp;Spain</td><td>Card Payment</td><td>EUR</td><td>0.0053</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/sri_lanka-flag.svg" alt="Sri Lanka Flag">&nbsp;&nbsp;Sri Lanka</td><td>ALL</td><td>LKR</td><td>2.0651</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/sri_lanka-flag.svg" alt="Sri Lanka Flag">&nbsp;&nbsp;Sri Lanka</td><td>ALL</td><td>LKR</td><td>2.0651</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/switzerland-flag.svg" alt="Switzerland Flag">&nbsp;&nbsp;Switzerland</td><td>Card Payment</td><td>CHF</td><td>0.005</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/taiwan-flag.svg" alt="Taiwan Flag">&nbsp;&nbsp;Taiwan</td><td>Card Payment</td><td>TWD</td><td>0.1972</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/thailand-flag.svg" alt="Thailand Flag">&nbsp;&nbsp;Thailand</td><td></td><td>THB</td><td>0.2032</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/thailand-flag.svg" alt="Thailand Flag">&nbsp;&nbsp;Thailand</td><td>Card Payment</td><td>THB</td><td>0.2024</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/turkey-flag.svg" alt="Turkey Flag">&nbsp;&nbsp;Turkey</td><td>Card Payment</td><td>TRY</td><td>0.2959</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/united_arab_emirates-flag.svg" alt="United Arab Emirates Flag">&nbsp;&nbsp;United Arab Emirates</td><td></td><td>AED</td><td>0.0231</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/united_arab_emirates-flag.svg" alt="United Arab Emirates Flag">&nbsp;&nbsp;United Arab Emirates</td><td>ALL</td><td>AED</td><td>0.0228</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/united_kingdom-flag.svg" alt="United Kingdom Flag">&nbsp;&nbsp;United Kingdom</td><td>BANK DEPOSIT</td><td>GBP</td><td>0.0046</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/united_kingdom-flag.svg" alt="United Kingdom Flag">&nbsp;&nbsp;United Kingdom</td><td>Card Payment</td><td>GBP</td><td>0.0045</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/united_states_of_america-flag.svg" alt="United States Of America Flag">&nbsp;&nbsp;United States Of America</td><td>BANK DEPOSIT</td><td>USD</td><td>0.0063</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/united_states_of_america-flag.svg" alt="United States Of America Flag">&nbsp;&nbsp;United States Of America</td><td>Card Payment</td><td>USD</td><td>0.0062</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/uzbekistan-flag.svg" alt="Uzbekistan Flag">&nbsp;&nbsp;Uzbekistan</td><td>Card Payment</td><td>UZS</td><td>73.5411</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/vietnam-flag.svg" alt="Vietnam Flag">&nbsp;&nbsp;Vietnam</td><td>ALL</td><td>VND</td><td>164.05</td></tr>                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="mobile-mg-pane" role="tabpanel" aria-labelledby="mobile-mg-tab">
+                        <div class="table-wrapper">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Country</th>
+                                        <th>Payment Method</th>
+                                        <th>Currency</th>
+                                        <th>Rate</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/australia-flag.svg" alt="Australia Flag">&nbsp;&nbsp;Australia</td><td>10 Minute Service, Bank Deposit - All Banks</td><td>AUD</td><td>0.008603</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/bangladesh-flag.svg" alt="Bangladesh Flag">&nbsp;&nbsp;Bangladesh</td><td>10 Minute Service</td><td>BDT</td><td>0.76</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/bangladesh-flag.svg" alt="Bangladesh Flag">&nbsp;&nbsp;Bangladesh</td><td>Cash Pickup - Islamibank</td><td>BDT</td><td>0.762213</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/bangladesh-flag.svg" alt="Bangladesh Flag">&nbsp;&nbsp;Bangladesh</td><td>Bank Deposit - All Banks</td><td>BDT</td><td>0.7665</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/bangladesh-flag.svg" alt="Bangladesh Flag">&nbsp;&nbsp;Bangladesh</td><td>Mobile Wallet Deposit - bKash</td><td>BDT</td><td>0.760635</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/bolivia-flag.svg" alt="Bolivia Flag">&nbsp;&nbsp;Bolivia</td><td>10 Minute Service</td><td>BOB</td><td>0.057497</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/bolivia-flag.svg" alt="Bolivia Flag">&nbsp;&nbsp;Bolivia</td><td>Bank Deposit - All Banks</td><td>BOB</td><td>0.070126</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/brazil-flag.svg" alt="Brazil Flag">&nbsp;&nbsp;Brazil</td><td>Bank Deposit - PIX</td><td>BRL</td><td>0.032276</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/brazil-flag.svg" alt="Brazil Flag">&nbsp;&nbsp;Brazil</td><td>10 Minute Service</td><td>BRL</td><td>0.030913</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/cambodia-flag.svg" alt="Cambodia Flag">&nbsp;&nbsp;Cambodia</td><td>10 Minute Service, Bank Deposit - All Banks</td><td>USD</td><td>0.006245</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/cambodia-flag.svg" alt="Cambodia Flag">&nbsp;&nbsp;Cambodia</td><td>Mobile Wallet Deposit - eMoney</td><td>USD</td><td>0.006223</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/cambodia-flag.svg" alt="Cambodia Flag">&nbsp;&nbsp;Cambodia</td><td>10 Minute Service, Bank Deposit - All Banks, Mobile Wallet Deposit - eMoney</td><td>KHR</td><td>24.57624</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/cameroon-flag.svg" alt="Cameroon Flag">&nbsp;&nbsp;Cameroon</td><td>10 Minute Service</td><td>XAF</td><td>3.4003</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/cameroon-flag.svg" alt="Cameroon Flag">&nbsp;&nbsp;Cameroon</td><td>Cash Pickup - Express Exchange</td><td>XAF</td><td>3.453154</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/cameroon-flag.svg" alt="Cameroon Flag">&nbsp;&nbsp;Cameroon</td><td>Bank Deposit - All Banks</td><td>XAF</td><td>3.46261</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/cameroon-flag.svg" alt="Cameroon Flag">&nbsp;&nbsp;Cameroon</td><td>Mobile Wallet Deposit - Select Wallets</td><td>XAF</td><td>3.397262</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/canada-flag.svg" alt="Canada Flag">&nbsp;&nbsp;Canada</td><td>10 Minute Service, Bank Deposit - All Banks</td><td>CAD</td><td>0.008383</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/canada-flag.svg" alt="Canada Flag">&nbsp;&nbsp;Canada</td><td>Cash Pickup - Canada Post</td><td>CAD</td><td>0.008469</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/china-flag.svg" alt="China Flag">&nbsp;&nbsp;China</td><td>Bank Deposit - UnionPay Cards</td><td>CNY</td><td>0.0419</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/china-flag.svg" alt="China Flag">&nbsp;&nbsp;China</td><td>Mobile Wallet Deposit - WeChat</td><td>CNY</td><td>0.0422</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/china-flag.svg" alt="China Flag">&nbsp;&nbsp;China</td><td>10 Minute Service</td><td>USD</td><td>0.006223</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/france-flag.svg" alt="France Flag">&nbsp;&nbsp;France</td><td>10 Minute Service, Bank Deposit - All Banks</td><td>EUR</td><td>0.005237</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/germany-flag.svg" alt="Germany Flag">&nbsp;&nbsp;Germany</td><td>10 Minute Service, Bank Deposit - All Banks</td><td>EUR</td><td>0.005237</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/india-flag.svg" alt="India Flag">&nbsp;&nbsp;India</td><td>10 Minute Service, Bank Deposit - All Banks</td><td>INR</td><td>0.5981</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/italy-flag.svg" alt="Italy Flag">&nbsp;&nbsp;Italy</td><td>10 Minute Service, Bank Deposit - All Banks</td><td>EUR</td><td>0.005237</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/italy-flag.svg" alt="Italy Flag">&nbsp;&nbsp;Italy</td><td>Cash Pickup - Poste Italiane</td><td>EUR</td><td>0.005264</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/kenya-flag.svg" alt="Kenya Flag">&nbsp;&nbsp;Kenya</td><td>10 Minute Service</td><td>KES</td><td>0.789683</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/kenya-flag.svg" alt="Kenya Flag">&nbsp;&nbsp;Kenya</td><td>10 Minute Service to</td><td>KES</td><td>0.808122</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/kenya-flag.svg" alt="Kenya Flag">&nbsp;&nbsp;Kenya</td><td>Bank Deposit - All Banks</td><td>KES</td><td>0.789073</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/kenya-flag.svg" alt="Kenya Flag">&nbsp;&nbsp;Kenya</td><td>Mobile Wallet Deposit - Select Wallets</td><td>KES</td><td>0.788586</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/malaysia-flag.svg" alt="Malaysia Flag">&nbsp;&nbsp;Malaysia</td><td>10 Minute Service</td><td>MYR</td><td>0.024139</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/malaysia-flag.svg" alt="Malaysia Flag">&nbsp;&nbsp;Malaysia</td><td>Bank Deposit - All Banks, Mobile Wallet Deposit - Select Wallets</td><td>MYR</td><td>0.024647</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/mongolia-flag.svg" alt="Mongolia Flag">&nbsp;&nbsp;Mongolia</td><td>Bank Deposit - All Banks</td><td>MNT</td><td>22.292133</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/mongolia-flag.svg" alt="Mongolia Flag">&nbsp;&nbsp;Mongolia</td><td>10 Minute Service</td><td>USD</td><td>0.006223</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/myanmar-flag.svg" alt="Myanmar Flag">&nbsp;&nbsp;Myanmar</td><td>10 Minute Service</td><td>MMK</td><td>24.90001</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/myanmar-flag.svg" alt="Myanmar Flag">&nbsp;&nbsp;Myanmar</td><td>Bank Deposit - Select Banks</td><td>MMK</td><td>24.75165</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/nepal-flag.svg" alt="Nepal Flag">&nbsp;&nbsp;Nepal</td><td>10 Minute Service, Bank Deposit - All Banks, Mobile Wallet Deposit - Select Wallets</td><td>NPR</td><td>0.960583</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/nepal-flag.svg" alt="Nepal Flag">&nbsp;&nbsp;Nepal</td><td>10 Minute Service to</td><td>NPR</td><td>0.957701</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/netherlands-flag.svg" alt="Netherlands Flag">&nbsp;&nbsp;Netherlands</td><td>10 Minute Service, Bank Deposit - All Banks</td><td>EUR</td><td>0.005237</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/new_zealand-flag.svg" alt="New Zealand Flag">&nbsp;&nbsp;New Zealand</td><td>10 Minute Service</td><td>NZD</td><td>0.0102</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/peru-flag.svg" alt="Peru Flag">&nbsp;&nbsp;Peru</td><td>10 Minute Service</td><td>PEN</td><td>0.02082</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/peru-flag.svg" alt="Peru Flag">&nbsp;&nbsp;Peru</td><td>Bank Deposit - All Banks, Mobile Wallet Deposit - YAPE</td><td>PEN</td><td>0.02039</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/peru-flag.svg" alt="Peru Flag">&nbsp;&nbsp;Peru</td><td>10 Minute Service, Bank Deposit - All Banks</td><td>USD</td><td>0.006223</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/philippines-flag.svg" alt="Philippines Flag">&nbsp;&nbsp;Philippines</td><td>10 Minute Service, Cash Pickup - Cebuana, Bank Deposit - BDO Direct</td><td>PHP</td><td>0.386861</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/philippines-flag.svg" alt="Philippines Flag">&nbsp;&nbsp;Philippines</td><td>Mobile Wallet Deposit - GCash</td><td>PHP</td><td>0.384926</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/philippines-flag.svg" alt="Philippines Flag">&nbsp;&nbsp;Philippines</td><td>10 Minute Service</td><td>USD</td><td>0.006223</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/portugal-flag.svg" alt="Portugal Flag">&nbsp;&nbsp;Portugal</td><td>10 Minute Service, Bank Deposit - All Banks</td><td>EUR</td><td>0.005237</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/qatar-flag.svg" alt="Qatar Flag">&nbsp;&nbsp;Qatar</td><td>10 Minute Service</td><td>QAR</td><td>0.02179</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/saudi_arabia-flag.svg" alt="Saudi Arabia Flag">&nbsp;&nbsp;Saudi Arabia</td><td>10 Minute Service</td><td>SAR</td><td>0.022896</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/senegal-flag.svg" alt="Senegal Flag">&nbsp;&nbsp;Senegal</td><td>10 Minute Service, Bank Deposit - All Banks</td><td>XOF</td><td>3.4003</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/senegal-flag.svg" alt="Senegal Flag">&nbsp;&nbsp;Senegal</td><td>Cash Pickup - Orabank</td><td>XOF</td><td>3.453154</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/senegal-flag.svg" alt="Senegal Flag">&nbsp;&nbsp;Senegal</td><td>Mobile Wallet Deposit - Orange</td><td>XOF</td><td>3.431303</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/singapore-flag.svg" alt="Singapore Flag">&nbsp;&nbsp;Singapore</td><td>10 Minute Service</td><td>SGD</td><td>0.007577</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/south_africa-flag.svg" alt="South Africa Flag">&nbsp;&nbsp;South Africa</td><td>10 Minute Service</td><td>ZAR</td><td>0.094842</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/south_africa-flag.svg" alt="South Africa Flag">&nbsp;&nbsp;South Africa</td><td>Bank Deposit - All Banks</td><td>ZAR</td><td>0.097662</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/spain-flag.svg" alt="Spain Flag">&nbsp;&nbsp;Spain</td><td>10 Minute Service, Bank Deposit - All Banks</td><td>EUR</td><td>0.005237</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/switzerland-flag.svg" alt="Switzerland Flag">&nbsp;&nbsp;Switzerland</td><td>10 Minute Service</td><td>CHF</td><td>0.004771</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/thailand-flag.svg" alt="Thailand Flag">&nbsp;&nbsp;Thailand</td><td>10 Minute Service</td><td>THB</td><td>0.20115</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/thailand-flag.svg" alt="Thailand Flag">&nbsp;&nbsp;Thailand</td><td>Cash Pickup - GSB (Aomsin)</td><td>THB</td><td>0.201355</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/thailand-flag.svg" alt="Thailand Flag">&nbsp;&nbsp;Thailand</td><td>Bank Deposit - Most Banks</td><td>THB</td><td>0.2035</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/turkey-flag.svg" alt="Turkey Flag">&nbsp;&nbsp;Turkey</td><td>10 Minute Service</td><td>EUR</td><td>0.005237</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/turkey-flag.svg" alt="Turkey Flag">&nbsp;&nbsp;Turkey</td><td>Cash Pickup - PTT Turkish Post</td><td>EUR</td><td>0.005264</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/turkey-flag.svg" alt="Turkey Flag">&nbsp;&nbsp;Turkey</td><td>10 Minute Service, Bank Deposit - All Banks</td><td>TRY</td><td>0.293065</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/turkey-flag.svg" alt="Turkey Flag">&nbsp;&nbsp;Turkey</td><td>Cash Pickup - PTT Turkish Post</td><td>TRY</td><td>0.293367</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/turkey-flag.svg" alt="Turkey Flag">&nbsp;&nbsp;Turkey</td><td>10 Minute Service</td><td>USD</td><td>0.006223</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/turkey-flag.svg" alt="Turkey Flag">&nbsp;&nbsp;Turkey</td><td>Cash Pickup - PTT Turkish Post</td><td>USD</td><td>0.00616</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/united_arab_emirates-flag.svg" alt="United Arab Emirates Flag">&nbsp;&nbsp;United Arab Emirates</td><td>10 Minute Service</td><td>AED</td><td>0.022397</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/united_arab_emirates-flag.svg" alt="United Arab Emirates Flag">&nbsp;&nbsp;United Arab Emirates</td><td>Bank Deposit - All Banks</td><td>AED</td><td>0.022628</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/united_kingdom-flag.svg" alt="United Kingdom Flag">&nbsp;&nbsp;United Kingdom</td><td>10 Minute Service, Bank Deposit - All Banks</td><td>GBP</td><td>0.004488</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/united_states_of_america-flag.svg" alt="United States Of America Flag">&nbsp;&nbsp;United States Of America</td><td>10 Minute Service, Bank Deposit - All Banks, Mobile Wallet Deposit - MoneyGram</td><td>USD</td><td>0.006223</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/united_states_of_america-flag.svg" alt="United States Of America Flag">&nbsp;&nbsp;United States Of America</td><td>Cash Pickup - Walmart</td><td>USD</td><td>0.006241</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/uzbekistan-flag.svg" alt="Uzbekistan Flag">&nbsp;&nbsp;Uzbekistan</td><td>10 Minute Service</td><td>USD</td><td>0.006223</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/uzbekistan-flag.svg" alt="Uzbekistan Flag">&nbsp;&nbsp;Uzbekistan</td><td>Cash Pickup - National Bank</td><td>USD</td><td>0.006248</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/uzbekistan-flag.svg" alt="Uzbekistan Flag">&nbsp;&nbsp;Uzbekistan</td><td>10 Minute Service</td><td>UZS</td><td>73.804828</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/vietnam-flag.svg" alt="Vietnam Flag">&nbsp;&nbsp;Vietnam</td><td>10 Minute Service</td><td>USD</td><td>0.006223</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/vietnam-flag.svg" alt="Vietnam Flag">&nbsp;&nbsp;Vietnam</td><td>Cash Pickup - HD Bank</td><td>USD</td><td>0.00616</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/vietnam-flag.svg" alt="Vietnam Flag">&nbsp;&nbsp;Vietnam</td><td>10 Minute Service, Bank Deposit - All Banks</td><td>VND</td><td>163.800108</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/vietnam-flag.svg" alt="Vietnam Flag">&nbsp;&nbsp;Vietnam</td><td>Cash Pickup - HD Bank</td><td>VND</td><td>163.145722</td></tr><tr><td><img style="width:40px;" src="https://japanremit.com/wp-content/themes/jme/assets/images/vietnam-flag.svg" alt="Vietnam Flag">&nbsp;&nbsp;Vietnam</td><td>Mobile Wallet Deposit - Select Wallets</td><td>VND</td><td>162.981756</td></tr>                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>  
+</section>
+<!-- /Section Exchange Rates -->
+
+
+<!-- Section Download Center -->
+<section class="section-download-center">
+    <div class="container">
+        <div class="remittance-application">
+            <div class="remittance-application__left">
+                <div class="heading">
+                    <h3>
+                        Start using <span>JME Remittance Application</span> for better experience.
+                    </h3>
+                    <h3>
+                        <span>JME</span> より良いエクスペリエンスを得るために、<br> の使用を開始してください。
+                    </h3>
+                </div>
+                <div class="rm-footer">
+                    <h3>
+                        Send Money in <span>3 easy steps</span>
+                    </h3>
+                    <div class="icon-grid">
+                        <div class="item">
+                            <span class="icon">
+                                <img src="https://japanremit.com/wp-content/themes/jme/assets/images/card-edit.webp" alt="">
+                            </span>
+                            Register
+                        </div>
+                        <div class="item">
+                            <span class="icon">
+                                <img src="https://japanremit.com/wp-content/themes/jme/assets/images/card-send.webp" alt="">
+                            </span>
+                            Send
+                        </div>
+                        <div class="item">
+                            <span class="icon">
+                                <img src="https://japanremit.com/wp-content/themes/jme/assets/images/card-receive.webp" alt="">
+                            </span>
+                            Receive
+                        </div>
+                    </div>
+                    <div class="download-card">
+                        <a href="#">
+                            <img src="https://japanremit.com/wp-content/themes/jme/assets/images/google-play.webp" alt="">
+                        </a>
+                        <a href="#">
+                            <img src="https://japanremit.com/wp-content/themes/jme/assets/images/apple-play.webp" alt="">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="remittance-application__right">
+                <figure class="thumbnail-img">
+                    <img src="https://japanremit.com/wp-content/themes/jme/assets/images/yen-image.webp" alt="">
+                </figure>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- /Section Download Center -->
+
+
+    </main>
+
+    <footer class="jme-footer">
+        <div class="container">
+            <div class="jme-footer__top">
+                                <div class="widget-container"><div class="footer-block">
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 21C12 21 18 14.7 18 9C18 5.68629 15.3137 3 12 3C8.68629 3 6 5.68629 6 9C6 14.7 12 21 12 21Z" stroke="#330000"/>
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 10C12.5523 10 13 9.55228 13 9C13 8.44772 12.5523 8 12 8C11.4477 8 11 8.44772 11 9C11 9.55228 11.4477 10 12 10Z" stroke="#330000"/>
+                    </svg>
+                    <h4>
+                        Head Office
+                    </h4>
+                    <ul>
+                        <li>
+                            Room AB, Omori Building 4F,
+                        </li>
+                        <li>
+                            1-10-7 Hyakunin-cho, Shinjuku-ku,
+                        </li>
+                        <li>
+                            Tokyo, 169-0073, Japan
+                        </li>
+                        <li>
+                            Tel: 03-5475-3913 Fax: 03-5475-3914
+                        </li>
+                        <li>
+                            E-mail: info@japanremit.com
+                        </li>
+                    </ul>
+                </div></div><div class="widget-container"><div class="footer-block">
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 21C12 21 18 14.7 18 9C18 5.68629 15.3137 3 12 3C8.68629 3 6 5.68629 6 9C6 14.7 12 21 12 21Z" stroke="#330000"/>
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 10C12.5523 10 13 9.55228 13 9C13 8.44772 12.5523 8 12 8C11.4477 8 11 8.44772 11 9C11 9.55228 11.4477 10 12 10Z" stroke="#330000"/>
+                    </svg>
+                    <h4>
+                        Head Office Counter
+                    </h4>
+                    <ul>
+                        <li>
+                            Omori Building 1F,
+                        </li>
+                        <li>
+                            1-10-7 Hyakunin-cho, Shinjuku-ku,
+                        </li>
+                        <li>
+                            Tokyo, 169-0073, Japan
+                        </li>
+                        <li>
+                            Tel: 03-5475-3913
+                        </li>
+                        <li>
+                            E-mail: info@japanremit.com
+                        </li>
+                    </ul>
+                </div></div><div class="widget-container"><div class="footer-block">
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 21C12 21 18 14.7 18 9C18 5.68629 15.3137 3 12 3C8.68629 3 6 5.68629 6 9C6 14.7 12 21 12 21Z" stroke="#330000"/>
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 10C12.5523 10 13 9.55228 13 9C13 8.44772 12.5523 8 12 8C11.4477 8 11 8.44772 11 9C11 9.55228 11.4477 10 12 10Z" stroke="#330000"/>
+                    </svg>
+                    <h4>
+                        Fukuoka Counter
+                    </h4>
+                    <ul>
+                        <li>
+                            Ohashi Nishiguchi Building 406,
+                        </li>
+                        <li>
+                            1-8-21 Ohashi, Minami-ku, Fukuoka,
+                        </li>
+                        <li>
+                            Fukuoka, 815-0033, Japan
+                        </li>
+                        <li>
+                            E-mail: fukuoka@japanremit.com
+                        </li>
+                    </ul>
+                </div></div><div class="widget-container"><!-- <div class="footer-block">
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 21C12 21 18 14.7 18 9C18 5.68629 15.3137 3 12 3C8.68629 3 6 5.68629 6 9C6 14.7 12 21 12 21Z" stroke="#330000"/>
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 10C12.5523 10 13 9.55228 13 9C13 8.44772 12.5523 8 12 8C11.4477 8 11 8.44772 11 9C11 9.55228 11.4477 10 12 10Z" stroke="#330000"/>
+                    </svg>
+                    <h4>
+                        Nagoya Counter
+                    </h4>
+                    <ul>
+                        <li>
+                            2-3-2 Noritake, Nakamura-ku,
+                        </li>
+                        <li>
+                            Nagoya, Aichi, 453-0014, Japan
+                        </li>
+                        <li>
+                            Tel: 070-3332-4278
+                        </li>
+                        <li>
+                            E-mail: nagoya@japanremit.com
+                        </li>
+                    </ul>
+                </div>
+--></div>            </div>
+            <div class="jme-footer__middle">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <div class="card-left">
+                            <figure>
+                                <img src="https://japanremit.com/wp-content/themes/jme/assets/images/mobile.webp" alt="Map Image" class="w-100 object-fit">
+                            </figure>
+                            <p>
+                                Manage your remittances on the go! Download our app now on the Google Play Store and Apple App Store for fast, easy access to all our services.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="download-card">
+                            <a href="https://play.google.com/store/apps/details?id=com.remit.jmecustomer" target="_blank">
+                                <img src="https://japanremit.com/wp-content/themes/jme/assets/images/google-play.webp" alt="">
+                            </a>
+                            <a href="https://apps.apple.com/us/app/jme-remittance/id1561903311" target="_blank">
+                                <img src="https://japanremit.com/wp-content/themes/jme/assets/images/apple-play.webp" alt="">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="jme-footer__end">
+                <div class="quick-links">
+                    <ul><li class="page_item page-item-918"><a href="https://japanremit.com/agents/">Agents</a></li>
+<li class="page_item page-item-1382"><a href="https://japanremit.com/blog/">Blog</a></li>
+<li class="page_item page-item-823"><a href="https://japanremit.com/branches/">Branches</a></li>
+<li class="page_item page-item-907"><a href="https://japanremit.com/cash-payment/">Cash Payment</a></li>
+<li class="page_item page-item-9"><a href="https://japanremit.com/about-us/">Company Profile</a></li>
+<li class="page_item page-item-17"><a href="https://japanremit.com/contact-us/">Contact</a></li>
+<li class="page_item page-item-1214"><a href="https://japanremit.com/contact-jp/">Contact &#8211; JP</a></li>
+<li class="page_item page-item-1176"><a href="https://japanremit.com/counters/">Counters</a></li>
+<li class="page_item page-item-1190"><a href="https://japanremit.com/counters-jp/">Counters JP</a></li>
+<li class="page_item page-item-1316"><a href="https://japanremit.com/delete-request/">Delete Request</a></li>
+<li class="page_item page-item-924 current_page_item"><a href="https://japanremit.com/exchange-rate/" aria-current="page">Exchange Rate</a></li>
+<li class="page_item page-item-861"><a href="https://japanremit.com/fees-exchange-rates/">Fees &amp; Exchange Rates</a></li>
+<li class="page_item page-item-1272"><a href="https://japanremit.com/fraud-guarantee-policy/">Fraud Guarantee Policy</a></li>
+<li class="page_item page-item-1274"><a href="https://japanremit.com/fraud-warning/">Fraud Warning</a></li>
+<li class="page_item page-item-7"><a href="https://japanremit.com/">Home</a></li>
+<li class="page_item page-item-825"><a href="https://japanremit.com/how-to-load-money/">How to Load Money</a></li>
+<li class="page_item page-item-886"><a href="https://japanremit.com/how-to-register/">How To Register</a></li>
+<li class="page_item page-item-910"><a href="https://japanremit.com/jp-post-furikomi/">JP Post Furikomi</a></li>
+<li class="page_item page-item-913"><a href="https://japanremit.com/lawson-card-deposit/">Lawson Card Deposit</a></li>
+<li class="page_item page-item-1417"><a href="https://japanremit.com/load-money/">Load Money</a></li>
+<li class="page_item page-item-1282"><a href="https://japanremit.com/message-from-ceo/">Message from CEO</a></li>
+<li class="page_item page-item-863"><a href="https://japanremit.com/news-announcement/">News &amp; Announcement</a></li>
+<li class="page_item page-item-1583"><a href="https://japanremit.com/policy/">Policy</a></li>
+<li class="page_item page-item-1266"><a href="https://japanremit.com/privacy-policy/">Privacy Policy</a></li>
+<li class="page_item page-item-1268"><a href="https://japanremit.com/privacy-policy-mobile/">Privacy Policy (For Mobile App)</a></li>
+<li class="page_item page-item-1632"><a href="https://japanremit.com/service-fee/">Service Fee</a></li>
+<li class="page_item page-item-1259"><a href="https://japanremit.com/terms-conditions/">Terms &amp; Conditions</a></li>
+</ul>
+                </div>
+              <div class="customer-support">
+                    <h4>
+                      For Customer Support (Direct/Viber/WhatsApp)
+                    </h4>
+                    <ul>
+                        <li>
+                       <img style="width:16px;height:14px;" src="https://jmeremitconnect.net/wp-content/themes/jme/assets/images/nepal-flag.svg">Nepali: 07031674422  
+                        </li>
+						 <li>
+                            <img style="width:16px;height:14px;" src="https://jmeremitconnect.net/wp-content/themes/jme/assets/images/nepal-flag.svg">Nepali:  08047118877  
+                        </li>
+						 <li>
+                           <img style="width:16px;height:14px;" src="https://jmeremitconnect.net/wp-content/themes/jme/assets/images/nepal-flag.svg">Nepali:  08049364050  
+                        </li>
+						 <li>
+                           <img style="width:16px;height:14px;" src="https://jmeremitconnect.net/wp-content/themes/jme/assets/images/nepal-flag.svg">Nepali: : 08034104278   
+                        </li>
+                        <li>
+                          <img style="width:16px;height:14px;" src="https://jmeremitconnect.net/wp-content/themes/jme/assets/images/vietnam-flag.svg"> Vietnamese: 08035054050
+                        </li>
+                        <li>
+                        <img style="width:16px;height:14px;" src="https://jmeremitconnect.net/wp-content/themes/jme/assets/images/bangladesh-flag.svg"> 
+                        <img style="width:16px;height:14px;" src="https://jmeremitconnect.net/wp-content/themes/jme/assets/images/pakistan-flag.svg"> Bengali / Pakistani: 08040760416
+                        </li>
+						 <li>
+                         <img style="width:16px;height:14px;" src="https://jmeremitconnect.net/wp-content/themes/jme/assets/images/sri_lanka-flag.svg"> 
+                        <img style="width:16px;height:14px;" src="https://jmeremitconnect.net/wp-content/themes/jme/assets/images/india-flag.svg"> Sri Lankan / Indian: 07048120740
+                        </li>
+						 <li>
+                           <img style="width:16px;height:14px;" src="https://jmeremitconnect.net/wp-content/themes/jme/assets/images/philippines-flag.svg"> Philippine: 08031258794
+                        </li>
+						<li>
+                           JME Remit Support (Others): 03-5475-3913
+                        </li>
+                    </ul>
+                </div>
+                <div class="banks">
+                    <div class="bank-left">
+                        <h4>JP POST BANK (ゆうちょ銀行)</h4>
+                        <p>
+                            A/C No: 10110-95388741
+                        </p>
+                    </div>
+                    <div class="bank-right">
+                        <h4>From Other Bank:</h4>
+                        <p>
+                            (他銀行からのお振込み) <br>
+                            店名:- 〇一八 店（ゼロイチハチ店 <br>
+                            普通 口座番号 ９５３８８７４ <br>
+                            受取人名：シ゛ャハ゜ンマネーエクスフ゜レス（カ
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright text-center">
+                <ul>
+                    <li>
+                        <a href="/terms-conditions" target="_blank">
+                            Terms & Conditions
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/privacy-policy" target="_blank">
+                            Privacy Policy
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/privacy-policy-mobile" target="_blank">
+                            Privacy Policy (for Mobile App)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/fraud-guarantee-policy" target="_blank">
+                            Fraud Guarantee Policy
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/fraud-warning" target="_blank">
+                            Fraud Warning
+                        </a>
+                    </li>
+                </ul>
+                <p>
+                    &copy; JME Remittance 2020
+                </p>
+            </div>
+        </div>
+    </footer>
+    
+</div>
+
+    <link rel='stylesheet' id='userfeedback-frontend-styles-css' href='https://japanremit.com/wp-content/plugins/userfeedback-lite/assets/vue/css/frontend.css?ver=1787479454' type='text/css' media='all' />
+<style id='core-block-supports-inline-css' type='text/css'>
+/**
+ * Core styles: block-supports
+ */
+
+</style>
+<script type="text/javascript" defer src="https://japanremit.com/wp-content/plugins/userfeedback-lite/assets/vue/js/chunk-vendors.js?ver=1787479454" id="userfeedback-frontend-vendors-js"></script>
+<script type="text/javascript" id="userfeedback-frontend-common-js-extra">
+/* <![CDATA[ */
+var userfeedback_addons_frontend = [];
+/* ]]> */
+</script>
+<script type="text/javascript" defer src="https://japanremit.com/wp-content/plugins/userfeedback-lite/assets/vue/js/chunk-common.js?ver=1787479454" id="userfeedback-frontend-common-js"></script>
+<script type="text/javascript" id="userfeedback-frontend-widget-js-extra">
+/* <![CDATA[ */
+var userfeedback_frontend = {"wp_rest_nonce":"58896655cf","rest_url":"https:\/\/japanremit.com\/wp-json\/","assets":"https:\/\/japanremit.com\/wp-content\/plugins\/userfeedback-lite\/assets\/vue","is_pro":"","is_licensed":"","surveys":[{"id":"1","title":"First Survey","questions":[{"id":"25ed6d72-541d-4c4b-9249-e3690441297f","type":"long-text","title":"What do you like about this page?","config":{"options":[]},"settings":{"required":false,"randomize":false,"comment_box":false},"logic":{"enabled":false,"action":"show","conditions":[]}}],"settings":{"thank_you":{"type":"message","message":"Thanks for your feedback!","redirect_to":{"id":null,"label":null},"conditions":[]},"enable_tracking":false,"targeting":{"devices":["desktop","tablet","mobile"],"pages":"all","page_rules":[]},"behavior":{"timing":"immediate","timing_delay":20,"display_length":"until_response","run_time":"indefinitely","expire_at":{"month":null,"day":null},"start_minimized":false},"theming":{"color_scheme":"light","widget_color":"#ffffff","text_color":"#23282D","button_color":"#2D87F1"}},"type":null,"cookie_name":"userfeedback-survey-1","nonces":{"submission":"70efc51c07","impression":"bde36aa7c4"}}],"widget_settings":{"start_minimized":false,"show_logo":false,"custom_logo":"","position":"bottom_right","widget_toggle_icon":"field-chevron-down","widget_toggle_color":"#23282d","widget_toggle_text":"","widget_font":false,"widget_color":"#ffffff","text_color":"#23282D","button_color":"#2D87F1","default_widget_color":"#ffffff","default_text_color":"#23282d","default_button_color":"#2d87f1","skip_text":"Skip","next_text":"Next"},"is_preview":"","integrations":{"monsterinsights":{"is_active":false,"is_installed":true,"basename":"google-analytics-for-wordpress\/googleanalytics.php"},"exactmetrics":{"is_active":false,"is_installed":false,"basename":"google-analytics-dashboard-for-wp\/gadwp.php"}},"addons":"","current_page":{"id":924,"name":"Exchange Rate"},"disable_all_surveys":"","show_specific_survey":"0","is_singular":"1","is_clarity_active":""};
+/* ]]> */
+</script>
+<script type="text/javascript" defer src="https://japanremit.com/wp-content/plugins/userfeedback-lite/assets/vue/js/frontend.js?ver=1787479454" id="userfeedback-frontend-widget-js"></script>
+<script type="text/javascript" id="zolo-block-localize-js-extra">
+/* <![CDATA[ */
+var zoloSettings = {"ajaxurl":"https:\/\/japanremit.com\/wp-admin\/admin-ajax.php","zolo_pro_status":"inactive","home_url":"https:\/\/japanremit.com","zolo_nonce":"7ab28349b4","theme_fonts":[],"googleAPIKey":"","svg_upload":"","maskShapes":{"abstract":"https:\/\/japanremit.com\/wp-content\/plugins\/zoloblocks\/assets\/mask-shapes\/abstract.svg","abstract-brush-1":"https:\/\/japanremit.com\/wp-content\/plugins\/zoloblocks\/assets\/mask-shapes\/abstract-brush-1.svg","abstract-brush-2":"https:\/\/japanremit.com\/wp-content\/plugins\/zoloblocks\/assets\/mask-shapes\/abstract-brush-2.svg","aesthetic-blob":"https:\/\/japanremit.com\/wp-content\/plugins\/zoloblocks\/assets\/mask-shapes\/aesthetic-blob.svg","amorphous-blob":"https:\/\/japanremit.com\/wp-content\/plugins\/zoloblocks\/assets\/mask-shapes\/amorphous-blob.svg","brush":"https:\/\/japanremit.com\/wp-content\/plugins\/zoloblocks\/assets\/mask-shapes\/brush.svg","comment":"https:\/\/japanremit.com\/wp-content\/plugins\/zoloblocks\/assets\/mask-shapes\/comment.svg","container":"https:\/\/japanremit.com\/wp-content\/plugins\/zoloblocks\/assets\/mask-shapes\/container.svg","hand-drawn-blob":"https:\/\/japanremit.com\/wp-content\/plugins\/zoloblocks\/assets\/mask-shapes\/hand-drawn-blob.svg","hexagon":"https:\/\/japanremit.com\/wp-content\/plugins\/zoloblocks\/assets\/mask-shapes\/hexagon.svg","hexagon-blob":"https:\/\/japanremit.com\/wp-content\/plugins\/zoloblocks\/assets\/mask-shapes\/hexagon-blob.svg","irregular-blob":"https:\/\/japanremit.com\/wp-content\/plugins\/zoloblocks\/assets\/mask-shapes\/irregular-blob.svg","minimal-round":"https:\/\/japanremit.com\/wp-content\/plugins\/zoloblocks\/assets\/mask-shapes\/minimal-round.svg","octagon":"https:\/\/japanremit.com\/wp-content\/plugins\/zoloblocks\/assets\/mask-shapes\/octagon.svg","organic-blob":"https:\/\/japanremit.com\/wp-content\/plugins\/zoloblocks\/assets\/mask-shapes\/organic-blob.svg","oval-blob":"https:\/\/japanremit.com\/wp-content\/plugins\/zoloblocks\/assets\/mask-shapes\/oval-blob.svg","pattern":"https:\/\/japanremit.com\/wp-content\/plugins\/zoloblocks\/assets\/mask-shapes\/pattern.svg","popup-1":"https:\/\/japanremit.com\/wp-content\/plugins\/zoloblocks\/assets\/mask-shapes\/popup-1.svg","popup-2":"https:\/\/japanremit.com\/wp-content\/plugins\/zoloblocks\/assets\/mask-shapes\/popup-2.svg","popup-3":"https:\/\/japanremit.com\/wp-content\/plugins\/zoloblocks\/assets\/mask-shapes\/popup-3.svg","round-brush":"https:\/\/japanremit.com\/wp-content\/plugins\/zoloblocks\/assets\/mask-shapes\/round-brush.svg","round-design":"https:\/\/japanremit.com\/wp-content\/plugins\/zoloblocks\/assets\/mask-shapes\/round-design.svg","squar-abstract":"https:\/\/japanremit.com\/wp-content\/plugins\/zoloblocks\/assets\/mask-shapes\/squar-abstract.svg","squar-pattern":"https:\/\/japanremit.com\/wp-content\/plugins\/zoloblocks\/assets\/mask-shapes\/squar-pattern.svg","testimonial":"https:\/\/japanremit.com\/wp-content\/plugins\/zoloblocks\/assets\/mask-shapes\/testimonial.svg","triangle-blob":"https:\/\/japanremit.com\/wp-content\/plugins\/zoloblocks\/assets\/mask-shapes\/triangle-blob.svg"}};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://japanremit.com/wp-content/plugins/zoloblocks/assets/js/localize/index.js?ver=2.5.2" id="zolo-block-localize-js"></script>
+<script type="text/javascript" src="https://japanremit.com/wp-content/plugins/zoloblocks/assets/js/lightbox/fslightbox.js?ver=2.5.2" id="fslightbox-js"></script>
+<script type="text/javascript" src="https://japanremit.com/wp-content/plugins/zoloblocks/assets/js/swiper/swiper-bundle.min.js?ver=2.5.2" id="swiper-js"></script>
+<script type="text/javascript" src="https://japanremit.com/wp-content/plugins/zoloblocks/assets/js/accordion/accordion.min.js?ver=2.5.2" id="zolo-accordion-script-js"></script>
+<script type="text/javascript" src="https://japanremit.com/wp-content/plugins/zoloblocks/assets/js/spline/spline.js?ver=2.5.2" id="zolo-spline-viewer-js"></script>
+<script type="text/javascript" src="https://japanremit.com/wp-content/plugins/zoloblocks/assets/js/popup/popup.js?ver=2.5.2" id="zolo-popup-script-js"></script>
+<script type="text/javascript" id="channel-io-plugin-js-js-extra">
+/* <![CDATA[ */
+var channel_io_options = {"channel_io_plugin_key":"409957f5-a8b6-40d2-b63a-f9899ad0f6c0","channel_io_hide_default_launcher":"","channel_io_mobile_messenger_mode":"on","channel_io_custom_launcher_selector":"","channel_io_z_index":"","login":""};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://japanremit.com/wp-content/plugins/channel-io/channel_plugin_script.js?ver=6.7.7" id="channel-io-plugin-js-js"></script>
+<script type="text/javascript" src="https://japanremit.com/wp-includes/js/dist/hooks.js?ver=5b4ec27a7b82f601224a" id="wp-hooks-js"></script>
+<script type="text/javascript" src="https://japanremit.com/wp-includes/js/dist/i18n.js?ver=2aff907006e2aa00e26e" id="wp-i18n-js"></script>
+<script type="text/javascript" id="wp-i18n-js-after">
+/* <![CDATA[ */
+wp.i18n.setLocaleData( { 'text direction\u0004ltr': [ 'ltr' ] } );
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://japanremit.com/wp-content/plugins/contact-form-7/includes/swv/js/index.js?ver=6.1.4" id="swv-js"></script>
+<script type="text/javascript" id="contact-form-7-js-before">
+/* <![CDATA[ */
+var wpcf7 = {
+    "api": {
+        "root": "https:\/\/japanremit.com\/wp-json\/",
+        "namespace": "contact-form-7\/v1"
+    }
+};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://japanremit.com/wp-content/plugins/contact-form-7/includes/js/index.js?ver=6.1.4" id="contact-form-7-js"></script>
+<script type="text/javascript" src="https://japanremit.com/wp-content/plugins/ultimate-post/assets/js/ultp-youtube-gallery-block.js?ver=5.0.34" id="ultp-youtube-gallery-block-js"></script>
+<script type="text/javascript" id="wp-statistics-tracker-js-extra">
+/* <![CDATA[ */
+var WP_Statistics_Tracker_Object = {"requestUrl":"https:\/\/japanremit.com\/wp-json\/wp-statistics\/v2","ajaxUrl":"https:\/\/japanremit.com\/wp-admin\/admin-ajax.php","hitParams":{"wp_statistics_hit":1,"source_type":"page","source_id":924,"search_query":"","signature":"578e93994e723cec1b9fd6e0c2cb1c77","endpoint":"hit"},"option":{"dntEnabled":false,"bypassAdBlockers":false,"consentIntegration":{"name":null,"status":[]},"isPreview":false,"userOnline":false,"isWpConsentApiActive":false},"isLegacyEventLoaded":"","customEventAjaxUrl":"https:\/\/japanremit.com\/wp-admin\/admin-ajax.php?action=wp_statistics_custom_event&nonce=5c0d62b44f","onlineParams":{"wp_statistics_hit":1,"source_type":"page","source_id":924,"search_query":"","signature":"578e93994e723cec1b9fd6e0c2cb1c77","action":"wp_statistics_online_check"},"jsCheckTime":"60000","isConsoleVerbose":"1"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://japanremit.com/wp-content/plugins/wp-statistics/assets/js/tracker.js?ver=14.16.10" id="wp-statistics-tracker-js"></script>
+<script type="text/javascript" id="exchange-rate-calc-js-extra">
+/* <![CDATA[ */
+var jmeRemitAjaxUrl = {"ajaxurl":"https:\/\/japanremit.com\/wp-admin\/admin-ajax.php","nonce":"7b02f54e37"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://japanremit.com/wp-content/themes/jme/assets/js/exchange-rate-calc.js?ver=1.0" id="exchange-rate-calc-js"></script>
+<script type="text/javascript" id="exchange-rate-calc-js-after">
+/* <![CDATA[ */
+console.log("jmeRemitAjaxUrl", window.jmeRemitAjaxUrl);
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://stats.wp.com/e-202634.js" id="jetpack-stats-js" data-wp-strategy="defer"></script>
+<script type="text/javascript" id="jetpack-stats-js-after">
+/* <![CDATA[ */
+_stq = window._stq || [];
+_stq.push([ "view", JSON.parse("{\"v\":\"ext\",\"blog\":\"241532724\",\"post\":\"924\",\"tz\":\"9\",\"srv\":\"japanremit.com\",\"j\":\"1:14.3\"}") ]);
+_stq.push([ "clickTrackerInit", "241532724", "924" ]);
+/* ]]> */
+</script>
+<script type="text/javascript" id="gt_widget_script_70357448-js-before">
+/* <![CDATA[ */
+window.gtranslateSettings = /* document.write */ window.gtranslateSettings || {};window.gtranslateSettings['70357448'] = {"default_language":"en","languages":["en","ja"],"url_structure":"none","detect_browser_language":1,"flag_style":"2d","flag_size":24,"alt_flags":[]};
+/* ]]> */
+</script><script src="https://cdn.gtranslate.net/widgets/latest/base.js?ver=6.7.7" data-no-optimize="1" data-no-minify="1" data-gt-orig-url="/exchange-rate/" data-gt-orig-domain="japanremit.com" data-gt-widget-id="70357448" defer></script>
+</body>
+</html>  

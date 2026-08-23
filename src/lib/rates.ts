@@ -96,8 +96,12 @@ async function fetchFromUpstream(): Promise<RateTable> {
 /**
  * Get the current mid-market rate table, using KV as a read-through cache.
  *
+ * This is the ONLY mid-market path (no cron Worker, no refresh API — rev 4
+ * owner decision): requests keep the cache warm themselves.
+ *
  * Flow:
  *   1. Try KV (`RATES_KV`). On a hit, return immediately — fast + free.
+ *      (A present entry is fresh by construction: KV deletes it at TTL.)
  *   2. On a miss, fetch the live rates and write them to KV with a TTL so the
  *      next 10 minutes of requests are served from cache.
  *   3. If everything fails, fall back to the static table so the UI still works.
@@ -127,18 +131,5 @@ export async function getRates(kv?: KVNamespace): Promise<RateTable> {
     }
   }
 
-  return fresh;
-}
-
-/**
- * Force-refresh the cache, bypassing any existing KV entry. Intended for a
- * scheduled Cron Worker (see workers/rate-refresh/) so the KV cache is kept
- * warm and user requests never pay the upstream latency.
- */
-export async function refreshRates(kv: KVNamespace): Promise<RateTable> {
-  const fresh = await fetchFromUpstream();
-  if (fresh.source !== 'fallback') {
-    await kv.put(CACHE_KEY, JSON.stringify(fresh), { expirationTtl: RATE_TTL_SECONDS });
-  }
   return fresh;
 }

@@ -69,8 +69,14 @@ export interface FeeTier {
 export type FeeModel =
   /** Single flat fee regardless of amount (e.g. Revolut standard weekday). */
   | { kind: 'flat'; feeJPY: number }
-  /** Tiered flat-fee matrix (most Japanese providers). */
-  | { kind: 'tiered'; tiers: FeeTier[] }
+  /**
+   * Tiered flat-fee matrix (most Japanese providers). `tiers` is the global
+   * default; `byCurrency` overrides it per corridor (mirroring
+   * `rateMarkup.byCurrency`) — used for fee tables verified on one corridor
+   * (e.g. JPY→IDR) while others stay illustrative. Resolution: the currency's
+   * tiers when present, else `tiers`.
+   */
+  | { kind: 'tiered'; tiers: FeeTier[]; byCurrency?: Partial<Record<CurrencyCode, FeeTier[]>> }
   /**
    * Percentage-of-amount fee, optionally with a fixed component and/or a floor.
    * Wise-style: `percent` of the send amount + a small `fixedJPY`.
@@ -100,6 +106,52 @@ export interface RateMarkup {
 }
 
 // ---------------------------------------------------------------------------
+// Observed rates (per-provider, actually-quoted)
+// ---------------------------------------------------------------------------
+
+/**
+ * A set of *actually observed* exchange rates for one provider, fetched live
+ * from the provider's own rate board (adapter) or checked in by hand (manual).
+ *
+ * Rates use the app's canonical unit: 1 JPY → X target currency, identical to
+ * the mid-market table — including per-currency quoting multipliers (e.g. SBI
+ * quotes CNY per ¥10,000; adapters normalize to per-1-JPY before storing).
+ */
+export interface ObservedRateSet {
+  providerId: string;
+  /** Observed rate per corridor: 1 JPY → rates[ccy] of that currency. */
+  rates: Partial<Record<CurrencyCode, number>>;
+  /** ISO timestamp the provider's board was fetched/read. */
+  fetchedAt: string;
+  /** Human-readable source label (page URL or short description). */
+  source: string;
+  /** `'live'` = fetched from the provider now; `'manual'` = checked in by hand. */
+  method: 'live' | 'manual';
+  /** Set when the rates price a specific send amount (quote APIs, §8). */
+  quoteAmountJPY?: number;
+  /** True when the rate is a promo not durably attainable (never `best-value`). */
+  isPromo?: boolean;
+}
+
+/**
+ * Provenance of the exchange rate behind one simulation row.
+ *  - `'observed'` — live from the provider's rate board (via adapter)
+ *  - `'manual'`   — checked-in rate, human-updated (staleness applies)
+ *  - `'modeled'`  — estimated from the provider's modeled markup (old default)
+ */
+export interface RateSourceInfo {
+  kind: 'observed' | 'manual' | 'modeled';
+  /** ISO timestamp the rate was observed (observed/manual only). */
+  fetchedAt?: string;
+  /** Where the rate came from (URL/label for observed+manual; basis for modeled). */
+  sourceLabel: string;
+  /** Promo rates rank + display but can never win the `best-value` tag. */
+  isPromo?: boolean;
+  /** Present when the rate prices a specific send amount (quote APIs). */
+  quoteAmountJPY?: number;
+}
+
+// ---------------------------------------------------------------------------
 // Provider
 // ---------------------------------------------------------------------------
 
@@ -125,6 +177,13 @@ export interface Provider {
   fee: FeeModel;
   /** Optional footnote surfaced in the expandable card (points, promos, etc.). */
   note?: string;
+  /**
+   * Provenance label for this provider's MODELED rates (shown in the
+   * breakdown's "Rate source" line). Providers whose markup models a
+   * published terms sheet (e.g. Revolut) say so here instead of the generic
+   * "estimated from modeled markup" — an honest-basis label, never "observed".
+   */
+  modeledSourceLabel?: string;
 }
 
 // ---------------------------------------------------------------------------
@@ -173,6 +232,9 @@ export interface SimulationResult {
   speedLabel: string;
   speedRankMinutes: number;
 
+  /** Provenance of this row's exchange rate (observed / manual / modeled). */
+  rateSource: RateSourceInfo;
+
   tags: ResultTag[];
 }
 
@@ -188,6 +250,26 @@ export interface SimulationMeta {
   /** Whether weekend surcharges were applied (Japan time). */
   isJapanWeekend: boolean;
   currency: Currency;
+  /** How many rows use observed / manual / modeled exchange rates. */
+  observedCoverage: { observed: number; manual: number; modeled: number };
+  /** Per-provider observed-rate fetch failures (providerId → message). */
+  fetchErrors?: Record<string, string>;
+  /**
+   * Per-source health (task 22): last success/failure per adapter provider,
+   * persisted in KV (`observed:<id>:status:v1`, 7-day TTL) and refreshed on
+   * every cold fetch. Failures never include non-adapter providers.
+   */
+  sourceStatus?: Record<string, SourceStatusInfo>;
+}
+
+/** Last-known health of one rate source (see `SimulationMeta.sourceStatus`). */
+export interface SourceStatusInfo {
+  /** ISO timestamp of the last successful live fetch (observed entries only). */
+  lastSuccessAt?: string;
+  /** ISO timestamp of the last failed fetch attempt. */
+  lastFailureAt?: string;
+  /** The last failure's error message, when known. */
+  lastError?: string;
 }
 
 export interface SimulationResponse {

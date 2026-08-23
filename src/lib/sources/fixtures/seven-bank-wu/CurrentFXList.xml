@@ -1,0 +1,1905 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fxrateinfo>
+      <header>
+            <createdate>20260823</createdate>
+            <applydate>20260823</applydate>
+            <applytime>0800</applytime>
+            <datacount>0228</datacount>
+      </header>
+      <countries>
+            <country>
+                  <countrycode>AS</countrycode>
+                  <countryname>American Samoa</countryname>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0060021</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>AO</countrycode>
+                  <countryname>Angola</countryname>
+                  <currency>
+                        <currencycode>AOA</currencycode>
+                        <currencyname>Angolan  Kwanza</currencyname>
+                        <fxrate>5.5980505</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>AI</countrycode>
+                  <countryname>Anguilla</countryname>
+                  <currency>
+                        <currencycode>XCD</currencycode>
+                        <currencyname>East Caribbean Dollar</currencyname>
+                        <fxrate>0.0162720</fxrate>
+                  </currency>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0059958</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>AG</countrycode>
+                  <countryname>Antigua And Barbuda</countryname>
+                  <currency>
+                        <currencycode>XCD</currencycode>
+                        <currencyname>East Caribbean Dollar</currencyname>
+                        <fxrate>0.0162040</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>AR</countrycode>
+                  <countryname>Argentina</countryname>
+                  <currency>
+                        <currencycode>ARS</currencycode>
+                        <currencyname>Argentine Peso</currencyname>
+                        <fxrate>9.9396643</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>AW</countrycode>
+                  <countryname>Aruba</countryname>
+                  <currency>
+                        <currencycode>AWG</currencycode>
+                        <currencyname>Aruban Florin</currencyname>
+                        <fxrate>0.0108038</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>AU</countrycode>
+                  <countryname>Australia</countryname>
+                  <currency>
+                        <currencycode>AUD</currencycode>
+                        <currencyname>Australian Dollar</currencyname>
+                        <fxrate>0.0083659</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>AT</countrycode>
+                  <countryname>Austria</countryname>
+                  <currency>
+                        <currencycode>EUR</currencycode>
+                        <currencyname>Euro</currencyname>
+                        <fxrate>0.0051354</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>AZ</countrycode>
+                  <countryname>Azerbaijan</countryname>
+                  <currency>
+                        <currencycode>AZN</currencycode>
+                        <currencyname>Azerbaijani Manat</currencyname>
+                        <fxrate>0.0104005</fxrate>
+                  </currency>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0059958</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>BH</countrycode>
+                  <countryname>Bahrain</countryname>
+                  <currency>
+                        <currencycode>BHD</currencycode>
+                        <currencyname>Bahraini Dinar</currencyname>
+                        <fxrate>0.0022607</fxrate>
+                  </currency>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0059958</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>BD</countrycode>
+                  <countryname>Bangladesh</countryname>
+                  <currency>
+                        <currencycode>BDT</currencycode>
+                        <currencyname>Bangladeshi Taka</currencyname>
+                        <fxrate>0.7320935</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>BB</countrycode>
+                  <countryname>Barbados</countryname>
+                  <currency>
+                        <currencycode>BBD</currencycode>
+                        <currencyname>Barbados Dollar</currencyname>
+                        <fxrate>0.0118842</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>BE</countrycode>
+                  <countryname>Belgium</countryname>
+                  <currency>
+                        <currencycode>EUR</currencycode>
+                        <currencyname>Euro</currencyname>
+                        <fxrate>0.0051354</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>BZ</countrycode>
+                  <countryname>Belize</countryname>
+                  <currency>
+                        <currencycode>BZD</currencycode>
+                        <currencyname>Belize Dollar</currencyname>
+                        <fxrate>0.0120545</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>BJ</countrycode>
+                  <countryname>Benin</countryname>
+                  <currency>
+                        <currencycode>XOF</currencycode>
+                        <currencyname>CFA Franc BCEAO</currencyname>
+                        <fxrate>3.3686312</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>BT</countrycode>
+                  <countryname>Bhutan</countryname>
+                  <currency>
+                        <currencycode>BTN</currencycode>
+                        <currencyname>Bhutan Ngultrum</currencyname>
+                        <fxrate>0.5737688</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>BO</countrycode>
+                  <countryname>Bolivia</countryname>
+                  <currency>
+                        <currencycode>BOB</currencycode>
+                        <currencyname>Bolivian Boliviano</currencyname>
+                        <fxrate>0.0691446</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>B1</countrycode>
+                  <countryname>Bonaire</countryname>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0059958</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>BW</countrycode>
+                  <countryname>Botswana</countryname>
+                  <currency>
+                        <currencycode>BWP</currencycode>
+                        <currencyname>Botswana Pula</currencyname>
+                        <fxrate>0.0799450</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>BR</countrycode>
+                  <countryname>Brazil</countryname>
+                  <currency>
+                        <currencycode>BRL</currencycode>
+                        <currencyname>Brazilian Real</currencyname>
+                        <fxrate>0.0308197</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>VG</countrycode>
+                  <countryname>British Virgin Islands</countryname>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0061844</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>BN</countrycode>
+                  <countryname>Brunei Darussalam</countryname>
+                  <currency>
+                        <currencycode>BND</currencycode>
+                        <currencyname>Brunei Dollar</currencyname>
+                        <fxrate>0.0076299</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>BG</countrycode>
+                  <countryname>Bulgaria</countryname>
+                  <currency>
+                        <currencycode>EUR</currencycode>
+                        <currencyname>Euro</currencyname>
+                        <fxrate>0.0051354</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>BF</countrycode>
+                  <countryname>Burkina Faso</countryname>
+                  <currency>
+                        <currencycode>XOF</currencycode>
+                        <currencyname>CFA Franc BCEAO</currencyname>
+                        <fxrate>3.3686312</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>BI</countrycode>
+                  <countryname>Burundi</countryname>
+                  <currency>
+                        <currencycode>BIF</currencycode>
+                        <currencyname>Burundi Franc</currencyname>
+                        <fxrate>17.7633178</fxrate>
+                  </currency>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0059518</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>KH</countrycode>
+                  <countryname>Cambodia</countryname>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0060033</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>CM</countrycode>
+                  <countryname>Cameroon</countryname>
+                  <currency>
+                        <currencycode>XAF</currencycode>
+                        <currencyname>CFA Franc BEAC</currencyname>
+                        <fxrate>3.3686312</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>CA</countrycode>
+                  <countryname>Canada</countryname>
+                  <currency>
+                        <currencycode>CAD</currencycode>
+                        <currencyname>Canadian Dollar</currencyname>
+                        <fxrate>0.0082580</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>CV</countrycode>
+                  <countryname>Cape Verde</countryname>
+                  <currency>
+                        <currencycode>CVE</currencycode>
+                        <currencyname>Cape Verde Escudo</currencyname>
+                        <fxrate>0.5662598</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>TD</countrycode>
+                  <countryname>Chad</countryname>
+                  <currency>
+                        <currencycode>XAF</currencycode>
+                        <currencyname>CFA Franc BEAC</currencyname>
+                        <fxrate>3.3686312</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>CL</countrycode>
+                  <countryname>Chile</countryname>
+                  <currency>
+                        <currencycode>CLP</currencycode>
+                        <currencyname>Chilean Peso</currencyname>
+                        <fxrate>5.4917806</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>CN</countrycode>
+                  <countryname>China</countryname>
+                  <currency>
+                        <currencycode>CNY</currencycode>
+                        <currencyname>Chinese Yuan Renminbi</currencyname>
+                        <fxrate>0.0416787</fxrate>
+                  </currency>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0061347</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>CO</countrycode>
+                  <countryname>Colombia</countryname>
+                  <currency>
+                        <currencycode>COP</currencycode>
+                        <currencyname>Colombian Peso</currencyname>
+                        <fxrate>18.0825534</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>KM</countrycode>
+                  <countryname>Comoros</countryname>
+                  <currency>
+                        <currencycode>KMF</currencycode>
+                        <currencyname>Comoros Franc</currencyname>
+                        <fxrate>2.5264734</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>CG</countrycode>
+                  <countryname>Congo-Brazzaville</countryname>
+                  <currency>
+                        <currencycode>XAF</currencycode>
+                        <currencyname>CFA Franc BEAC</currencyname>
+                        <fxrate>3.3686312</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>CK</countrycode>
+                  <countryname>Cook Islands</countryname>
+                  <currency>
+                        <currencycode>NZD</currencycode>
+                        <currencyname>New Zealand Dollar</currencyname>
+                        <fxrate>0.0103661</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>CR</countrycode>
+                  <countryname>Costa Rica</countryname>
+                  <currency>
+                        <currencycode>CRC</currencycode>
+                        <currencyname>Costa Rican Colon</currencyname>
+                        <fxrate>2.6233650</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>AN</countrycode>
+                  <countryname>Curacao</countryname>
+                  <currency>
+                        <currencycode>XCG</currencycode>
+                        <currencyname>Caribbean Guilder</currencyname>
+                        <fxrate>0.0109124</fxrate>
+                  </currency>
+                  <currency>
+                        <currencycode>ANG</currencycode>
+                        <currencyname>Netherlands Antilles Guilder</currencyname>
+                        <fxrate>0.0114386</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>CY</countrycode>
+                  <countryname>Cyprus</countryname>
+                  <currency>
+                        <currencycode>EUR</currencycode>
+                        <currencyname>Euro</currencyname>
+                        <fxrate>0.0051354</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>C2</countrycode>
+                  <countryname>Cyprus (Northern)</countryname>
+                  <currency>
+                        <currencycode>GBP</currencycode>
+                        <currencyname>United Kingdom Pound</currencyname>
+                        <fxrate>0.0044363</fxrate>
+                  </currency>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0059958</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>CZ</countrycode>
+                  <countryname>Czech Republic</countryname>
+                  <currency>
+                        <currencycode>CZK</currencycode>
+                        <currencyname>Czech Koruna</currencyname>
+                        <fxrate>0.1237756</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>DK</countrycode>
+                  <countryname>Denmark</countryname>
+                  <currency>
+                        <currencycode>DKK</currencycode>
+                        <currencyname>Danish Krone</currencyname>
+                        <fxrate>0.0383992</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>DJ</countrycode>
+                  <countryname>Djibouti</countryname>
+                  <currency>
+                        <currencycode>DJF</currencycode>
+                        <currencyname>Djibouti Franc</currencyname>
+                        <fxrate>1.0667057</fxrate>
+                  </currency>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0059958</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>DM</countrycode>
+                  <countryname>Dominica</countryname>
+                  <currency>
+                        <currencycode>XCD</currencycode>
+                        <currencyname>East Caribbean Dollar</currencyname>
+                        <fxrate>0.0162040</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>DO</countrycode>
+                  <countryname>Dominican Republic</countryname>
+                  <currency>
+                        <currencycode>DOP</currencycode>
+                        <currencyname>Dominican Peso</currencyname>
+                        <fxrate>0.3505361</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>TP</countrycode>
+                  <countryname>East Timor</countryname>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0060021</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>EC</countrycode>
+                  <countryname>Ecuador</countryname>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0059958</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>EG</countrycode>
+                  <countryname>Egypt</countryname>
+                  <currency>
+                        <currencycode>EGP</currencycode>
+                        <currencyname>Egyptian Pound</currencyname>
+                        <fxrate>0.3060235</fxrate>
+                  </currency>
+                  <currency>
+                        <currencycode>EUR</currencycode>
+                        <currencyname>Euro</currencyname>
+                        <fxrate>0.0051354</fxrate>
+                  </currency>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0059958</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>SV</countrycode>
+                  <countryname>El Salvador</countryname>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0059317</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>XQ</countrycode>
+                  <countryname>England</countryname>
+                  <currency>
+                        <currencycode>GBP</currencycode>
+                        <currencyname>United Kingdom Pound</currencyname>
+                        <fxrate>0.0043948</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>GQ</countrycode>
+                  <countryname>Equatorial Guinea</countryname>
+                  <currency>
+                        <currencycode>XAF</currencycode>
+                        <currencyname>CFA Franc BEAC</currencyname>
+                        <fxrate>3.3686312</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>ER</countrycode>
+                  <countryname>Eritrea</countryname>
+                  <currency>
+                        <currencycode>ERN</currencycode>
+                        <currencyname>Eritrean Nakfa</currencyname>
+                        <fxrate>0.0899377</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>EE</countrycode>
+                  <countryname>Estonia</countryname>
+                  <currency>
+                        <currencycode>EUR</currencycode>
+                        <currencyname>Euro</currencyname>
+                        <fxrate>0.0051569</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>FK</countrycode>
+                  <countryname>Falkland Islands (Malvinas)</countryname>
+                  <currency>
+                        <currencycode>FKP</currencycode>
+                        <currencyname>Falkland Islands Pound</currencyname>
+                        <fxrate>0.0045561</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>FJ</countrycode>
+                  <countryname>Fiji</countryname>
+                  <currency>
+                        <currencycode>FJD</currencycode>
+                        <currencyname>Fiji Dollar</currencyname>
+                        <fxrate>0.0132877</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>FI</countrycode>
+                  <countryname>Finland</countryname>
+                  <currency>
+                        <currencycode>EUR</currencycode>
+                        <currencyname>Euro</currencyname>
+                        <fxrate>0.0051375</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>FR</countrycode>
+                  <countryname>France</countryname>
+                  <currency>
+                        <currencycode>EUR</currencycode>
+                        <currencyname>Euro</currencyname>
+                        <fxrate>0.0051354</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>GF</countrycode>
+                  <countryname>French Guiana</countryname>
+                  <currency>
+                        <currencycode>EUR</currencycode>
+                        <currencyname>Euro</currencyname>
+                        <fxrate>0.0053238</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>GA</countrycode>
+                  <countryname>Gabon</countryname>
+                  <currency>
+                        <currencycode>XAF</currencycode>
+                        <currencyname>CFA Franc BEAC</currencyname>
+                        <fxrate>3.3686312</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>GM</countrycode>
+                  <countryname>Gambia</countryname>
+                  <currency>
+                        <currencycode>GMD</currencycode>
+                        <currencyname>Gambian Dalasi</currencyname>
+                        <fxrate>0.4189491</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>GE</countrycode>
+                  <countryname>Georgia</countryname>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0059958</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>DE</countrycode>
+                  <countryname>Germany</countryname>
+                  <currency>
+                        <currencycode>EUR</currencycode>
+                        <currencyname>Euro</currencyname>
+                        <fxrate>0.0051354</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>GH</countrycode>
+                  <countryname>Ghana</countryname>
+                  <currency>
+                        <currencycode>GHS</currencycode>
+                        <currencyname>Ghanaian Cedi</currencyname>
+                        <fxrate>0.0665679</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>GI</countrycode>
+                  <countryname>Gibraltar</countryname>
+                  <currency>
+                        <currencycode>GBP</currencycode>
+                        <currencyname>United Kingdom Pound</currencyname>
+                        <fxrate>0.0045561</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>GR</countrycode>
+                  <countryname>Greece</countryname>
+                  <currency>
+                        <currencycode>EUR</currencycode>
+                        <currencyname>Euro</currencyname>
+                        <fxrate>0.0051354</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>GD</countrycode>
+                  <countryname>Grenada</countryname>
+                  <currency>
+                        <currencycode>XCD</currencycode>
+                        <currencyname>East Caribbean Dollar</currencyname>
+                        <fxrate>0.0162720</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>GP</countrycode>
+                  <countryname>Guadeloupe</countryname>
+                  <currency>
+                        <currencycode>EUR</currencycode>
+                        <currencyname>Euro</currencyname>
+                        <fxrate>0.0051569</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>GU</countrycode>
+                  <countryname>Guam</countryname>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0060021</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>GT</countrycode>
+                  <countryname>Guatemala</countryname>
+                  <currency>
+                        <currencycode>GTQ</currencycode>
+                        <currencyname>Guatemalan Quetzal</currencyname>
+                        <fxrate>0.0457611</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>GN</countrycode>
+                  <countryname>Guinea</countryname>
+                  <currency>
+                        <currencycode>GNF</currencycode>
+                        <currencyname>Guinea Franc</currencyname>
+                        <fxrate>52.6140959</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>GY</countrycode>
+                  <countryname>Guyana</countryname>
+                  <currency>
+                        <currencycode>GYD</currencycode>
+                        <currencyname>Guyanese Dollar</currencyname>
+                        <fxrate>1.2538715</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>HN</countrycode>
+                  <countryname>Honduras</countryname>
+                  <currency>
+                        <currencycode>HNL</currencycode>
+                        <currencyname>Honduran Lempira</currencyname>
+                        <fxrate>0.1609742</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>HK</countrycode>
+                  <countryname>Hong Kong</countryname>
+                  <currency>
+                        <currencycode>HKD</currencycode>
+                        <currencyname>Hong Kong Dollar</currencyname>
+                        <fxrate>0.0470570</fxrate>
+                  </currency>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0060021</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>HU</countrycode>
+                  <countryname>Hungary</countryname>
+                  <currency>
+                        <currencycode>HUF</currencycode>
+                        <currencyname>Hungarian Forint</currencyname>
+                        <fxrate>1.8615021</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>IS</countrycode>
+                  <countryname>Iceland</countryname>
+                  <currency>
+                        <currencycode>EUR</currencycode>
+                        <currencyname>Euro</currencyname>
+                        <fxrate>0.0051569</fxrate>
+                  </currency>
+                  <currency>
+                        <currencycode>ISK</currencycode>
+                        <currencyname>Iceland Krona</currencyname>
+                        <fxrate>0.7301656</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>IN</countrycode>
+                  <countryname>India</countryname>
+                  <currency>
+                        <currencycode>INR</currencycode>
+                        <currencyname>Indian Rupee</currencyname>
+                        <fxrate>0.5743702</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>ID</countrycode>
+                  <countryname>Indonesia</countryname>
+                  <currency>
+                        <currencycode>IDR</currencycode>
+                        <currencyname>Indonesian Rupiah</currencyname>
+                        <fxrate>110.9163283</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>IE</countrycode>
+                  <countryname>Ireland</countryname>
+                  <currency>
+                        <currencycode>EUR</currencycode>
+                        <currencyname>Euro</currencyname>
+                        <fxrate>0.0051354</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>IL</countrycode>
+                  <countryname>Israel</countryname>
+                  <currency>
+                        <currencycode>ILS</currencycode>
+                        <currencyname>Israeli New Shekel</currencyname>
+                        <fxrate>0.0179135</fxrate>
+                  </currency>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0059958</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>IT</countrycode>
+                  <countryname>Italy</countryname>
+                  <currency>
+                        <currencycode>EUR</currencycode>
+                        <currencyname>Euro</currencyname>
+                        <fxrate>0.0051354</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>CI</countrycode>
+                  <countryname>Ivory Coast</countryname>
+                  <currency>
+                        <currencycode>XOF</currencycode>
+                        <currencyname>CFA Franc BCEAO</currencyname>
+                        <fxrate>3.3686312</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>JM</countrycode>
+                  <countryname>Jamaica</countryname>
+                  <currency>
+                        <currencycode>JMD</currencycode>
+                        <currencyname>Jamaican Dollar</currencyname>
+                        <fxrate>0.9459667</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>JO</countrycode>
+                  <countryname>Jordan</countryname>
+                  <currency>
+                        <currencycode>JOD</currencycode>
+                        <currencyname>Jordanian Dinar</currencyname>
+                        <fxrate>0.0042450</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>KZ</countrycode>
+                  <countryname>Kazakhstan</countryname>
+                  <currency>
+                        <currencycode>KZT</currencycode>
+                        <currencyname>Kazakhstan Tenge</currencyname>
+                        <fxrate>2.7489781</fxrate>
+                  </currency>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0059958</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>KE</countrycode>
+                  <countryname>Kenya</countryname>
+                  <currency>
+                        <currencycode>KES</currencycode>
+                        <currencyname>Kenyan Shilling</currencyname>
+                        <fxrate>0.7759831</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>KR</countrycode>
+                  <countryname>Korea</countryname>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0060473</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>K1</countrycode>
+                  <countryname>Kosovo</countryname>
+                  <currency>
+                        <currencycode>EUR</currencycode>
+                        <currencyname>Euro</currencyname>
+                        <fxrate>0.0051354</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>KW</countrycode>
+                  <countryname>Kuwait</countryname>
+                  <currency>
+                        <currencycode>KWD</currencycode>
+                        <currencyname>Kuwaiti Dinar</currencyname>
+                        <fxrate>0.0018395</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>KG</countrycode>
+                  <countryname>Kyrgyz Republic</countryname>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0059958</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>LA</countrycode>
+                  <countryname>Laos</countryname>
+                  <currency>
+                        <currencycode>LAK</currencycode>
+                        <currencyname>Laos Kip</currencyname>
+                        <fxrate>134.1597636</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>LV</countrycode>
+                  <countryname>Latvia</countryname>
+                  <currency>
+                        <currencycode>EUR</currencycode>
+                        <currencyname>Euro</currencyname>
+                        <fxrate>0.0051354</fxrate>
+                  </currency>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0059958</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>LR</countrycode>
+                  <countryname>Liberia</countryname>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0059958</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>LI</countrycode>
+                  <countryname>Liechtenstein</countryname>
+                  <currency>
+                        <currencycode>CHF</currencycode>
+                        <currencyname>Swiss Franc</currencyname>
+                        <fxrate>0.0049776</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>LT</countrycode>
+                  <countryname>Lithuania</countryname>
+                  <currency>
+                        <currencycode>EUR</currencycode>
+                        <currencyname>Euro</currencyname>
+                        <fxrate>0.0051354</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>LU</countrycode>
+                  <countryname>Luxembourg</countryname>
+                  <currency>
+                        <currencycode>EUR</currencycode>
+                        <currencyname>Euro</currencyname>
+                        <fxrate>0.0051569</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>MO</countrycode>
+                  <countryname>Macau</countryname>
+                  <currency>
+                        <currencycode>MOP</currencycode>
+                        <currencyname>Macau Pataca</currencyname>
+                        <fxrate>0.0484687</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>MG</countrycode>
+                  <countryname>Madagascar</countryname>
+                  <currency>
+                        <currencycode>MGA</currencycode>
+                        <currencyname>Malagasy Ariary</currencyname>
+                        <fxrate>25.7904975</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>MW</countrycode>
+                  <countryname>Malawi</countryname>
+                  <currency>
+                        <currencycode>MWK</currencycode>
+                        <currencyname>Malawi Kwacha</currencyname>
+                        <fxrate>10.7925334</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>MY</countrycode>
+                  <countryname>Malaysia</countryname>
+                  <currency>
+                        <currencycode>MYR</currencycode>
+                        <currencyname>Malaysian Ringgit</currencyname>
+                        <fxrate>0.0242367</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>MV</countrycode>
+                  <countryname>Maldives</countryname>
+                  <currency>
+                        <currencycode>MVR</currencycode>
+                        <currencyname>Maldive Rufiyaa</currencyname>
+                        <fxrate>0.0924560</fxrate>
+                  </currency>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0059958</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>MT</countrycode>
+                  <countryname>Malta</countryname>
+                  <currency>
+                        <currencycode>EUR</currencycode>
+                        <currencyname>Euro</currencyname>
+                        <fxrate>0.0050794</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>MH</countrycode>
+                  <countryname>Marshall Islands</countryname>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0060021</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>MQ</countrycode>
+                  <countryname>Martinique</countryname>
+                  <currency>
+                        <currencycode>EUR</currencycode>
+                        <currencyname>Euro</currencyname>
+                        <fxrate>0.0051569</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>MR</countrycode>
+                  <countryname>Mauritania</countryname>
+                  <currency>
+                        <currencycode>MRU</currencycode>
+                        <currencyname>New Ouguiya</currencyname>
+                        <fxrate>0.2397141</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>MU</countrycode>
+                  <countryname>Mauritius</countryname>
+                  <currency>
+                        <currencycode>MUR</currencycode>
+                        <currencyname>Mauritius Rupee</currencyname>
+                        <fxrate>0.2850823</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>YT</countrycode>
+                  <countryname>Mayotte</countryname>
+                  <currency>
+                        <currencycode>EUR</currencycode>
+                        <currencyname>Euro</currencyname>
+                        <fxrate>0.0051354</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>MX</countrycode>
+                  <countryname>Mexico</countryname>
+                  <currency>
+                        <currencycode>MXN</currencycode>
+                        <currencyname>Mexican Peso</currencyname>
+                        <fxrate>0.1013719</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>FM</countrycode>
+                  <countryname>Micronesia</countryname>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0060021</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>MD</countrycode>
+                  <countryname>Moldova</countryname>
+                  <currency>
+                        <currencycode>MDL</currencycode>
+                        <currencyname>Moldovan Leu</currencyname>
+                        <fxrate>0.1030582</fxrate>
+                  </currency>
+                  <currency>
+                        <currencycode>EUR</currencycode>
+                        <currencyname>Euro</currencyname>
+                        <fxrate>0.0051354</fxrate>
+                  </currency>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0059958</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>MC</countrycode>
+                  <countryname>Monaco</countryname>
+                  <currency>
+                        <currencycode>EUR</currencycode>
+                        <currencyname>Euro</currencyname>
+                        <fxrate>0.0051354</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>MN</countrycode>
+                  <countryname>Mongolia</countryname>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0060021</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>MS</countrycode>
+                  <countryname>Montserrat</countryname>
+                  <currency>
+                        <currencycode>XCD</currencycode>
+                        <currencyname>East Caribbean Dollar</currencyname>
+                        <fxrate>0.0167985</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>MA</countrycode>
+                  <countryname>Morocco</countryname>
+                  <currency>
+                        <currencycode>MAD</currencycode>
+                        <currencyname>Moroccan Dirham</currencyname>
+                        <fxrate>0.0551747</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>MZ</countrycode>
+                  <countryname>Mozambique</countryname>
+                  <currency>
+                        <currencycode>MZN</currencycode>
+                        <currencyname>Mozambique New Metical</currencyname>
+                        <fxrate>0.3936075</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>NA</countrycode>
+                  <countryname>Namibia</countryname>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0059958</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>NR</countrycode>
+                  <countryname>Nauru</countryname>
+                  <currency>
+                        <currencycode>AUD</currencycode>
+                        <currencyname>Australian Dollar</currencyname>
+                        <fxrate>0.0084097</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>NP</countrycode>
+                  <countryname>Nepal</countryname>
+                  <currency>
+                        <currencycode>NPR</currencycode>
+                        <currencyname>Nepalese Rupee</currencyname>
+                        <fxrate>0.9555401</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>NL</countrycode>
+                  <countryname>Netherlands</countryname>
+                  <currency>
+                        <currencycode>EUR</currencycode>
+                        <currencyname>Euro</currencyname>
+                        <fxrate>0.0051354</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>NZ</countrycode>
+                  <countryname>New Zealand</countryname>
+                  <currency>
+                        <currencycode>NZD</currencycode>
+                        <currencyname>New Zealand Dollar</currencyname>
+                        <fxrate>0.0100399</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>NI</countrycode>
+                  <countryname>Nicaragua</countryname>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0059958</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>NE</countrycode>
+                  <countryname>Niger</countryname>
+                  <currency>
+                        <currencycode>XOF</currencycode>
+                        <currencyname>CFA Franc BCEAO</currencyname>
+                        <fxrate>3.3686312</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>NG</countrycode>
+                  <countryname>Nigeria</countryname>
+                  <currency>
+                        <currencycode>NGN</currencycode>
+                        <currencyname>Nigerian Naira</currencyname>
+                        <fxrate>8.3793620</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>NU</countrycode>
+                  <countryname>Niue</countryname>
+                  <currency>
+                        <currencycode>NZD</currencycode>
+                        <currencyname>New Zealand Dollar</currencyname>
+                        <fxrate>0.0103661</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>XZ</countrycode>
+                  <countryname>North Ireland</countryname>
+                  <currency>
+                        <currencycode>GBP</currencycode>
+                        <currencyname>United Kingdom Pound</currencyname>
+                        <fxrate>0.0043948</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>MP</countrycode>
+                  <countryname>Northern Mariana Islands</countryname>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0060021</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>NO</countrycode>
+                  <countryname>Norway</countryname>
+                  <currency>
+                        <currencycode>NOK</currencycode>
+                        <currencyname>Norwegian Krone</currencyname>
+                        <fxrate>0.0558819</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>OM</countrycode>
+                  <countryname>Oman</countryname>
+                  <currency>
+                        <currencycode>OMR</currencycode>
+                        <currencyname>Omani Rial</currencyname>
+                        <fxrate>0.0023084</fxrate>
+                  </currency>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0062158</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>PK</countrycode>
+                  <countryname>Pakistan</countryname>
+                  <currency>
+                        <currencycode>PKR</currencycode>
+                        <currencyname>Pakistan Rupee</currencyname>
+                        <fxrate>1.6526990</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>PW</countrycode>
+                  <countryname>Palau</countryname>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0060021</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>PS</countrycode>
+                  <countryname>Palestinian Authority</countryname>
+                  <currency>
+                        <currencycode>ILS</currencycode>
+                        <currencyname>Israeli New Shekel</currencyname>
+                        <fxrate>0.0179135</fxrate>
+                  </currency>
+                  <currency>
+                        <currencycode>JOD</currencycode>
+                        <currencyname>Jordanian Dinar</currencyname>
+                        <fxrate>0.0042450</fxrate>
+                  </currency>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0059958</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>PA</countrycode>
+                  <countryname>Panama</countryname>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0059958</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>PG</countrycode>
+                  <countryname>Papua New Guinea</countryname>
+                  <currency>
+                        <currencycode>PGK</currencycode>
+                        <currencyname>Papua New Guinea Kina</currencyname>
+                        <fxrate>0.0275686</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>PY</countrycode>
+                  <countryname>Paraguay</countryname>
+                  <currency>
+                        <currencycode>PYG</currencycode>
+                        <currencyname>Paraguay Guarani</currencyname>
+                        <fxrate>35.8972035</fxrate>
+                  </currency>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0060021</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>PE</countrycode>
+                  <countryname>Peru</countryname>
+                  <currency>
+                        <currencycode>PEN</currencycode>
+                        <currencyname>Sol</currencyname>
+                        <fxrate>0.0200363</fxrate>
+                  </currency>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0059977</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>PH</countrycode>
+                  <countryname>Philippines</countryname>
+                  <currency>
+                        <currencycode>PHP</currencycode>
+                        <currencyname>Philippine Peso</currencyname>
+                        <fxrate>0.3797186</fxrate>
+                  </currency>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0061529</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>PL</countrycode>
+                  <countryname>Poland</countryname>
+                  <currency>
+                        <currencycode>PLN</currencycode>
+                        <currencyname>Polish Zloty</currencyname>
+                        <fxrate>0.0221073</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>PT</countrycode>
+                  <countryname>Portugal</countryname>
+                  <currency>
+                        <currencycode>EUR</currencycode>
+                        <currencyname>Euro</currencyname>
+                        <fxrate>0.0051354</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>PR</countrycode>
+                  <countryname>Puerto Rico</countryname>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0060008</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>QA</countrycode>
+                  <countryname>Qatar</countryname>
+                  <currency>
+                        <currencycode>QAR</currencycode>
+                        <currencyname>Qatari Rial</currencyname>
+                        <fxrate>0.0218848</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>RE</countrycode>
+                  <countryname>Reunion Island</countryname>
+                  <currency>
+                        <currencycode>EUR</currencycode>
+                        <currencyname>Euro</currencyname>
+                        <fxrate>0.0051354</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>RO</countrycode>
+                  <countryname>Romania</countryname>
+                  <currency>
+                        <currencycode>RON</currencycode>
+                        <currencyname>Romanian New Leu</currencyname>
+                        <fxrate>0.0269345</fxrate>
+                  </currency>
+                  <currency>
+                        <currencycode>EUR</currencycode>
+                        <currencyname>Euro</currencyname>
+                        <fxrate>0.0051354</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>XW</countrycode>
+                  <countryname>Rota, CNMI</countryname>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0060021</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>RW</countrycode>
+                  <countryname>Rwanda</countryname>
+                  <currency>
+                        <currencycode>RWF</currencycode>
+                        <currencyname>Rwanda Franc</currencyname>
+                        <fxrate>8.8141721</fxrate>
+                  </currency>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0059958</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>BL</countrycode>
+                  <countryname>Saint Barthelemy</countryname>
+                  <currency>
+                        <currencycode>EUR</currencycode>
+                        <currencyname>Euro</currencyname>
+                        <fxrate>0.0051569</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>KN</countrycode>
+                  <countryname>Saint Kitts And Nevis</countryname>
+                  <currency>
+                        <currencycode>XCD</currencycode>
+                        <currencyname>East Caribbean Dollar</currencyname>
+                        <fxrate>0.0167985</fxrate>
+                  </currency>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0062158</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>LC</countrycode>
+                  <countryname>Saint Lucia</countryname>
+                  <currency>
+                        <currencycode>XCD</currencycode>
+                        <currencyname>East Caribbean Dollar</currencyname>
+                        <fxrate>0.0162040</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>VC</countrycode>
+                  <countryname>Saint Vincent And The Grenadines</countryname>
+                  <currency>
+                        <currencycode>XCD</currencycode>
+                        <currencyname>East Caribbean Dollar</currencyname>
+                        <fxrate>0.0162040</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>XU</countrycode>
+                  <countryname>Saipan, CNMI</countryname>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0060021</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>WS</countrycode>
+                  <countryname>Samoa</countryname>
+                  <currency>
+                        <currencycode>WST</currencycode>
+                        <currencyname>Samoan Tala</currencyname>
+                        <fxrate>0.0160401</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>ST</countrycode>
+                  <countryname>Sao Tome And Principe</countryname>
+                  <currency>
+                        <currencycode>STN</currencycode>
+                        <currencyname>New Dobra</currencyname>
+                        <fxrate>0.1266097</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>SA</countrycode>
+                  <countryname>Saudi Arabia</countryname>
+                  <currency>
+                        <currencycode>SAR</currencycode>
+                        <currencyname>Saudi Riyal</currencyname>
+                        <fxrate>0.0225144</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>XS</countrycode>
+                  <countryname>Scotland</countryname>
+                  <currency>
+                        <currencycode>GBP</currencycode>
+                        <currencyname>United Kingdom Pound</currencyname>
+                        <fxrate>0.0043948</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>SN</countrycode>
+                  <countryname>Senegal</countryname>
+                  <currency>
+                        <currencycode>XOF</currencycode>
+                        <currencyname>CFA Franc BCEAO</currencyname>
+                        <fxrate>3.3693374</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>SC</countrycode>
+                  <countryname>Seychelles</countryname>
+                  <currency>
+                        <currencycode>SCR</currencycode>
+                        <currencyname>Seychelles Rupee</currencyname>
+                        <fxrate>0.0892782</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>SL</countrycode>
+                  <countryname>Sierra Leone</countryname>
+                  <currency>
+                        <currencycode>SLE</currencycode>
+                        <currencyname>New Leone</currencyname>
+                        <fxrate>0.1396164</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>SG</countrycode>
+                  <countryname>Singapore</countryname>
+                  <currency>
+                        <currencycode>SGD</currencycode>
+                        <currencyname>Singapore Dollar</currencyname>
+                        <fxrate>0.0076299</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>SK</countrycode>
+                  <countryname>Slovakia</countryname>
+                  <currency>
+                        <currencycode>EUR</currencycode>
+                        <currencyname>Euro</currencyname>
+                        <fxrate>0.0051354</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>SB</countrycode>
+                  <countryname>Solomon Islands</countryname>
+                  <currency>
+                        <currencycode>SBD</currencycode>
+                        <currencyname>Solomon Islands Dollar</currencyname>
+                        <fxrate>0.0476471</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>ZA</countrycode>
+                  <countryname>South Africa</countryname>
+                  <currency>
+                        <currencycode>ZAR</currencycode>
+                        <currencyname>South African Rand</currencyname>
+                        <fxrate>0.0969276</fxrate>
+                  </currency>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0059958</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>ES</countrycode>
+                  <countryname>Spain</countryname>
+                  <currency>
+                        <currencycode>EUR</currencycode>
+                        <currencyname>Euro</currencyname>
+                        <fxrate>0.0051354</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>LK</countrycode>
+                  <countryname>Sri Lanka</countryname>
+                  <currency>
+                        <currencycode>LKR</currencycode>
+                        <currencyname>Sri Lanka Rupee</currencyname>
+                        <fxrate>1.9771038</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>MF</countrycode>
+                  <countryname>St. Martin</countryname>
+                  <currency>
+                        <currencycode>EUR</currencycode>
+                        <currencyname>Euro</currencyname>
+                        <fxrate>0.0052969</fxrate>
+                  </currency>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0060209</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>XD</countrycode>
+                  <countryname>St. Thomas</countryname>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0060008</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>SR</countrycode>
+                  <countryname>Suriname</countryname>
+                  <currency>
+                        <currencycode>EUR</currencycode>
+                        <currencyname>Euro</currencyname>
+                        <fxrate>0.0051569</fxrate>
+                  </currency>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0059958</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>SE</countrycode>
+                  <countryname>Sweden</countryname>
+                  <currency>
+                        <currencycode>SEK</currencycode>
+                        <currencyname>Swedish Krona</currencyname>
+                        <fxrate>0.0568916</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>CH</countrycode>
+                  <countryname>Switzerland</countryname>
+                  <currency>
+                        <currencycode>CHF</currencycode>
+                        <currencyname>Swiss Franc</currencyname>
+                        <fxrate>0.0048014</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>TW</countrycode>
+                  <countryname>Taiwan</countryname>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0060021</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>TJ</countrycode>
+                  <countryname>Tajikistan</countryname>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0059958</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>TZ</countrycode>
+                  <countryname>Tanzania</countryname>
+                  <currency>
+                        <currencycode>TZS</currencycode>
+                        <currencyname>Tanzanian Shilling</currencyname>
+                        <fxrate>15.7700499</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>TH</countrycode>
+                  <countryname>Thailand</countryname>
+                  <currency>
+                        <currencycode>THB</currencycode>
+                        <currencyname>Thai Baht</currencyname>
+                        <fxrate>0.1964582</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>XV</countrycode>
+                  <countryname>Tinian, CNMI</countryname>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0060021</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>TG</countrycode>
+                  <countryname>Togo</countryname>
+                  <currency>
+                        <currencycode>XOF</currencycode>
+                        <currencyname>CFA Franc BCEAO</currencyname>
+                        <fxrate>3.3686312</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>TO</countrycode>
+                  <countryname>Tonga</countryname>
+                  <currency>
+                        <currencycode>TOP</currencycode>
+                        <currencyname>Tongan Pa'anga</currencyname>
+                        <fxrate>0.0139777</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>TT</countrycode>
+                  <countryname>Trinidad and Tobago</countryname>
+                  <currency>
+                        <currencycode>TTD</currencycode>
+                        <currencyname>Trinidad/Tobago Dollar</currencyname>
+                        <fxrate>0.0402213</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>TN</countrycode>
+                  <countryname>Tunisia</countryname>
+                  <currency>
+                        <currencycode>TND</currencycode>
+                        <currencyname>Tunisian Dinar</currencyname>
+                        <fxrate>0.0173370</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>TR</countrycode>
+                  <countryname>Turkey</countryname>
+                  <currency>
+                        <currencycode>EUR</currencycode>
+                        <currencyname>Euro</currencyname>
+                        <fxrate>0.0051623</fxrate>
+                  </currency>
+                  <currency>
+                        <currencycode>TRY</currencycode>
+                        <currencyname>New Turkish Lira</currencyname>
+                        <fxrate>0.2849013</fxrate>
+                  </currency>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0060071</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>TM</countrycode>
+                  <countryname>Turkmenistan</countryname>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0059958</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>TV</countrycode>
+                  <countryname>Tuvalu</countryname>
+                  <currency>
+                        <currencycode>AUD</currencycode>
+                        <currencyname>Australian Dollar</currencyname>
+                        <fxrate>0.0083746</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>UG</countrycode>
+                  <countryname>Uganda</countryname>
+                  <currency>
+                        <currencycode>UGX</currencycode>
+                        <currencyname>Uganda Shilling</currencyname>
+                        <fxrate>22.2780075</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>UA</countrycode>
+                  <countryname>Ukraine</countryname>
+                  <currency>
+                        <currencycode>UAH</currencycode>
+                        <currencyname>Ukraine Hryvnia</currencyname>
+                        <fxrate>0.2691721</fxrate>
+                  </currency>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0059958</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>AE</countrycode>
+                  <countryname>United Arab Emirates</countryname>
+                  <currency>
+                        <currencycode>AED</currencycode>
+                        <currencyname>Utd. Arab Emir. Dirham</currencyname>
+                        <fxrate>0.0221381</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>GB</countrycode>
+                  <countryname>United Kingdom</countryname>
+                  <currency>
+                        <currencycode>GBP</currencycode>
+                        <currencyname>United Kingdom Pound</currencyname>
+                        <fxrate>0.0043948</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>US</countrycode>
+                  <countryname>United States</countryname>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0060008</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>UY</countrycode>
+                  <countryname>Uruguay</countryname>
+                  <currency>
+                        <currencycode>UYP</currencycode>
+                        <currencyname>Peso Uruguayo</currencyname>
+                        <fxrate>0.2408533</fxrate>
+                  </currency>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0059958</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>UZ</countrycode>
+                  <countryname>Uzbekistan</countryname>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0059958</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>VU</countrycode>
+                  <countryname>Vanuatu</countryname>
+                  <currency>
+                        <currencycode>VUV</currencycode>
+                        <currencyname>Vanuatu Vatu</currencyname>
+                        <fxrate>0.6972014</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>VN</countrycode>
+                  <countryname>Vietnam</countryname>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0062692</fxrate>
+                  </currency>
+                  <currency>
+                        <currencycode>VND</currencycode>
+                        <currencyname>Vietnamese Dong</currencyname>
+                        <fxrate>163.7151341</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>VI</countrycode>
+                  <countryname>Virgin Islands (US)</countryname>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0060008</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>XR</countrycode>
+                  <countryname>Wales</countryname>
+                  <currency>
+                        <currencycode>GBP</currencycode>
+                        <currencyname>United Kingdom Pound</currencyname>
+                        <fxrate>0.0043948</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>ZM</countrycode>
+                  <countryname>Zambia</countryname>
+                  <currency>
+                        <currencycode>ZMW</currencycode>
+                        <currencyname>New Kwacha</currencyname>
+                        <fxrate>0.1131285</fxrate>
+                  </currency>
+            </country>
+            <country>
+                  <countrycode>ZW</countrycode>
+                  <countryname>Zimbabwe</countryname>
+                  <currency>
+                        <currencycode>USD</currencycode>
+                        <currencyname>US Dollar</currencyname>
+                        <fxrate>0.0059958</fxrate>
+                  </currency>
+            </country>
+      </countries>
+</fxrateinfo>

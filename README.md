@@ -6,27 +6,41 @@ the app ranks providers by what actually lands in the recipient's account —
 folding the hidden exchange-rate markup back into a single _net effective cost_.
 
 Built with **Astro (SSR)** + **Tailwind CSS v4** on **Cloudflare Pages**, with
-mid-market FX rates cached in **Cloudflare KV**.
+FX rates cached in **Cloudflare KV**.
 
 ---
 
 ## Architecture
 
 ```
-Browser ──GET /api/simulate──▶ Pages Function ──▶ getRates(RATES_KV) ──▶ KV cache (10 min TTL)
-   ▲                                │                     │ miss
-   └──── renders comparison ◀───────┘                     ▼
-                                                    open.er-api.com (mid-market)
-                                                          │ (optional)
-                          Cron Worker ─every 10 min──▶ refreshRates() keeps KV warm
+Browser ──GET /api/simulate (or SSR /)──▶ Pages Function
+                                             │
+              ┌──────────────────────────────┼───────────────────────────┐
+              ▼                              ▼                           ▼
+   getRates(RATES_KV)            resolveObservedRates(RATES_KV)   simulate() — pure math
+   mid-market, 10-min TTL        per-provider observed rates,
+        │ miss                       12-h TTL, read-through
+        ▼                              │ miss → due adapters fetch
+   open.er-api.com                    ▼  live NOW, in parallel (~10 s budget)
+                                  provider rate boards (adapters)
 ```
+
+**Requests are the only fetch path** — no cron Worker, no refresh API. A warm
+request reads KV only (instant); the first request after a TTL expiry fetches
+the due sources in parallel, caches them for everyone (12 h observed /
+10 min mid-market), and renders partial results if some sources fail
+(failed providers fall back to estimated rates, reported in `meta.fetchErrors`).
 
 - **Calculation is pure** (`src/lib/remittanceCalculator.ts`) — no I/O, so it's
   trivially testable. Rates are fetched separately and passed in.
 - **Providers are declarative data** (`src/lib/providers.ts`) — add or edit a
   fee matrix without touching calculation code.
-- **First paint is server-rendered**: the default comparison is computed in
-  `index.astro`; the client re-runs it via the JSON API on any control change.
+- **Rate adapters are per-provider** (`src/lib/sources/`) — each automatable
+  provider's own rate board, normalized to per-1-JPY, registered in
+  `src/lib/sources/index.ts`; fixture-tested in `src/lib/sources/__tests__/`.
+- **First paint is server-rendered**: the default IDR comparison is computed
+  in `index.astro` as a real table (works without JS); clicking Compare
+  re-runs it via the JSON API.
 
 ## Project layout
 
@@ -34,16 +48,20 @@ Browser ──GET /api/simulate──▶ Pages Function ──▶ getRates(RATES
 | --- | --- |
 | `astro.config.mjs` | Cloudflare adapter (directory output) + Tailwind Vite plugin |
 | `wrangler.jsonc` | Pages config + `RATES_KV` binding |
-| `src/types/remittance.ts` | All domain types (Provider, FeeTier, SimulationResult, Currency…) |
+| `src/types/remittance.ts` | All domain types (Provider, FeeTier, ObservedRateSet, SimulationResult…) |
 | `src/lib/providers.ts` | **Provider fee matrices** — the data engine |
 | `src/lib/currencies.ts` | Destination currency catalogue |
-| `src/lib/rates.ts` | Mid-market rate fetch + KV read-through cache |
+| `src/lib/rates.ts` | Mid-market rate fetch + KV read-through cache (10-min TTL) |
+| `src/lib/observedRates.ts` | Per-provider observed-rate read-through resolver (12-h TTL) + staleness classifier |
+| `src/lib/sources/` | Rate adapters + registry (`index.ts`) + recorded fixtures |
 | `src/lib/remittanceCalculator.ts` | The simulation engine |
+| `src/lib/renderResults.ts` | Comparison-table renderer shared by SSR + client |
 | `src/lib/simulationRequest.ts` | Input parsing/validation shared by page + API |
-| `src/pages/index.astro` | Interactive dashboard (server-rendered shell) |
-| `src/scripts/simulator.ts` | Framework-free client controller + card renderer |
+| `src/pages/index.astro` | IDR-first dashboard (server-rendered table) |
+| `src/scripts/simulator.ts` | Framework-free client controller (Compare button) |
 | `src/pages/api/simulate.ts` | `GET`/`POST /api/simulate` JSON endpoint |
-| `workers/rate-refresh/` | Optional Cron Worker that keeps the KV cache warm |
+| `scripts/verify-rates.ts` | `npm run verify:rates` — live egress check of every adapter |
+| `docs/rate-sources.md` | Per-provider source/fee register (verified vs illustrative) |
 
 ## Getting started
 
@@ -89,6 +107,10 @@ netCost(JPY)     = upfrontFee + markupCost
 
 ## Deploy to Cloudflare Pages
 
+Deployment is **Pages-only** — a single wrangler target, no separate Worker.
+Requests keep the caches warm (12 h observed / 10 min mid-market), so there is
+nothing to schedule or monitor.
+
 ```bash
 # 1. Create the KV namespaces and paste the ids into wrangler.jsonc
 npx wrangler kv namespace create RATES_KV
@@ -96,11 +118,6 @@ npx wrangler kv namespace create RATES_KV --preview
 
 # 2. Build + deploy
 npm run deploy       # astro build && wrangler pages deploy ./dist
-
-# 3. (Optional) keep the cache warm with the cron worker
-cd workers/rate-refresh
-# paste the same prod KV id into wrangler.toml, then:
-npx wrangler deploy
 ```
 
 ## Notes on the stack
