@@ -9,7 +9,10 @@
   // Astro's Cloudflare adapter writes the SSR worker + assets here.
   "pages_build_output_dir": "./dist",
 
-  // KV namespace used to cache mid-market FX rates (see src/lib/rates.ts).
+  // KV namespace caching FX rates for the read-through resolvers:
+  //   mid-market table  — `midmarket:JPY:v1`, 10-min TTL (src/lib/rates.ts)
+  //   observed rates    — `observed:<provider>:v1`, 12-h TTL (src/lib/observedRates.ts)
+  // Requests keep both caches warm themselves — there is no cron Worker.
   // For local `astro dev` any id works — Miniflare simulates KV in-memory.
   // Before deploying, create a real namespace and paste its id:
   //   npx wrangler kv namespace create RATES_KV
