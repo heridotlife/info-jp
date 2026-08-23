@@ -378,6 +378,40 @@ export const PROVIDERS: readonly Provider[] = [
     },
     note: 'The rate board also carries “GOLDENRATE” promo rates — the comparison always uses the standard rate.',
   },
+  // --------------------------------------------------------------------------
+  // JME (Japan Money Express) — new-provider onboarding 2026-08-23. Observed
+  // rates via the japanremit.com/exchange-rate table (adapter supersedes the
+  // modeled markup below).
+  // --------------------------------------------------------------------------
+  {
+    id: 'jme',
+    name: 'JME (Japan Money Express)',
+    logoText: 'JME',
+    brandColor: '#d71920',
+    website: 'https://japanremit.com',
+    supportedCurrencies: ['IDR'], // grown only as corridors verify
+    deliveryTypes: ['bank', 'cash'],
+    speed: { label: 'Within hours', rankMinutes: 240 },
+    rateMarkup: {
+      // Modeled placeholder only — superseded by the observed-rate adapter
+      // (live 2026-08-23: bank-deposit IDR 110.1035 vs mid 111.37 → −1.14%).
+      default: 0.011,
+    },
+    fee: {
+      kind: 'tiered',
+      // VERIFIED JPY→IDR fee table (research pass 2, verified 2026-08-23,
+      // plan “Verified fee tier tables”). Global tiers: JME is IDR-first and
+      // this schedule is its published standard; other corridors flagged
+      // illustrative in docs/rate-sources.md.
+      tiers: [
+        { upToJPY: 10_000, feeJPY: 400 },
+        { upToJPY: 50_000, feeJPY: 500 },
+        { upToJPY: 250_000, feeJPY: 1_000 },
+        { upToJPY: 1_000_000, feeJPY: 1_500 },
+      ],
+    },
+    note: 'Rate shown is the standard BANK DEPOSIT rate — the page also displays campaign rates that this comparison never uses.',
+  },
 ];
 
 /** Total number of providers, handy for meta/analytics. */
