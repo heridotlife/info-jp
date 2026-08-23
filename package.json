@@ -10,6 +10,8 @@
     "preview": "wrangler pages dev ./dist",
     "deploy": "astro build && wrangler pages deploy ./dist",
     "check": "astro check",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "astro": "astro"
   },
   "dependencies": {
@@ -22,6 +24,7 @@
     "@tailwindcss/vite": "^4.1.0",
     "tailwindcss": "^4.1.0",
     "typescript": "^5.8.0",
+    "vitest": "^4.1.11",
     "wrangler": "^4.20.0"
   }
 }
