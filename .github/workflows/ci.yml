@@ -22,23 +22,26 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v7
 
-      # npm stack (bun is not used in this repo): setup-node with the npm
-      # cache covers install and all script execution — no separate runtime
-      # setup needed, unlike heridotlife's bun + node pair.
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: .bun-version
+
+      # Node is still required: `bun run` drives the scripts, but Astro
+      # (build/check) and Vitest execute under Node via their bin shebangs.
       - name: Setup Node.js
         uses: actions/setup-node@v7
         with:
           node-version: '24'
-          cache: npm
 
       - name: Install dependencies
-        run: npm ci
+        run: bun install --frozen-lockfile
 
       # NOTE: ESLint and Prettier steps are intentionally absent — this repo
       # has no eslint/prettier config yet. Add both here (matching the
       # heridotlife lint-and-type-check job) once configs land.
       - name: Run type check
-        run: npm run check
+        run: bun run check
 
   test:
     name: Test
@@ -48,21 +51,27 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v7
 
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: .bun-version
+
+      # Node is still required: `bun run` drives the scripts, but Astro
+      # (build/check) and Vitest execute under Node via their bin shebangs.
       - name: Setup Node.js
         uses: actions/setup-node@v7
         with:
           node-version: '24'
-          cache: npm
 
       - name: Install dependencies
-        run: npm ci
+        run: bun install --frozen-lockfile
 
       # Plain unit tests only. heridotlife also runs `test:coverage` (with
       # thresholds) and uploads to Codecov; this repo has no
       # @vitest/coverage-v8 dependency and no coverage thresholds configured,
       # so coverage is skipped rather than adding devDependencies for it.
       - name: Run unit tests
-        run: npm test
+        run: bun run test
 
   e2e-local:
     name: E2E (local boot)
@@ -72,14 +81,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v7
 
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: .bun-version
+
+      # Node is still required: `bun run` drives the scripts, but Astro
+      # (build/check) and Vitest execute under Node via their bin shebangs.
       - name: Setup Node.js
         uses: actions/setup-node@v7
         with:
           node-version: '24'
-          cache: npm
 
       - name: Install dependencies
-        run: npm ci
+        run: bun install --frozen-lockfile
 
       # Per-PR boot smoke: scripts/e2e-local.mjs builds the site, boots it
       # with `wrangler pages dev` (real workerd + Miniflare KV), and asserts
@@ -89,12 +104,12 @@ jobs:
       # The smoke never calls the real routes (GET / or /api/simulate): both
       # cold-resolve FX rates from live provider endpoints when the KV cache
       # is empty, which is impolite and flaky from shared CI runners — the
-      # same reason `npm run verify:rates` is not run here. Adapter
+      # same reason `bun run verify:rates` is not run here. Adapter
       # behaviour is covered by unit tests using fixtures instead.
       - name: Build, boot Pages dev server, and run e2e smoke
-        run: npm run test:e2e:local
+        run: bun run test:e2e:local
 
   # NOTE: there is no standalone build job — the e2e-local job above
   # exercises the build. Pages deploys are owner-managed via
-  # `npm run deploy` (which builds itself), so CI does not upload a dist
+  # `bun run deploy` (which builds itself), so CI does not upload a dist
   # artifact.

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// E2E local boot smoke — the npm-flavoured twin of heridotlife's
+// E2E local boot smoke — the bun-flavoured twin of heridotlife's
 // scripts/e2e-local.mjs. Builds the site, boots it with `wrangler pages dev`
 // (real workerd + Miniflare KV), runs a CI-safe HTTP smoke, and tears
 // everything down. Used by the CI `e2e-local` job; also runnable locally.
@@ -17,7 +17,7 @@
 //      built worker bundle boots and routes under workerd. No route matches,
 //      so no page code runs and zero outbound fetches happen.
 //
-// Requires node >= 18 (global fetch); no npm dependencies.
+// Requires bun (project runtime) and node >= 18 (global fetch); no npm dependencies.
 
 import { spawn, spawnSync } from 'node:child_process';
 import process from 'node:process';
@@ -51,13 +51,13 @@ async function expectStatus(path, expected) {
 
 async function main() {
   // 1. Build — this job is the CI build gate; there is no standalone build job.
-  run('npm', ['run', 'build'], 'astro build');
+  run('bun', ['run', 'build'], 'astro build');
 
   // 2. Boot the built Pages output. `detached: true` puts wrangler (and its
   //    workerd child) in their own process group so teardown can kill the
   //    whole tree — wrangler alone won't reap workerd.
   console.log(`▸ wrangler pages dev ./dist (port ${PORT})`);
-  const server = spawn('npx', ['wrangler', 'pages', 'dev', './dist', '--ip', '127.0.0.1', '--port', String(PORT)], {
+  const server = spawn('bunx', ['wrangler', 'pages', 'dev', './dist', '--ip', '127.0.0.1', '--port', String(PORT)], {
     stdio: 'ignore', // wrangler's banner is noisy in CI logs; exit codes are the signal
     detached: true,
     env: { ...process.env, WRANGLER_SEND_METRICS: 'false' },

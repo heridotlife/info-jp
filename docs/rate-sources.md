@@ -2,7 +2,7 @@
 
 Living register of where every provider's exchange rate and fee data comes
 from, which corridors are verified, and what is still illustrative. Updated by
-each adapter/onboarding task; `npm run verify:rates` re-checks every live
+each adapter/onboarding task; `bun run verify:rates` re-checks every live
 source from our own egress.
 
 **Provenance legend** — rate status per corridor:
@@ -17,7 +17,7 @@ JPY→IDR unless noted) or **illustrative** (simulator default, to be replaced).
 
 ## Task 6 GATE — SBI Remit proven end-to-end (2026-08-23)
 
-**1. `npm run verify:rates` (node egress)** — all six quoted SBI corridors
+**1. `bun run verify:rates` (node egress)** — all six quoted SBI corridors
 fetched live, every rate inside the sanity bound [mid × 0.85, mid × 1.02], and
 an independent re-fetch of the same endpoint agreed on every corridor (Δ 0.00%):
 
@@ -30,7 +30,7 @@ an independent re-fetch of the same endpoint agreed on every corridor (Δ 0.00%)
 | CNY | 0.041900 | 0.042399 | −1.18% | OK |
 | THB | 0.203500 | 0.205860 | −1.15% | OK |
 
-**2. Workers runtime (workerd) egress — `npx wrangler pages dev ./dist`
+**2. Workers runtime (workerd) egress — `bunx wrangler pages dev ./dist`
 (fresh KV namespace → true cold request):**
 
 - `GET /api/simulate?amountJPY=100000&targetCurrency=IDR` → HTTP 200 in 0.39 s
@@ -56,7 +56,7 @@ Exact match with the workerd-fetched rate (111.11). Note the board's own
 the observation time and relies on the 12 h KV TTL for freshness.
 
 **GATE: PASSED** — SBI Remit's rate is real, fetched from our own egress
-(node + workerd), reproducible via `npm run verify:rates`.
+(node + workerd), reproducible via `bun run verify:rates`.
 
 ---
 
@@ -114,7 +114,7 @@ verified corridor, or documents the spike/manual outcome.
   registered adapter against ALL corridors its provider declares (fixture-
   backed; a missing corridor must be a `DOCUMENTED_SKIPS` entry — the test
   caught PayForex's IDR-only adapter and forced its documentation).
-  `npm run verify:rates` prints the same matrix LIVE (IDR included) and fails
+  `bun run verify:rates` prints the same matrix LIVE (IDR included) and fails
   on any unexpected gap (see the run above).
 
 ### Post-deploy egress check — status
@@ -124,7 +124,7 @@ production deploy, which is outside this branch's scope (no deploy was
 performed). What IS confirmed: every adapter fetched live from **node**
 egress (`verify:rates`, above) and the full IDR corridor — all 12 adapters —
 served end-to-end from the **workerd** runtime via
-`npx wrangler pages dev ./dist` (Task-6 gate + the task-22 smoke test,
+`bunx wrangler pages dev ./dist` (Task-6 gate + the task-22 smoke test,
 including the JRF adapter and the Brastel/JRF spike probes). Remaining for
 deploy day: one cold request against production, record observed rows +
 `meta.sourceStatus` here.
@@ -136,7 +136,7 @@ deploy day: one cold request against production, record observed rows +
 ### Brastel WIMS gateway — task 19 verdict: NOT AUTOMATABLE (stays modeled)
 
 Probed 2026-08-23 from **both** node egress and the workerd runtime
-(`npx wrangler pages dev ./dist`, temporary probe route since removed):
+(`bunx wrangler pages dev ./dist`, temporary probe route since removed):
 
 | Stage | Result |
 | --- | --- |
