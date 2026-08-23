@@ -29,12 +29,16 @@ async function run(input: SimulationInput, locals: App.Locals): Promise<Response
   // KV (12 h TTL): warm requests make zero outbound fetches; a cold request
   // fans out the due adapters in parallel under an overall ~10 s budget.
   // Only corridor-eligible providers are resolved (subrequest budget).
-  const corridorProviderIds = PROVIDERS.filter((p) => p.supportedCurrencies.includes(input.targetCurrency)).map(
-    (p) => p.id,
+  const corridorProviderIds = PROVIDERS.filter((p) =>
+    p.supportedCurrencies.includes(input.targetCurrency)
+  ).map((p) => p.id);
+  const { byProvider, fetchErrors, sourceStatus } = await resolveObservedRates(
+    corridorProviderIds,
+    kv,
+    {
+      midMarketRates: rates.rates,
+    }
   );
-  const { byProvider, fetchErrors, sourceStatus } = await resolveObservedRates(corridorProviderIds, kv, {
-    midMarketRates: rates.rates,
-  });
 
   const payload = simulate(input, rates, byProvider);
   if (Object.keys(fetchErrors).length > 0) {

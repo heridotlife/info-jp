@@ -37,9 +37,12 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
-      # NOTE: ESLint and Prettier steps are intentionally absent — this repo
-      # has no eslint/prettier config yet. Add both here (matching the
-      # heridotlife lint-and-type-check job) once configs land.
+      - name: Run ESLint
+        run: bunx eslint .
+
+      - name: Run Prettier check
+        run: bunx prettier --check .
+
       - name: Run type check
         run: bun run check
 

@@ -22,6 +22,8 @@
 import { spawn, spawnSync } from 'node:child_process';
 import process from 'node:process';
 
+/* global fetch, setTimeout */
+
 const PORT = 8788;
 const BASE_URL = `http://127.0.0.1:${PORT}`;
 const BOOT_TIMEOUT_MS = 60_000;
@@ -42,7 +44,7 @@ async function expectStatus(path, expected) {
   if (response.status !== expected) {
     const body = await response.text().catch(() => '');
     throw new Error(
-      `GET ${path}: expected HTTP ${expected}, got ${response.status}. Body: ${body.slice(0, 300)}`,
+      `GET ${path}: expected HTTP ${expected}, got ${response.status}. Body: ${body.slice(0, 300)}`
     );
   }
   console.log(`✓ GET ${path} → ${response.status}`);
@@ -57,11 +59,15 @@ async function main() {
   //    workerd child) in their own process group so teardown can kill the
   //    whole tree — wrangler alone won't reap workerd.
   console.log(`▸ wrangler pages dev ./dist (port ${PORT})`);
-  const server = spawn('bunx', ['wrangler', 'pages', 'dev', './dist', '--ip', '127.0.0.1', '--port', String(PORT)], {
-    stdio: 'ignore', // wrangler's banner is noisy in CI logs; exit codes are the signal
-    detached: true,
-    env: { ...process.env, WRANGLER_SEND_METRICS: 'false' },
-  });
+  const server = spawn(
+    'bunx',
+    ['wrangler', 'pages', 'dev', './dist', '--ip', '127.0.0.1', '--port', String(PORT)],
+    {
+      stdio: 'ignore', // wrangler's banner is noisy in CI logs; exit codes are the signal
+      detached: true,
+      env: { ...process.env, WRANGLER_SEND_METRICS: 'false' },
+    }
+  );
 
   server.on('error', (error) => {
     console.error(`✗ failed to spawn wrangler: ${error.message}`);

@@ -59,12 +59,15 @@ export function isJapanWeekend(date: Date): boolean {
 /** Resolve the effective markup fraction for a provider + currency + timing. */
 function resolveMarkup(markup: RateMarkup, currency: CurrencyCode, isWeekend: boolean): number {
   const base = markup.byCurrency?.[currency] ?? markup.default;
-  const weekend = isWeekend ? markup.weekendSurcharge ?? 0 : 0;
+  const weekend = isWeekend ? (markup.weekendSurcharge ?? 0) : 0;
   return base + weekend;
 }
 
 /** Resolve the effective tier list for a tiered fee + currency. */
-function resolveTiers(fee: Extract<FeeModel, { kind: 'tiered' }>, currency?: CurrencyCode): FeeTier[] {
+function resolveTiers(
+  fee: Extract<FeeModel, { kind: 'tiered' }>,
+  currency?: CurrencyCode
+): FeeTier[] {
   return (currency !== undefined ? fee.byCurrency?.[currency] : undefined) ?? fee.tiers;
 }
 
@@ -72,7 +75,11 @@ function resolveTiers(fee: Extract<FeeModel, { kind: 'tiered' }>, currency?: Cur
  * Evaluate an upfront fee (JPY) for a given send amount (and corridor, for
  * per-currency tier overrides).
  */
-export function computeUpfrontFee(fee: FeeModel, amountJPY: number, currency?: CurrencyCode): number {
+export function computeUpfrontFee(
+  fee: FeeModel,
+  amountJPY: number,
+  currency?: CurrencyCode
+): number {
   switch (fee.kind) {
     case 'flat':
       return fee.feeJPY;
@@ -101,7 +108,7 @@ function computeForProvider(
   currency: CurrencyCode,
   midMarketRate: number,
   isWeekend: boolean,
-  observed?: ObservedRateSet,
+  observed?: ObservedRateSet
 ): SimulationResult {
   const feeJPY = roundYen(computeUpfrontFee(provider.fee, amountJPY, currency));
   const amountConvertedJPY = Math.max(amountJPY - feeJPY, 0);
@@ -208,7 +215,7 @@ function assignTags(results: SimulationResult[]): void {
 export function simulate(
   input: SimulationInput,
   rates: RateTable,
-  observedByProvider?: Record<string, ObservedRateSet>,
+  observedByProvider?: Record<string, ObservedRateSet>
 ): SimulationResponse {
   const { amountJPY, targetCurrency, deliveryType } = input;
   const at = input.at ? new Date(input.at) : new Date();
@@ -244,8 +251,8 @@ export function simulate(
         targetCurrency,
         midMarketRate,
         weekend,
-        observedByProvider?.[p.id],
-      ),
+        observedByProvider?.[p.id]
+      )
     )
     // Best value (largest payout) first.
     .sort((a, b) => b.receiveAmount - a.receiveAmount);

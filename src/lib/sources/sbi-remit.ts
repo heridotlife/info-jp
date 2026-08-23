@@ -35,7 +35,8 @@ export const SBI_REMIT_ENDPOINT =
   'https://www.remit.co.jp/kaigaisoukin/exchangeratecommission/exchange/';
 
 /** Human label carried on the ObservedRateSet. */
-export const SBI_REMIT_SOURCE_LABEL = 'remit.co.jp rate board (kaigaisoukin/exchangeratecommission/exchange/)';
+export const SBI_REMIT_SOURCE_LABEL =
+  'remit.co.jp rate board (kaigaisoukin/exchangeratecommission/exchange/)';
 
 /**
  * Page-display quoting units (`data-rate`), pinned 2026-08-23 — provenance
@@ -71,7 +72,8 @@ interface SbiRateResponse {
 }
 
 /** Descriptive UA — we are a comparison site reading a public rate board. */
-const USER_AGENT = 'info-jp-remittance-simulator/0.1 (provider rate comparison; contact: mail@heri.life)';
+const USER_AGENT =
+  'info-jp-remittance-simulator/0.1 (provider rate comparison; contact: mail@heri.life)';
 
 /**
  * Normalize a quoted rate into the canonical per-1-JPY unit.
@@ -104,7 +106,9 @@ export function parseRate(body: unknown): number | undefined {
  *
  * @param fetchImpl injectable for tests (defaults to the platform `fetch`)
  */
-export async function fetchSbiRemitRates(fetchImpl: typeof fetch = fetch): Promise<ObservedRateSet> {
+export async function fetchSbiRemitRates(
+  fetchImpl: typeof fetch = fetch
+): Promise<ObservedRateSet> {
   const rates: Partial<Record<CurrencyCode, number>> = {};
 
   await Promise.all(
@@ -132,7 +136,7 @@ export async function fetchSbiRemitRates(fetchImpl: typeof fetch = fetch): Promi
       } catch {
         // Network/parse failure for one corridor — skip it, never throw.
       }
-    }),
+    })
   );
 
   if (Object.keys(rates).length === 0) {

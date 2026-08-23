@@ -52,7 +52,8 @@ export const PAYFOREX_SOURCE_LABEL =
 export const PAYFOREX_RECEIPT_CODE = 'BR_BRI';
 
 /** Descriptive UA — we are a comparison site replaying their public simulator. */
-const USER_AGENT = 'info-jp-remittance-simulator/0.1 (provider rate comparison; contact: mail@heri.life)';
+const USER_AGENT =
+  'info-jp-remittance-simulator/0.1 (provider rate comparison; contact: mail@heri.life)';
 
 /**
  * Extract the per-1-JPY rate from a `currencyRate` string like
@@ -89,7 +90,9 @@ export function parseCsrfToken(html: string): string | undefined {
  *
  * @param fetchImpl injectable for tests (defaults to the platform `fetch`)
  */
-export async function fetchPayForexRates(fetchImpl: typeof fetch = fetch): Promise<ObservedRateSet> {
+export async function fetchPayForexRates(
+  fetchImpl: typeof fetch = fetch
+): Promise<ObservedRateSet> {
   // Step 1 — session cookie + CSRF token (fresh every pass).
   let csrf: string | undefined;
   let cookie: string;
@@ -100,7 +103,9 @@ export async function fetchPayForexRates(fetchImpl: typeof fetch = fetch): Promi
     csrf = parseCsrfToken(await sim.text());
     if (!csrf) throw new Error('_csrf meta tag not found on simulator page');
   } catch (err) {
-    throw new Error(`PayForex: session/CSRF step failed (${(err as Error).message})`);
+    throw new Error(`PayForex: session/CSRF step failed (${(err as Error).message})`, {
+      cause: err,
+    });
   }
 
   // Step 2 — the rate action with the token + cookie.
@@ -134,7 +139,9 @@ export async function fetchPayForexRates(fetchImpl: typeof fetch = fetch): Promi
     rate = parsePerJpyRate(json.resultData?.currencyRate);
     if (rate === undefined) throw new Error('currencyRate missing/unparsable');
   } catch (err) {
-    throw new Error(`PayForex: rate-action step failed (${(err as Error).message})`);
+    throw new Error(`PayForex: rate-action step failed (${(err as Error).message})`, {
+      cause: err,
+    });
   }
 
   return {

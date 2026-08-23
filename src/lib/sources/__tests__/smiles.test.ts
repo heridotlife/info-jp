@@ -57,11 +57,12 @@ describe('smiles: parseExchangeRates', () => {
 
 describe('smiles: fetchSmilesRates', () => {
   it('fetches the page URL and declares the quoted registry corridors', async () => {
-    const impl = vi.fn(async (_input: RequestInfo | URL) =>
-      new Response(fixture('exchange-rates.html'), {
-        status: 200,
-        headers: { 'content-type': 'text/html' },
-      }),
+    const impl = vi.fn(
+      async (_input: RequestInfo | URL) =>
+        new Response(fixture('exchange-rates.html'), {
+          status: 200,
+          headers: { 'content-type': 'text/html' },
+        })
     );
     const set = await fetchSmilesRates(impl as unknown as typeof fetch);
 
@@ -83,7 +84,7 @@ describe('smiles: fetchSmilesRates', () => {
   it('skips a missing block but keeps the set (partial board)', async () => {
     const pruned = fixture('exchange-rates.html').replace(
       /<a href='https:\/\/www\.smileswallet\.com\/japan\/exchange-rates\/jpy-to-idr\/'[^>]*class='exchange_rate'>111\.1 IDR<\/a>/,
-      '',
+      ''
     );
     expect(pruned).not.toContain('111.1 IDR');
     const impl = vi.fn(async () => new Response(pruned, { status: 200 }));
@@ -94,9 +95,7 @@ describe('smiles: fetchSmilesRates', () => {
 
   it('rejects (provider-level failure) on HTTP error', async () => {
     const failing = vi.fn(async () => new Response('rate limited', { status: 429 }));
-    await expect(fetchSmilesRates(failing as unknown as typeof fetch)).rejects.toThrow(
-      /HTTP 429/,
-    );
+    await expect(fetchSmilesRates(failing as unknown as typeof fetch)).rejects.toThrow(/HTTP 429/);
   });
 
   it('rejects when the markup changed and nothing parses', async () => {
@@ -104,10 +103,10 @@ describe('smiles: fetchSmilesRates', () => {
       async () =>
         new Response('<!DOCTYPE html><html><body>client-rendered now</body></html>', {
           status: 200,
-        }),
+        })
     );
     await expect(fetchSmilesRates(redesigned as unknown as typeof fetch)).rejects.toThrow(
-      /no corridors parsed/i,
+      /no corridors parsed/i
     );
   });
 
@@ -116,7 +115,7 @@ describe('smiles: fetchSmilesRates', () => {
       throw new Error('ECONNREFUSED');
     });
     await expect(fetchSmilesRates(dead as unknown as typeof fetch)).rejects.toThrow(
-      /page fetch failed/i,
+      /page fetch failed/i
     );
   });
 });

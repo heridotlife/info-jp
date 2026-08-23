@@ -49,11 +49,12 @@ describe('dcom: parseDcomRates', () => {
 
 describe('dcom: fetchDcomRates', () => {
   it('fetches the page URL and declares the IDR send rate', async () => {
-    const impl = vi.fn(async (_input: RequestInfo | URL) =>
-      new Response(fixture('fx-rate.html'), {
-        status: 200,
-        headers: { 'content-type': 'text/html' },
-      }),
+    const impl = vi.fn(
+      async (_input: RequestInfo | URL) =>
+        new Response(fixture('fx-rate.html'), {
+          status: 200,
+          headers: { 'content-type': 'text/html' },
+        })
     );
     const set = await fetchDcomRates(impl as unknown as typeof fetch);
 
@@ -73,7 +74,7 @@ describe('dcom: fetchDcomRates', () => {
     expect(pruned).not.toContain('IDR 111.0000');
     const impl = vi.fn(async () => new Response(pruned, { status: 200 }));
     await expect(fetchDcomRates(impl as unknown as typeof fetch)).rejects.toThrow(
-      /no declared-corridor rate cells parsed/,
+      /no declared-corridor rate cells parsed/
     );
   });
 
@@ -87,7 +88,7 @@ describe('dcom: fetchDcomRates', () => {
       throw new Error('ECONNREFUSED');
     });
     await expect(fetchDcomRates(dead as unknown as typeof fetch)).rejects.toThrow(
-      /page fetch failed/i,
+      /page fetch failed/i
     );
   });
 });

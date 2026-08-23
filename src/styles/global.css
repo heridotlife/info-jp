@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* Class-based dark mode: `dark:` utilities activate when <html> has `.dark`.
    The toggle is wired up in Layout.astro (with a no-FOUC inline script). */
@@ -6,8 +6,8 @@
 
 @theme {
   --font-sans:
-    "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
-    "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+    'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+    'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
 }
 
 /* Smooth theme transitions on the big surfaces. */
@@ -20,12 +20,12 @@
     font-family: var(--font-sans);
   }
   /* Hide number input spinners for a cleaner amount field. */
-  input[type="number"]::-webkit-outer-spin-button,
-  input[type="number"]::-webkit-inner-spin-button {
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
   }
-  input[type="number"] {
+  input[type='number'] {
     -moz-appearance: textfield;
     appearance: textfield;
   }

@@ -79,7 +79,10 @@ function timeAgo(iso: string, now = Date.now()): string {
 }
 
 const esc = (s: string): string =>
-  s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
+  s.replace(
+    /[&<>"']/g,
+    (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!
+  );
 
 // --- provenance / staleness badges ----------------------------------------------
 
@@ -113,7 +116,10 @@ export function renderProvenanceBadge(r: SimulationResult, now = Date.now()): st
   // manual
   const date = (rs.fetchedAt ?? '').slice(0, 10) || 'unknown date';
   const t = rs.fetchedAt ? Date.parse(rs.fetchedAt) : NaN;
-  const outdated = Number.isFinite(t) && now - t >= MANUAL_OUTDATED_MS ? ' <span class="text-amber-600 dark:text-amber-400">(outdated)</span>' : '';
+  const outdated =
+    Number.isFinite(t) && now - t >= MANUAL_OUTDATED_MS
+      ? ' <span class="text-amber-600 dark:text-amber-400">(outdated)</span>'
+      : '';
   return `<span class="inline-flex items-center gap-1 rounded-md bg-sky-50 px-2 py-0.5 text-[11px] font-medium text-sky-700 dark:bg-sky-900/40 dark:text-sky-300">Manual · updated ${esc(date)}</span>${staleMarker}${outdated}`;
 }
 
@@ -149,16 +155,27 @@ function breakdownRow(label: string, value: string, hint?: string, strong = fals
     </div>`;
 }
 
-function renderProviderRow(r: SimulationResult, currency: Currency, isTop: boolean, now: number): string {
+function renderProviderRow(
+  r: SimulationResult,
+  currency: Currency,
+  isTop: boolean,
+  now: number
+): string {
   const tags = r.tags.map(renderTag).join(' ');
   const rowFrame = isTop ? 'bg-emerald-50/50 dark:bg-emerald-950/20' : '';
-  const payoutColor = isTop ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-900 dark:text-slate-100';
+  const payoutColor = isTop
+    ? 'text-emerald-600 dark:text-emerald-400'
+    : 'text-slate-900 dark:text-slate-100';
   const quoteFootnote =
     r.rateSource.quoteAmountJPY !== undefined
       ? `<div class="text-[10px] text-slate-400">quoted at ${fmtJPY(r.rateSource.quoteAmountJPY)}</div>`
       : '';
   const markupHint =
-    r.rateSource.kind === 'observed' ? 'observed' : r.rateSource.kind === 'manual' ? 'manual rate' : 'estimated';
+    r.rateSource.kind === 'observed'
+      ? 'observed'
+      : r.rateSource.kind === 'manual'
+        ? 'manual rate'
+        : 'estimated';
 
   return `
   <tr class="border-b border-slate-100 transition hover:bg-slate-50/70 dark:border-slate-800 dark:hover:bg-slate-800/40 ${rowFrame}">
@@ -263,9 +280,10 @@ export function renderResultsMeta(data: SimulationResponse, now = Date.now()): s
     `${cov.observed} observed` +
     (cov.manual > 0 ? ` · ${cov.manual} manual` : '') +
     ` · ${cov.modeled} estimated`;
-  const errors = meta.fetchErrors && Object.keys(meta.fetchErrors).length > 0
-    ? ` · ${Object.keys(meta.fetchErrors).length} source${Object.keys(meta.fetchErrors).length === 1 ? '' : 's'} failed`
-    : '';
+  const errors =
+    meta.fetchErrors && Object.keys(meta.fetchErrors).length > 0
+      ? ` · ${Object.keys(meta.fetchErrors).length} source${Object.keys(meta.fetchErrors).length === 1 ? '' : 's'} failed`
+      : '';
   return `${data.results.length} services · ranked by real payout · ${coverage} · mid-market ${timeAgo(meta.ratesFetchedAt, now)} (${source})${errors}`;
 }
 

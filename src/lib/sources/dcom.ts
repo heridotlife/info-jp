@@ -34,7 +34,8 @@ export const DCOM_SOURCE_LABEL =
 const DECLARED_CURRENCIES: readonly CurrencyCode[] = ['IDR'];
 
 /** Descriptive UA — we are a comparison site reading a public rate page. */
-const USER_AGENT = 'info-jp-remittance-simulator/0.1 (provider rate comparison; contact: mail@heri.life)';
+const USER_AGENT =
+  'info-jp-remittance-simulator/0.1 (provider rate comparison; contact: mail@heri.life)';
 
 /**
  * Parse the board into per-1-JPY send rates for declared corridors. A rate
@@ -46,7 +47,7 @@ export function parseDcomRates(html: string): Partial<Record<CurrencyCode, numbe
   const rates: Partial<Record<CurrencyCode, number>> = {};
   for (const currency of DECLARED_CURRENCIES) {
     const m = new RegExp(
-      `>\\s*${currency}\\s+([0-9][0-9.,]*)\\s*<`, // send-rate cell: "IDR 111.0000"
+      `>\\s*${currency}\\s+([0-9][0-9.,]*)\\s*<` // send-rate cell: "IDR 111.0000"
     ).exec(html);
     if (!m) continue;
     const rate = Number(m[1].replace(/,/g, ''));
@@ -74,7 +75,7 @@ export async function fetchDcomRates(fetchImpl: typeof fetch = fetch): Promise<O
       throw new Error('no declared-corridor rate cells parsed from table');
     }
   } catch (err) {
-    throw new Error(`DCOM: page fetch failed (${(err as Error).message})`);
+    throw new Error(`DCOM: page fetch failed (${(err as Error).message})`, { cause: err });
   }
 
   return {

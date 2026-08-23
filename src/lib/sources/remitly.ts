@@ -35,8 +35,7 @@ import type { ObservedRateSet } from '../../types/remittance';
  * the exact per-config rate) — surfaced as provenance context.
  */
 
-export const REMITLY_ENDPOINT =
-  'https://www.remitly.com/jp/ja/currency-converter/jpy-to-idr-rate';
+export const REMITLY_ENDPOINT = 'https://www.remitly.com/jp/ja/currency-converter/jpy-to-idr-rate';
 
 /** Human label base; the everyday range is appended dynamically. */
 export const REMITLY_SOURCE_LABEL =
@@ -99,9 +98,7 @@ export function parseRemitlyPage(html: string): RemitlyMerchandising | undefined
  *
  * @param fetchImpl injectable for tests (defaults to the platform `fetch`)
  */
-export async function fetchRemitlyRates(
-  fetchImpl: typeof fetch = fetch,
-): Promise<ObservedRateSet> {
+export async function fetchRemitlyRates(fetchImpl: typeof fetch = fetch): Promise<ObservedRateSet> {
   let parsed: RemitlyMerchandising | undefined;
   try {
     const res = await fetchImpl(REMITLY_ENDPOINT, {
@@ -111,7 +108,7 @@ export async function fetchRemitlyRates(
     parsed = parseRemitlyPage(await res.text());
     if (parsed === undefined) throw new Error('merchandisingFacts promo rate not found');
   } catch (err) {
-    throw new Error(`Remitly: page fetch failed (${(err as Error).message})`);
+    throw new Error(`Remitly: page fetch failed (${(err as Error).message})`, { cause: err });
   }
 
   const everyday =

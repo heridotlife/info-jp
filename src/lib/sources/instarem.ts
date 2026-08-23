@@ -39,8 +39,7 @@ export const INSTAREM_ENDPOINT =
   'https://www.instarem.com/api/v1/public/transaction/computed-value';
 
 /** Human label base; the promo marker is appended dynamically. */
-export const INSTAREM_SOURCE_LABEL =
-  'instarem.com computed-value API (JPY→IDR quote at ¥10,000)';
+export const INSTAREM_SOURCE_LABEL = 'instarem.com computed-value API (JPY→IDR quote at ¥10,000)';
 
 /** Canonical reference amount for the amount-aware quote (plan §8). */
 export const INSTAREM_QUOTE_AMOUNT_JPY = 10_000;
@@ -90,7 +89,8 @@ export function parseComputedValue(body: unknown): InstaremParse | undefined {
 }
 
 /** Descriptive UA — we are a comparison site reading a public quote API. */
-const USER_AGENT = 'info-jp-remittance-simulator/0.1 (provider rate comparison; contact: mail@heri.life)';
+const USER_AGENT =
+  'info-jp-remittance-simulator/0.1 (provider rate comparison; contact: mail@heri.life)';
 
 /**
  * Fetch Instarem's live quote for the IDR corridor.
@@ -99,9 +99,10 @@ const USER_AGENT = 'info-jp-remittance-simulator/0.1 (provider rate comparison; 
  *
  * @param fetchImpl injectable for tests (defaults to the platform `fetch`)
  */
-export async function fetchInstaremRates(fetchImpl: typeof fetch = fetch): Promise<ObservedRateSet> {
-  const url =
-    `${INSTAREM_ENDPOINT}?source_currency=JPY&destination_currency=IDR&source_amount=${INSTAREM_QUOTE_AMOUNT_JPY}`;
+export async function fetchInstaremRates(
+  fetchImpl: typeof fetch = fetch
+): Promise<ObservedRateSet> {
+  const url = `${INSTAREM_ENDPOINT}?source_currency=JPY&destination_currency=IDR&source_amount=${INSTAREM_QUOTE_AMOUNT_JPY}`;
 
   let parsed: InstaremParse | undefined;
   try {
@@ -113,17 +114,16 @@ export async function fetchInstaremRates(fetchImpl: typeof fetch = fetch): Promi
     parsed = parseComputedValue(json);
     if (parsed === undefined) throw new Error('no parsable instarem_fx_rate in payload');
   } catch (err) {
-    throw new Error(`Instarem: quote fetch failed (${(err as Error).message})`);
+    throw new Error(`Instarem: quote fetch failed (${(err as Error).message})`, { cause: err });
   }
 
   return {
     providerId: 'instarem',
     rates: { IDR: parsed.rate },
     fetchedAt: new Date().toISOString(),
-    source:
-      parsed.promoDetected
-        ? `${INSTAREM_SOURCE_LABEL} — first-transaction promo detected, standard (regular) rate stored`
-        : INSTAREM_SOURCE_LABEL,
+    source: parsed.promoDetected
+      ? `${INSTAREM_SOURCE_LABEL} — first-transaction promo detected, standard (regular) rate stored`
+      : INSTAREM_SOURCE_LABEL,
     method: 'live',
     quoteAmountJPY: INSTAREM_QUOTE_AMOUNT_JPY,
   };

@@ -39,7 +39,8 @@ export const SMILES_SOURCE_LABEL =
 const PROBE_CURRENCIES: readonly CurrencyCode[] = ['NPR', 'INR', 'PHP', 'VND', 'IDR', 'BDT', 'THB'];
 
 /** Descriptive UA — we are a comparison site reading a public rate page. */
-const USER_AGENT = 'info-jp-remittance-simulator/0.1 (provider rate comparison; contact: mail@heri.life)';
+const USER_AGENT =
+  'info-jp-remittance-simulator/0.1 (provider rate comparison; contact: mail@heri.life)';
 
 /**
  * Parse the server-rendered board: every `class='exchange_rate'` anchor whose
@@ -51,7 +52,7 @@ export function parseExchangeRates(html: string): Partial<Record<CurrencyCode, n
   const rates: Partial<Record<CurrencyCode, number>> = {};
   // The board uses single quotes today; accept either quote style.
   for (const m of html.matchAll(
-    /class=(['"])exchange_rate\1>\s*([0-9][0-9.,]*)\s+([A-Z]{2,4})\s*</g,
+    /class=(['"])exchange_rate\1>\s*([0-9][0-9.,]*)\s+([A-Z]{2,4})\s*</g
   )) {
     const rate = Number(m[2].replace(/,/g, ''));
     const currency = m[3] as CurrencyCode;
@@ -78,7 +79,7 @@ export async function fetchSmilesRates(fetchImpl: typeof fetch = fetch): Promise
     if (!res.ok) throw new Error(`exchange-rates page HTTP ${res.status}`);
     html = await res.text();
   } catch (err) {
-    throw new Error(`Smiles: page fetch failed (${(err as Error).message})`);
+    throw new Error(`Smiles: page fetch failed (${(err as Error).message})`, { cause: err });
   }
 
   const board = parseExchangeRates(html);

@@ -63,7 +63,8 @@ interface CityRateRow {
 }
 
 /** Descriptive UA — we are a comparison site reading a public rate board. */
-const USER_AGENT = 'info-jp-remittance-simulator/0.1 (provider rate comparison; contact: mail@heri.life)';
+const USER_AGENT =
+  'info-jp-remittance-simulator/0.1 (provider rate comparison; contact: mail@heri.life)';
 
 /**
  * Parse the board into per-1-JPY rates for our declared corridors.
@@ -98,7 +99,7 @@ export function parseRatesBoard(body: unknown): Partial<Record<CurrencyCode, num
  * @param fetchImpl injectable for tests (defaults to the platform `fetch`)
  */
 export async function fetchCityExpressRates(
-  fetchImpl: typeof fetch = fetch,
+  fetchImpl: typeof fetch = fetch
 ): Promise<ObservedRateSet> {
   let rates: Partial<Record<CurrencyCode, number>>;
   try {
@@ -111,7 +112,7 @@ export async function fetchCityExpressRates(
       throw new Error('no declared corridors parsed from board');
     }
   } catch (err) {
-    throw new Error(`City Express: board fetch failed (${(err as Error).message})`);
+    throw new Error(`City Express: board fetch failed (${(err as Error).message})`, { cause: err });
   }
 
   return {

@@ -27,7 +27,9 @@ describe('instarem: parseComputedValue', () => {
     expect(parsed?.rate).toBe(110.9719);
     // A payload with only the reference rate is unusable.
     expect(parseComputedValue({ data: { fx_rate: 111.25 } })).toBeUndefined();
-    expect(parseComputedValue({ data: { instarem_fx_rate: '110.97', fx_rate: 111.25 } })).toBeUndefined();
+    expect(
+      parseComputedValue({ data: { instarem_fx_rate: '110.97', fx_rate: 111.25 } })
+    ).toBeUndefined();
   });
 
   it('promo branch: diverged quote → stores regular_instarem_fx_rate (§9)', () => {
@@ -43,11 +45,15 @@ describe('instarem: parseComputedValue', () => {
     // Exactly at tolerance → still agreement (inclusive).
     const regular = 100;
     const atTolerance = regular * (1 + INSTAREM_PROMO_TOLERANCE);
-    expect(parseComputedValue({ data: { instarem_fx_rate: atTolerance, regular_instarem_fx_rate: regular } }))
-      .toEqual({ rate: atTolerance, promoDetected: false });
+    expect(
+      parseComputedValue({
+        data: { instarem_fx_rate: atTolerance, regular_instarem_fx_rate: regular },
+      })
+    ).toEqual({ rate: atTolerance, promoDetected: false });
     const beyond = regular * (1 + INSTAREM_PROMO_TOLERANCE * 1.5);
-    expect(parseComputedValue({ data: { instarem_fx_rate: beyond, regular_instarem_fx_rate: regular } }))
-      .toEqual({ rate: regular, promoDetected: true });
+    expect(
+      parseComputedValue({ data: { instarem_fx_rate: beyond, regular_instarem_fx_rate: regular } })
+    ).toEqual({ rate: regular, promoDetected: true });
   });
 
   it('skips malformed payloads without throwing', () => {
@@ -64,16 +70,17 @@ describe('instarem: parseComputedValue', () => {
 
 describe('instarem: fetchInstaremRates', () => {
   it('quotes the canonical amount and stores the standard rate when promo detected', async () => {
-    const impl = vi.fn(async (_input: RequestInfo | URL) =>
-      new Response(fixture('computed-value.json'), {
-        status: 200,
-        headers: { 'content-type': 'application/json' },
-      }),
+    const impl = vi.fn(
+      async (_input: RequestInfo | URL) =>
+        new Response(fixture('computed-value.json'), {
+          status: 200,
+          headers: { 'content-type': 'application/json' },
+        })
     );
     const set = await fetchInstaremRates(impl as unknown as typeof fetch);
 
     expect(String(impl.mock.calls[0][0])).toBe(
-      `${INSTAREM_ENDPOINT}?source_currency=JPY&destination_currency=IDR&source_amount=${INSTAREM_QUOTE_AMOUNT_JPY}`,
+      `${INSTAREM_ENDPOINT}?source_currency=JPY&destination_currency=IDR&source_amount=${INSTAREM_QUOTE_AMOUNT_JPY}`
     );
 
     expect(set.providerId).toBe('instarem');
@@ -85,11 +92,12 @@ describe('instarem: fetchInstaremRates', () => {
   });
 
   it('stores the quoted rate untouched when quote agrees with regular', async () => {
-    const impl = vi.fn(async () =>
-      new Response(fixture('computed-value-agree.json'), {
-        status: 200,
-        headers: { 'content-type': 'application/json' },
-      }),
+    const impl = vi.fn(
+      async () =>
+        new Response(fixture('computed-value-agree.json'), {
+          status: 200,
+          headers: { 'content-type': 'application/json' },
+        })
     );
     const set = await fetchInstaremRates(impl as unknown as typeof fetch);
     expect(set.rates).toEqual({ IDR: 110.8606 });
@@ -99,7 +107,7 @@ describe('instarem: fetchInstaremRates', () => {
   it('rejects (provider-level failure) on HTTP error', async () => {
     const failing = vi.fn(async () => new Response('rate limited', { status: 429 }));
     await expect(fetchInstaremRates(failing as unknown as typeof fetch)).rejects.toThrow(
-      /HTTP 429/,
+      /HTTP 429/
     );
   });
 
@@ -109,10 +117,10 @@ describe('instarem: fetchInstaremRates', () => {
         new Response(JSON.stringify({ success: false, errors: ['geo blocked'] }), {
           status: 200,
           headers: { 'content-type': 'application/json' },
-        }),
+        })
     );
     await expect(fetchInstaremRates(changed as unknown as typeof fetch)).rejects.toThrow(
-      /no parsable instarem_fx_rate/,
+      /no parsable instarem_fx_rate/
     );
   });
 
@@ -121,7 +129,7 @@ describe('instarem: fetchInstaremRates', () => {
       throw new Error('ECONNREFUSED');
     });
     await expect(fetchInstaremRates(dead as unknown as typeof fetch)).rejects.toThrow(
-      /quote fetch failed/i,
+      /quote fetch failed/i
     );
   });
 });

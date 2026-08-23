@@ -37,7 +37,8 @@ export interface JrfRateRow {
 }
 
 /** Descriptive UA — we are a comparison site reading a public rate board. */
-const USER_AGENT = 'info-jp-remittance-simulator/0.1 (provider rate comparison; contact: mail@heri.life)';
+const USER_AGENT =
+  'info-jp-remittance-simulator/0.1 (provider rate comparison; contact: mail@heri.life)';
 
 /**
  * Parse the extended board into per-corridor rates. First numeric row per

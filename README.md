@@ -44,24 +44,24 @@ the due sources in parallel, caches them for everyone (12 h observed /
 
 ## Project layout
 
-| Path | Purpose |
-| --- | --- |
-| `astro.config.mjs` | Cloudflare adapter (directory output) + Tailwind Vite plugin |
-| `wrangler.jsonc` | Pages config + `RATES_KV` binding |
-| `src/types/remittance.ts` | All domain types (Provider, FeeTier, ObservedRateSet, SimulationResult…) |
-| `src/lib/providers.ts` | **Provider fee matrices** — the data engine |
-| `src/lib/currencies.ts` | Destination currency catalogue |
-| `src/lib/rates.ts` | Mid-market rate fetch + KV read-through cache (10-min TTL) |
-| `src/lib/observedRates.ts` | Per-provider observed-rate read-through resolver (12-h TTL) + staleness classifier |
-| `src/lib/sources/` | Rate adapters + registry (`index.ts`) + recorded fixtures |
-| `src/lib/remittanceCalculator.ts` | The simulation engine |
-| `src/lib/renderResults.ts` | Comparison-table renderer shared by SSR + client |
-| `src/lib/simulationRequest.ts` | Input parsing/validation shared by page + API |
-| `src/pages/index.astro` | IDR-first dashboard (server-rendered table) |
-| `src/scripts/simulator.ts` | Framework-free client controller (Compare button) |
-| `src/pages/api/simulate.ts` | `GET`/`POST /api/simulate` JSON endpoint |
-| `scripts/verify-rates.ts` | `bun run verify:rates` — live egress check of every adapter |
-| `docs/rate-sources.md` | Per-provider source/fee register (verified vs illustrative) |
+| Path                              | Purpose                                                                            |
+| --------------------------------- | ---------------------------------------------------------------------------------- |
+| `astro.config.mjs`                | Cloudflare adapter (directory output) + Tailwind Vite plugin                       |
+| `wrangler.jsonc`                  | Pages config + `RATES_KV` binding                                                  |
+| `src/types/remittance.ts`         | All domain types (Provider, FeeTier, ObservedRateSet, SimulationResult…)           |
+| `src/lib/providers.ts`            | **Provider fee matrices** — the data engine                                        |
+| `src/lib/currencies.ts`           | Destination currency catalogue                                                     |
+| `src/lib/rates.ts`                | Mid-market rate fetch + KV read-through cache (10-min TTL)                         |
+| `src/lib/observedRates.ts`        | Per-provider observed-rate read-through resolver (12-h TTL) + staleness classifier |
+| `src/lib/sources/`                | Rate adapters + registry (`index.ts`) + recorded fixtures                          |
+| `src/lib/remittanceCalculator.ts` | The simulation engine                                                              |
+| `src/lib/renderResults.ts`        | Comparison-table renderer shared by SSR + client                                   |
+| `src/lib/simulationRequest.ts`    | Input parsing/validation shared by page + API                                      |
+| `src/pages/index.astro`           | IDR-first dashboard (server-rendered table)                                        |
+| `src/scripts/simulator.ts`        | Framework-free client controller (Compare button)                                  |
+| `src/pages/api/simulate.ts`       | `GET`/`POST /api/simulate` JSON endpoint                                           |
+| `scripts/verify-rates.ts`         | `bun run verify:rates` — live egress check of every adapter                        |
+| `docs/rate-sources.md`            | Per-provider source/fee register (verified vs illustrative)                        |
 
 ## Getting started
 

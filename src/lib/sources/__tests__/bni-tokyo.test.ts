@@ -44,7 +44,7 @@ describe('bni-tokyo: parseBniTokyoRates', () => {
     // parser ever touched the TTB card, the rate would be ~1/999, not 107.99.
     const poisoned = fixture('faq-et.html').replace(
       /(<div class="psr-cap">TTB<\/div>[\s\S]*?<tbody>)([\s\S]*?<\/tbody>)/,
-      '$1<tr><td>IDR</td><td>999</td></tr><tr><td>( IDR per JPY )</td><td>0.001</td></tr>$2',
+      '$1<tr><td>IDR</td><td>999</td></tr><tr><td>( IDR per JPY )</td><td>0.001</td></tr>$2'
     );
     expect(parseBniTokyoRates(poisoned)?.rate).toBe(107.99);
   });
@@ -52,7 +52,7 @@ describe('bni-tokyo: parseBniTokyoRates', () => {
   it('falls back to inverting the JPY-per-IDR TTS row', () => {
     const noPerJpyRow = fixture('faq-et.html').replace(
       /<tr>\s*<td>\(\s*IDR per JPY\s*\)<\/td>\s*<td>[0-9.]+<\/td>\s*<\/tr>/,
-      '',
+      ''
     );
     const parsed = parseBniTokyoRates(noPerJpyRow);
     expect(parsed?.rate).toBeCloseTo(1 / 0.00926, 4); // ≈ 107.99
@@ -74,11 +74,12 @@ describe('bni-tokyo: parseBniTokyoRates', () => {
 
 describe('bni-tokyo: fetchBniTokyoRates', () => {
   it('fetches the plain-HTTP board URL and stores the TTS rate', async () => {
-    const impl = vi.fn(async (_input: RequestInfo | URL) =>
-      new Response(fixture('faq-et.html'), {
-        status: 200,
-        headers: { 'content-type': 'text/html' },
-      }),
+    const impl = vi.fn(
+      async (_input: RequestInfo | URL) =>
+        new Response(fixture('faq-et.html'), {
+          status: 200,
+          headers: { 'content-type': 'text/html' },
+        })
     );
     const set = await fetchBniTokyoRates(impl as unknown as typeof fetch);
 
@@ -103,17 +104,16 @@ describe('bni-tokyo: fetchBniTokyoRates', () => {
   it('rejects (provider-level failure) on HTTP error', async () => {
     const failing = vi.fn(async () => new Response('down', { status: 500 }));
     await expect(fetchBniTokyoRates(failing as unknown as typeof fetch)).rejects.toThrow(
-      /HTTP 500/,
+      /HTTP 500/
     );
   });
 
   it('rejects when the TTS card disappears', async () => {
     const redesigned = vi.fn(
-      async () =>
-        new Response('<!DOCTYPE html><html><body>new site</body></html>', { status: 200 }),
+      async () => new Response('<!DOCTYPE html><html><body>new site</body></html>', { status: 200 })
     );
     await expect(fetchBniTokyoRates(redesigned as unknown as typeof fetch)).rejects.toThrow(
-      /TTS rate card not parsable/,
+      /TTS rate card not parsable/
     );
   });
 
@@ -122,7 +122,7 @@ describe('bni-tokyo: fetchBniTokyoRates', () => {
       throw new Error('ECONNREFUSED');
     });
     await expect(fetchBniTokyoRates(dead as unknown as typeof fetch)).rejects.toThrow(
-      /board fetch failed/i,
+      /board fetch failed/i
     );
   });
 });

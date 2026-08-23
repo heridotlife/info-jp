@@ -87,11 +87,12 @@ describe('city-express: parseRatesBoard', () => {
 
 describe('city-express: fetchCityExpressRates', () => {
   it('fetches the board URL and declares the verified corridors', async () => {
-    const impl = vi.fn(async (_input: RequestInfo | URL) =>
-      new Response(fixture('rates.json'), {
-        status: 200,
-        headers: { 'content-type': 'application/json' },
-      }),
+    const impl = vi.fn(
+      async (_input: RequestInfo | URL) =>
+        new Response(fixture('rates.json'), {
+          status: 200,
+          headers: { 'content-type': 'application/json' },
+        })
     );
     const set = await fetchCityExpressRates(impl as unknown as typeof fetch);
 
@@ -103,16 +104,23 @@ describe('city-express: fetchCityExpressRates', () => {
     expect(set.source).toContain('GOLDENRATE');
     expect(set.fetchedAt).toBeTruthy();
     expect(set.isPromo).toBeUndefined(); // standard rates only, no promo flag
-    expect(Object.keys(set.rates).sort()).toEqual(
-      ['BDT', 'IDR', 'INR', 'KRW', 'NPR', 'PHP', 'THB', 'VND'],
-    );
+    expect(Object.keys(set.rates).sort()).toEqual([
+      'BDT',
+      'IDR',
+      'INR',
+      'KRW',
+      'NPR',
+      'PHP',
+      'THB',
+      'VND',
+    ]);
     expect(set.rates.IDR).toBe(111.2);
   });
 
   it('rejects (provider-level failure) on HTTP error', async () => {
     const failing = vi.fn(async () => new Response('down', { status: 502 }));
     await expect(fetchCityExpressRates(failing as unknown as typeof fetch)).rejects.toThrow(
-      /HTTP 502/,
+      /HTTP 502/
     );
   });
 
@@ -122,10 +130,10 @@ describe('city-express: fetchCityExpressRates', () => {
         new Response(JSON.stringify({ error: 'renamed endpoint' }), {
           status: 200,
           headers: { 'content-type': 'application/json' },
-        }),
+        })
     );
     await expect(fetchCityExpressRates(changed as unknown as typeof fetch)).rejects.toThrow(
-      /no declared corridors parsed/,
+      /no declared corridors parsed/
     );
   });
 
@@ -134,7 +142,7 @@ describe('city-express: fetchCityExpressRates', () => {
       throw new Error('ECONNREFUSED');
     });
     await expect(fetchCityExpressRates(dead as unknown as typeof fetch)).rejects.toThrow(
-      /board fetch failed/i,
+      /board fetch failed/i
     );
   });
 });

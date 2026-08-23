@@ -62,7 +62,9 @@ async function main(): Promise<number> {
   try {
     mid = await fetchMidMarket();
   } catch (err) {
-    console.error(`FATAL: mid-market fetch failed — cannot sanity-check: ${(err as Error).message}`);
+    console.error(
+      `FATAL: mid-market fetch failed — cannot sanity-check: ${(err as Error).message}`
+    );
     return 1;
   }
   const sample = (Object.entries(mid) as Array<[CurrencyCode, number]>)
@@ -88,7 +90,9 @@ async function main(): Promise<number> {
     }
 
     console.log(`  source: ${set.source}${set.isPromo ? '  [PROMO RATE — never best-value]' : ''}`);
-    console.log(`  fetchedAt: ${set.fetchedAt}${set.quoteAmountJPY ? `  (quoted at ¥${set.quoteAmountJPY.toLocaleString()})` : ''}`);
+    console.log(
+      `  fetchedAt: ${set.fetchedAt}${set.quoteAmountJPY ? `  (quoted at ¥${set.quoteAmountJPY.toLocaleString()})` : ''}`
+    );
     live[providerId] = set.rates;
 
     for (const [code, rate] of Object.entries(set.rates) as Array<[CurrencyCode, number]>) {
@@ -102,9 +106,10 @@ async function main(): Promise<number> {
       const sane = withinSanityBound(rate, midRate);
       const verdict = sane ? 'OK' : 'OUT OF BOUNDS';
       console.log(
-        `${line}  mid ${midRate.toFixed(6)}  markup ${pct(markup)}  sanity [${(midRate * 0.85).toFixed(4)} .. ${(midRate * 1.02).toFixed(4)}]: ${verdict}`,
+        `${line}  mid ${midRate.toFixed(6)}  markup ${pct(markup)}  sanity [${(midRate * 0.85).toFixed(4)} .. ${(midRate * 1.02).toFixed(4)}]: ${verdict}`
       );
-      if (!sane) failures.push(`${providerId} ${code}: ${rate} outside sanity bound vs mid ${midRate}`);
+      if (!sane)
+        failures.push(`${providerId} ${code}: ${rate} outside sanity bound vs mid ${midRate}`);
     }
     console.log('');
   }
@@ -131,9 +136,12 @@ async function main(): Promise<number> {
         const drift = Math.abs(rate - page) / page;
         const ok = drift <= PAGE_TOLERANCE;
         console.log(
-          `  ${code}: adapter ${rate.toFixed(6)}  page ${page.toFixed(6)}  Δ ${pct(drift)}  ${ok ? 'OK' : 'MISMATCH'}`,
+          `  ${code}: adapter ${rate.toFixed(6)}  page ${page.toFixed(6)}  Δ ${pct(drift)}  ${ok ? 'OK' : 'MISMATCH'}`
         );
-        if (!ok) failures.push(`gate: SBI ${code} adapter ${rate} vs page ${page} (Δ ${pct(drift)} > ${pct(PAGE_TOLERANCE)})`);
+        if (!ok)
+          failures.push(
+            `gate: SBI ${code} adapter ${rate} vs page ${page} (Δ ${pct(drift)} > ${pct(PAGE_TOLERANCE)})`
+          );
       }
       console.log(`  source URL: ${SBI_REMIT_ENDPOINT}`);
       console.log('');
@@ -163,7 +171,7 @@ async function main(): Promise<number> {
  */
 async function corridorMatrix(
   live: Record<string, Partial<Record<CurrencyCode, number>>>,
-  failures: string[],
+  failures: string[]
 ): Promise<void> {
   console.log('── live corridor matrix (adapter output vs provider registry) ──');
   for (const provider of PROVIDERS) {
@@ -180,12 +188,15 @@ async function corridorMatrix(
         cells.push(`${code}·skip`);
       } else {
         cells.push(`${code}✗MISSING`);
-        failures.push(`matrix: ${provider.id} ${code} declared but not returned live (and not a documented skip)`);
+        failures.push(
+          `matrix: ${provider.id} ${code} declared but not returned live (and not a documented skip)`
+        );
       }
     }
     // A documented skip that starts answering again is worth knowing (not a failure).
     const revived = [...skips].filter((c) => rates[c as CurrencyCode] !== undefined);
-    const revivedNote = revived.length > 0 ? `  (skip now quoting again: ${revived.join(',')})` : '';
+    const revivedNote =
+      revived.length > 0 ? `  (skip now quoting again: ${revived.join(',')})` : '';
     console.log(`  ${provider.id}: ${cells.join(' ')}${revivedNote}`);
   }
   console.log('');

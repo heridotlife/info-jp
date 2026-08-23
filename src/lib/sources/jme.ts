@@ -46,11 +46,15 @@ export const JME_METHOD_SELECTOR = /BANK\s*DEPOSIT/i;
 const DECLARED_CURRENCIES: readonly CurrencyCode[] = ['IDR'];
 
 /** Descriptive UA — we are a comparison site reading a public rate page. */
-const USER_AGENT = 'info-jp-remittance-simulator/0.1 (provider rate comparison; contact: mail@heri.life)';
+const USER_AGENT =
+  'info-jp-remittance-simulator/0.1 (provider rate comparison; contact: mail@heri.life)';
 
 /** Cell-text cleaner for a `<td>…</td>` capture. */
 const cellText = (raw: string): string =>
-  raw.replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ').trim();
+  raw
+    .replace(/<[^>]+>/g, '')
+    .replace(/&nbsp;/g, ' ')
+    .trim();
 
 /**
  * Slice the HTML down to JME's own pane (before the MoneyGram pane starts),
@@ -77,7 +81,7 @@ export function parseJmeRates(html: string): Partial<Record<CurrencyCode, number
   const rates: Partial<Record<CurrencyCode, number>> = {};
   for (const rowMatch of jmeRateSection(html).matchAll(/<tr>([\s\S]*?)<\/tr>/g)) {
     const cells = [...rowMatch[1].matchAll(/<t[dh][^>]*>([\s\S]*?)<\/t[dh]>/g)].map((m) =>
-      cellText(m[1]),
+      cellText(m[1])
     );
     if (cells.length < 4) continue;
     const [, method, currency, rateText] = cells;
@@ -110,7 +114,7 @@ export async function fetchJmeRates(fetchImpl: typeof fetch = fetch): Promise<Ob
       throw new Error('no BANK DEPOSIT method rows parsed for declared corridors');
     }
   } catch (err) {
-    throw new Error(`JME: page fetch failed (${(err as Error).message})`);
+    throw new Error(`JME: page fetch failed (${(err as Error).message})`, { cause: err });
   }
 
   return {

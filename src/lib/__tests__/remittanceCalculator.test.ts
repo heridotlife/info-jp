@@ -28,7 +28,7 @@ function runIDR(observed?: Record<string, ObservedRateSet>, at = THURSDAY) {
   return simulate(
     { amountJPY: AMOUNT, targetCurrency: 'IDR', deliveryType: 'all', at },
     RATES,
-    observed,
+    observed
   );
 }
 
@@ -36,7 +36,7 @@ function runPHP(observed?: Record<string, ObservedRateSet>, at = THURSDAY) {
   return simulate(
     { amountJPY: AMOUNT, targetCurrency: 'PHP', deliveryType: 'all', at },
     RATES,
-    observed,
+    observed
   );
 }
 
@@ -87,9 +87,7 @@ describe('calculator: modeled path', () => {
     // disclose the basis instead of the generic label (task 21).
     const rv = byId(runPHP(undefined, THURSDAY).results, 'revolut-jp');
     expect(rv.rateSource.kind).toBe('modeled');
-    expect(rv.rateSource.sourceLabel).toBe(
-      'per published terms (weekday interbank + 1 % weekend)',
-    );
+    expect(rv.rateSource.sourceLabel).toBe('per published terms (weekday interbank + 1 % weekend)');
     // Everyone else keeps the generic honest label.
     const sbi = byId(runIDR().results, 'sbi-remit');
     expect(sbi.rateSource.sourceLabel).toBe('estimated from modeled markup');
@@ -130,7 +128,11 @@ describe('calculator: observed path', () => {
 
   it('labels method:"manual" sets as kind:"manual" but still applies the rate', () => {
     const { results } = runIDR({
-      'sbi-remit': observedSet({ rates: { IDR: 100 }, method: 'manual', source: 'manual-rates.json' }),
+      'sbi-remit': observedSet({
+        rates: { IDR: 100 },
+        method: 'manual',
+        source: 'manual-rates.json',
+      }),
     });
     const sbi = byId(results, 'sbi-remit');
     expect(sbi.rateSource.kind).toBe('manual');
@@ -322,7 +324,7 @@ describe('fee tiers: byCurrency overrides (verified IDR tables)', () => {
     expect(sbiRow.feeJPY).toBe(1_480); // verified IDR tier at ¥100,000
     const phpRun = simulate(
       { amountJPY: 100_000, targetCurrency: 'PHP', deliveryType: 'all', at: THURSDAY },
-      RATES,
+      RATES
     );
     const sbiPhp = phpRun.results.find((r) => r.providerId === 'sbi-remit')!;
     expect(sbiPhp.feeJPY).toBe(400); // global tier at ¥100,000

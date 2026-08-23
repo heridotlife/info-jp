@@ -37,7 +37,8 @@ export const MANUAL_RATES: readonly ObservedRateSet[] = [
       IDR: 111.1,
     },
     fetchedAt: '2026-08-23T00:00:00+09:00', // capture date, JST midnight (day precision)
-    source: 'https://www.kyodai.co.jp/ rate page — browser-captured (Blazor Server + digit-image rates)',
+    source:
+      'https://www.kyodai.co.jp/ rate page — browser-captured (Blazor Server + digit-image rates)',
     method: 'manual',
   },
 ];

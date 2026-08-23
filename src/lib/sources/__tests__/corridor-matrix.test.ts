@@ -108,22 +108,23 @@ describe('corridor matrix: adapter coverage vs provider registry', () => {
           if (rate !== undefined) expect(Number.isFinite(rate) && rate > 0).toBe(true);
           continue;
         }
-        expect(set.rates[code], `${provider.id} corridor ${code} missing from adapter output`).toBeDefined();
+        expect(
+          set.rates[code],
+          `${provider.id} corridor ${code} missing from adapter output`
+        ).toBeDefined();
         expect(set.rates[code]!).toBeGreaterThan(0);
       }
     });
   }
 
   it('IDR is covered by every IDR-corridor adapter (the comparison’s headline corridor)', async () => {
-    const idrProviders = providersWithAdapters.filter((p) =>
-      p.supportedCurrencies.includes('IDR'),
-    );
+    const idrProviders = providersWithAdapters.filter((p) => p.supportedCurrencies.includes('IDR'));
     expect(idrProviders.length).toBeGreaterThanOrEqual(8);
     const sets = await Promise.all(
       idrProviders.map(async (p) => ({
         id: p.id,
         rate: (await RATE_ADAPTERS[p.id].fetchRates(fixtureFetchFor(p.id))).rates.IDR,
-      })),
+      }))
     );
     for (const { id, rate } of sets) {
       expect(rate, `${id} IDR fixture rate missing`).toBeDefined();
@@ -143,7 +144,7 @@ describe('corridor matrix: per-source isolation', () => {
       providersWithAdapters.map(async (p) => {
         if (p.id === boom) throw new Error('network unreachable');
         return RATE_ADAPTERS[p.id].fetchRates(fixtureFetchFor(p.id));
-      }),
+      })
     );
     const ok = results.filter((r) => r.status === 'fulfilled');
     expect(ok.length).toBe(providersWithAdapters.length - 1);

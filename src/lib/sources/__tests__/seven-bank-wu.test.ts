@@ -119,11 +119,12 @@ describe('seven-bank-wu: sanity bound', () => {
 
 describe('seven-bank-wu: fetchSevenBankRates', () => {
   it('fetches the board URL and declares every live-verified corridor', async () => {
-    const impl = vi.fn(async (_input: RequestInfo | URL) =>
-      new Response(fixture('CurrentFXList.xml'), {
-        status: 200,
-        headers: { 'content-type': 'text/xml' },
-      }),
+    const impl = vi.fn(
+      async (_input: RequestInfo | URL) =>
+        new Response(fixture('CurrentFXList.xml'), {
+          status: 200,
+          headers: { 'content-type': 'text/xml' },
+        })
     );
     const set = await fetchSevenBankRates(impl as unknown as typeof fetch);
 
@@ -136,9 +137,16 @@ describe('seven-bank-wu: fetchSevenBankRates', () => {
     expect(set.fetchedAt).toBeTruthy();
 
     // All 8 registry corridors were on the board 2026-08-23.
-    expect(Object.keys(set.rates).sort()).toEqual(
-      ['BDT', 'IDR', 'INR', 'NPR', 'PHP', 'THB', 'USD', 'VND'],
-    );
+    expect(Object.keys(set.rates).sort()).toEqual([
+      'BDT',
+      'IDR',
+      'INR',
+      'NPR',
+      'PHP',
+      'THB',
+      'USD',
+      'VND',
+    ]);
     expect(set.rates.IDR).toBe(110.9163283);
     expect(set.rates.VND).toBe(163.7151341);
   });
@@ -146,7 +154,7 @@ describe('seven-bank-wu: fetchSevenBankRates', () => {
   it('skips missing corridors but keeps the set (partial board)', async () => {
     const pruned = fixture('CurrentFXList.xml').replace(
       /<country>\s*<countrycode>ID<\/countrycode>[\s\S]*?<\/country>/,
-      '',
+      ''
     );
     const impl = vi.fn(async () => new Response(pruned, { status: 200 }));
     const set = await fetchSevenBankRates(impl as unknown as typeof fetch);
@@ -157,14 +165,14 @@ describe('seven-bank-wu: fetchSevenBankRates', () => {
   it('rejects (provider-level failure) on HTTP error', async () => {
     const failing = vi.fn(async () => new Response('gone', { status: 404 }));
     await expect(fetchSevenBankRates(failing as unknown as typeof fetch)).rejects.toThrow(
-      /HTTP 404/,
+      /HTTP 404/
     );
   });
 
   it('rejects when nothing parses', async () => {
     const garbage = vi.fn(async () => new Response('<html>maintenance</html>', { status: 200 }));
     await expect(fetchSevenBankRates(garbage as unknown as typeof fetch)).rejects.toThrow(
-      /no corridors parsed/i,
+      /no corridors parsed/i
     );
   });
 
@@ -173,7 +181,7 @@ describe('seven-bank-wu: fetchSevenBankRates', () => {
       throw new Error('ECONNREFUSED');
     });
     await expect(fetchSevenBankRates(dead as unknown as typeof fetch)).rejects.toThrow(
-      /board fetch failed/i,
+      /board fetch failed/i
     );
   });
 });

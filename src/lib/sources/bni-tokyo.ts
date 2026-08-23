@@ -72,9 +72,10 @@ export function parseBniTokyoRates(html: string): BniTokyoParse | undefined {
   if (section === '') return undefined;
 
   // Explicit per-1-JPY row: "( IDR per JPY ) | 107.99"
-  const perJpy = /<td[^>]*>\(\s*IDR\s*per\s*JPY\s*\)<\/td>\s*<td[^>]*>\s*([0-9][0-9.,]*)\s*<\/td>/i.exec(
-    section,
-  );
+  const perJpy =
+    /<td[^>]*>\(\s*IDR\s*per\s*JPY\s*\)<\/td>\s*<td[^>]*>\s*([0-9][0-9.,]*)\s*<\/td>/i.exec(
+      section
+    );
   // JPY-per-IDR row: "IDR | 0.00926" → invert for the canonical unit.
   const perIdr = /<td[^>]*>\s*IDR\s*<\/td>\s*<td[^>]*>\s*([0-9][0-9.,]*)\s*<\/td>/i.exec(section);
 
@@ -98,7 +99,8 @@ export function parseBniTokyoRates(html: string): BniTokyoParse | undefined {
 }
 
 /** Descriptive UA — we are a comparison site reading a public rate board. */
-const USER_AGENT = 'info-jp-remittance-simulator/0.1 (provider rate comparison; contact: mail@heri.life)';
+const USER_AGENT =
+  'info-jp-remittance-simulator/0.1 (provider rate comparison; contact: mail@heri.life)';
 
 /**
  * Fetch BNI Tokyo's live remittance (TTS) rate for the IDR corridor.
@@ -112,7 +114,7 @@ const USER_AGENT = 'info-jp-remittance-simulator/0.1 (provider rate comparison; 
  * @param fetchImpl injectable for tests (defaults to the platform `fetch`)
  */
 export async function fetchBniTokyoRates(
-  fetchImpl: typeof fetch = fetch,
+  fetchImpl: typeof fetch = fetch
 ): Promise<ObservedRateSet> {
   let parsed: BniTokyoParse | undefined;
   try {
@@ -123,7 +125,7 @@ export async function fetchBniTokyoRates(
     parsed = parseBniTokyoRates(await res.text());
     if (parsed === undefined) throw new Error('TTS rate card not parsable');
   } catch (err) {
-    throw new Error(`BNI Tokyo: board fetch failed (${(err as Error).message})`);
+    throw new Error(`BNI Tokyo: board fetch failed (${(err as Error).message})`, { cause: err });
   }
 
   return {
