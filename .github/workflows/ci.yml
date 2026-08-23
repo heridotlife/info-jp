@@ -69,12 +69,20 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
-      # Plain unit tests only. heridotlife also runs `test:coverage` (with
-      # thresholds) and uploads to Codecov; this repo has no
-      # @vitest/coverage-v8 dependency and no coverage thresholds configured,
-      # so coverage is skipped rather than adding devDependencies for it.
-      - name: Run unit tests
-        run: bun run test
+      # Gating: the coverage thresholds in vitest.config.ts (98% statements /
+      # 87% branches / 99% functions / 99% lines, global) fail this step — and
+      # the job — if regressed.
+      - name: Run tests with coverage
+        run: bun run test:coverage
+
+      # heridotlife also uploads lcov to Codecov; this repo has no
+      # CODECOV_TOKEN, so the report is archived as an artifact instead.
+      - name: Archive coverage report
+        uses: actions/upload-artifact@v7
+        with:
+          name: coverage-report
+          path: coverage/
+          retention-days: 30
 
   e2e-local:
     name: E2E (local boot)

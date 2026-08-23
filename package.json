@@ -18,6 +18,7 @@
     "lint:fix": "eslint --fix . && prettier --write .",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
     "verify:rates": "bun scripts/verify-rates.ts",
     "test:e2e:local": "bun scripts/e2e-local.mjs",
     "astro": "astro"
@@ -32,6 +33,7 @@
     "@eslint/js": "^10.0.1",
     "@tailwindcss/vite": "^4.1.0",
     "@types/node": "^26.2.0",
+    "@vitest/coverage-v8": "^4.1.11",
     "eslint": "^10.9.0",
     "eslint-plugin-astro": "^3.1.0",
     "prettier": "^3.9.6",
