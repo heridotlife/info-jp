@@ -7,6 +7,7 @@ import type {
   ResultTag,
   SimulationInput,
   SimulationResponse,
+  SimulationMeta,
   SimulationResult,
   CurrencyCode,
 } from '../types/remittance';
@@ -203,22 +204,22 @@ export function simulate(
   const midMarketRate = rates.rates[targetCurrency];
   const currency = getCurrency(targetCurrency);
 
+  const emptyMeta: SimulationMeta = {
+    amountJPY,
+    targetCurrency,
+    deliveryType,
+    midMarketRate: 0,
+    ratesFetchedAt: rates.fetchedAt,
+    ratesSource: rates.source,
+    isJapanWeekend: weekend,
+    currency,
+    observedCoverage: { observed: 0, manual: 0, modeled: 0 },
+  };
+
   // If we somehow lack a rate for this corridor, return empty results with meta
   // rather than throwing — the UI can show a friendly "unavailable" state.
   if (midMarketRate === undefined || midMarketRate <= 0) {
-    return {
-      meta: {
-        amountJPY,
-        targetCurrency,
-        deliveryType,
-        midMarketRate: 0,
-        ratesFetchedAt: rates.fetchedAt,
-        ratesSource: rates.source,
-        isJapanWeekend: weekend,
-        currency,
-      },
-      results: [],
-    };
+    return { meta: emptyMeta, results: [] };
   }
 
   const results = PROVIDERS.filter((p) => p.supportedCurrencies.includes(targetCurrency))
@@ -238,6 +239,9 @@ export function simulate(
 
   assignTags(results);
 
+  const observedCoverage = { observed: 0, manual: 0, modeled: 0 };
+  for (const r of results) observedCoverage[r.rateSource.kind] += 1;
+
   return {
     meta: {
       amountJPY,
@@ -248,6 +252,7 @@ export function simulate(
       ratesSource: rates.source,
       isJapanWeekend: weekend,
       currency,
+      observedCoverage,
     },
     results,
   };

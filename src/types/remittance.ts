@@ -237,6 +237,10 @@ export interface SimulationMeta {
   /** Whether weekend surcharges were applied (Japan time). */
   isJapanWeekend: boolean;
   currency: Currency;
+  /** How many rows use observed / manual / modeled exchange rates. */
+  observedCoverage: { observed: number; manual: number; modeled: number };
+  /** Per-provider observed-rate fetch failures (providerId → message). */
+  fetchErrors?: Record<string, string>;
 }
 
 export interface SimulationResponse {
