@@ -335,6 +335,49 @@ export const PROVIDERS: readonly Provider[] = [
     },
     note: 'Corridor limit ¥5,000–¥1,000,000 (JPY→IDR). ¥0 transfer fee verified. Quotes can carry a first-transaction rate bonus — the comparison stores the standard (regular) rate when they diverge.',
   },
+  // --------------------------------------------------------------------------
+  // CITY EXPRESS (cityremit.com) — new-provider onboarding 2026-08-23.
+  // Observed rates via the exchange.city-remit.net JSON board (adapter
+  // supersedes the modeled markup below).
+  // --------------------------------------------------------------------------
+  {
+    id: 'city-express',
+    name: 'City Express',
+    logoText: 'CE',
+    brandColor: '#e65100',
+    website: 'https://www.cityremit.com/',
+    supportedCurrencies: ['IDR', 'NPR', 'VND', 'PHP', 'INR', 'BDT', 'THB', 'KRW'],
+    deliveryTypes: ['bank', 'cash'],
+    speed: { label: 'Minutes – 1 day', rankMinutes: 120 },
+    rateMarkup: {
+      // Modeled placeholder only — superseded by the observed-rate adapter
+      // (live 2026-08-23: IDR −0.15%, NPR −1.1% vs mid).
+      default: 0.01,
+      byCurrency: { IDR: 0.004 },
+    },
+    fee: {
+      kind: 'tiered',
+      // Global (illustrative for other corridors).
+      tiers: [
+        { upToJPY: 50_000, feeJPY: 500 },
+        { upToJPY: 250_000, feeJPY: 1_000 },
+        { upToJPY: null, feeJPY: 1_500 },
+      ],
+      // VERIFIED JPY→IDR fee table (bank transfer; cash pickup identical).
+      // Source: https://cityremit.com/service-fee (public page), verified
+      // 2026-08-23 during onboarding — the /api/rates payload carries no fee
+      // fields; see docs/rate-sources.md.
+      byCurrency: {
+        IDR: [
+          { upToJPY: 10_000, feeJPY: 400 },
+          { upToJPY: 50_000, feeJPY: 500 },
+          { upToJPY: 250_000, feeJPY: 1_000 },
+          { upToJPY: 1_000_000, feeJPY: 1_500 },
+        ],
+      },
+    },
+    note: 'The rate board also carries “GOLDENRATE” promo rates — the comparison always uses the standard rate.',
+  },
 ];
 
 /** Total number of providers, handy for meta/analytics. */
