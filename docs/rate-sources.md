@@ -77,6 +77,7 @@ the observation time and relies on the 12 h KV TTL for freshness.
 | City Express | IDR NPR VND PHP INR BDT THB KRW | `GET https://exchange.city-remit.net/api/rates` (one JSON board) | adapter (`src/lib/sources/city-express.ts`) | `rate` per-1-JPY; `GOLDENRATE` promo rows dropped (§9) | 12 h KV | **observed** (8 corridors live 2026-08-23) | IDR **verified** (cityremit.com/service-fee, 2026-08-23); others illustrative |
 | JME | IDR | `GET https://japanremit.com/exchange-rate` (server-rendered tables; JME pane only — MoneyGram pane never read) | adapter (`src/lib/sources/jme.ts`) | BANK DEPOSIT method row per-1-JPY (live 110.1035); ⚠️ empty-method row is a promo ABOVE mid (112.4665) — structurally excluded | 12 h KV | **observed** (live 2026-08-23) | IDR **verified** (task plan table, 2026-08-23); global tiers = published schedule |
 | DCOM | IDR (board quotes 19 currencies) | `GET https://sendmoney.co.jp/jp/fx-rate/` (server-rendered table) | adapter (`src/lib/sources/dcom.ts`) | send column `JPY = X` cell (`IDR 111.0000`) per-1-JPY; inverse `X = JPY` cell never read | 12 h KV | **observed** (live 2026-08-23) | IDR **verified** (plan fee table, 2026-08-23); others illustrative |
+| Remitly Japan | IDR (promo) | `GET https://www.remitly.com/jp/ja/currency-converter/jpy-to-idr-rate` (server-rendered; embedded `merchandisingFacts` JSON) | adapter (`src/lib/sources/remitly.ts`) | `effectiveRateAsLowAs` per-1-JPY — **always `isPromo: true`** (new-customer rate, above mid); ⚠️ `secondaryMerchandisingFacts` block never read | 12 h KV | **observed — promo only** (live 2026-08-23: promo 111.42; everyday range 106.85–110.87 public on the page, exact per-config rate login-walled) | illustrative (¥100 flat placeholder; promo waives first-transfer fees) |
 
 Rows are replaced as adapters land (tasks 9–20): each onboarding task fills in
 the URL/method/quoting-units columns and flips rate status to **observed** per
@@ -115,5 +116,10 @@ JRF, Brastel, and all non-IDR corridors.
 - Seven Bank `Sendcharge.xml` (fee cross-check for task 8's IDR tiers) no
   longer exists — the URL serves the bank's HTML homepage (2026-08-23). The
   verified IDR tiers stand on research pass 2; divergence check not possible.
+- Remitly's everyday (standard) rate RANGE is public on the converter page
+  (`everydayRateAsLowAs/AsHighAs`, live 106.85–110.87) — superseding P2's
+  "standard rate fully login-walled" verdict for the range, though the exact
+  per-config rate still requires login. Stored rate stays promo-flagged;
+  modeling the everyday range is a possible future refinement.
 - Workers-egress confirmation for production (post-deploy cold request) is
   task 22; everything above ran on local workerd via `wrangler pages dev`.

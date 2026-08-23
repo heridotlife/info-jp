@@ -451,6 +451,34 @@ export const PROVIDERS: readonly Provider[] = [
       },
     },
   },
+  // --------------------------------------------------------------------------
+  // REMITLY JAPAN — new-provider onboarding 2026-08-23. Observed rates are
+  // the PUBLIC PAGE'S NEW-CUSTOMER PROMO RATE (always `isPromo` — never
+  // eligible for `best-value`, plan “Approach” §9).
+  // --------------------------------------------------------------------------
+  {
+    id: 'remitly',
+    name: 'Remitly',
+    logoText: 'RE',
+    brandColor: '#0071bc',
+    website: 'https://www.remitly.com/jp',
+    supportedCurrencies: ['IDR'], // grown only as corridors verify
+    deliveryTypes: ['bank', 'cash', 'wallet'],
+    speed: { label: 'Minutes – hours', rankMinutes: 30 },
+    rateMarkup: {
+      // Modeled placeholder only — superseded by the promo-flagged observed
+      // rate (live 2026-08-23: promo 111.42, everyday range 106.85–110.87).
+      default: 0.015,
+    },
+    fee: {
+      // ILLUSTRATIVE (flagged — plan gap list): ¥100 representative flat
+      // fee; the promo waives first-transfer fees, everyday fees vary by
+      // pay/delivery config. See docs/rate-sources.md.
+      kind: 'flat',
+      feeJPY: 100,
+    },
+    note: 'Public page shows the new-customer promo rate (first transfer, capped at ¥100,000) — displayed as “Promo — new customers only” and never ranked as best value. Standard (everyday) rate varies by payment/delivery choice.',
+  },
 ];
 
 /** Total number of providers, handy for meta/analytics. */
