@@ -1,0 +1,32 @@
+{
+  // Cloudflare Pages configuration for the Astro SSR bundle.
+  // Docs: https://developers.cloudflare.com/pages/functions/wrangler-configuration/
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "info-jp-remittance-simulator",
+  "compatibility_date": "2025-05-05",
+  "compatibility_flags": ["nodejs_compat"],
+
+  // Astro's Cloudflare adapter writes the SSR worker + assets here.
+  "pages_build_output_dir": "./dist",
+
+  // KV namespace used to cache mid-market FX rates (see src/lib/rates.ts).
+  // For local `astro dev` any id works — Miniflare simulates KV in-memory.
+  // Before deploying, create a real namespace and paste its id:
+  //   npx wrangler kv namespace create RATES_KV
+  //   npx wrangler kv namespace create RATES_KV --preview
+  "kv_namespaces": [
+    {
+      "binding": "RATES_KV",
+      "id": "REPLACE_WITH_PROD_KV_ID",
+      "preview_id": "REPLACE_WITH_PREVIEW_KV_ID"
+    },
+    // Astro's Cloudflare adapter auto-enables its session store on a KV binding
+    // named SESSION. This app doesn't use sessions, but declaring the binding
+    // keeps the runtime happy if any session-backed feature is added later.
+    {
+      "binding": "SESSION",
+      "id": "REPLACE_WITH_SESSION_KV_ID",
+      "preview_id": "REPLACE_WITH_SESSION_PREVIEW_KV_ID"
+    }
+  ]
+}

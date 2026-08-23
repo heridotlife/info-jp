@@ -1,0 +1,214 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { CURRENCIES } from '../lib/currencies';
+import { PROVIDER_COUNT } from '../lib/providers';
+import { getRates } from '../lib/rates';
+import { simulate } from '../lib/remittanceCalculator';
+import {
+  DEFAULT_AMOUNT_JPY,
+  DEFAULT_CURRENCY,
+  MIN_AMOUNT_JPY,
+  MAX_AMOUNT_JPY,
+} from '../lib/simulationRequest';
+
+export const prerender = false;
+
+// --- Server-side initial simulation -----------------------------------------
+// Compute the default comparison on the server so the first paint has real
+// data (no spinner, good SEO). The client re-runs it via /api/simulate on any
+// control change. `RATES_KV` is available in prod and, via platformProxy, in
+// `astro dev`; getRates() falls back gracefully if it's missing.
+const kv = Astro.locals?.runtime?.env?.RATES_KV;
+const rates = await getRates(kv);
+const initial = simulate(
+  { amountJPY: DEFAULT_AMOUNT_JPY, targetCurrency: DEFAULT_CURRENCY, deliveryType: 'all' },
+  rates,
+);
+
+const quickAmounts = [10_000, 50_000, 100_000, 300_000];
+const deliveryOptions = [
+  { value: 'all', label: 'All' },
+  { value: 'bank', label: 'Bank Transfer' },
+  { value: 'cash', label: 'Cash Pickup' },
+  { value: 'wallet', label: 'Mobile Wallet' },
+] as const;
+
+// Data handed to the client renderer (single source of truth for card markup).
+const bootstrap = {
+  currencies: CURRENCIES,
+  initial,
+  defaults: {
+    amountJPY: DEFAULT_AMOUNT_JPY,
+    targetCurrency: DEFAULT_CURRENCY,
+    deliveryType: 'all',
+    min: MIN_AMOUNT_JPY,
+    max: MAX_AMOUNT_JPY,
+  },
+};
+---
+
+<Layout>
+  <div class="mx-auto max-w-5xl px-4 pb-24 pt-6 sm:px-6">
+    <!-- Header -->
+    <header class="flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="grid h-10 w-10 place-items-center rounded-xl bg-indigo-600 text-lg font-bold text-white shadow-sm">
+          ¥→
+        </div>
+        <div>
+          <h1 class="text-base font-semibold leading-tight sm:text-lg">JP Remittance Simulator</h1>
+          <p class="text-xs text-slate-500 dark:text-slate-400">
+            Comparing {PROVIDER_COUNT} services sending money from Japan
+          </p>
+        </div>
+      </div>
+
+      <button
+        id="theme-toggle"
+        type="button"
+        aria-label="Toggle dark mode"
+        class="grid h-10 w-10 place-items-center rounded-xl border border-slate-200 bg-white text-slate-600 transition hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800"
+      >
+        <!-- sun (shown in dark mode) -->
+        <svg class="hidden h-5 w-5 dark:block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+        </svg>
+        <!-- moon (shown in light mode) -->
+        <svg class="h-5 w-5 dark:hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
+        </svg>
+      </button>
+    </header>
+
+    <!-- Hero copy -->
+    <section class="mt-6">
+      <h2 class="text-2xl font-bold tracking-tight sm:text-3xl">
+        See who <span class="text-indigo-600 dark:text-indigo-400">actually</span> delivers the most.
+      </h2>
+      <p class="mt-1 max-w-2xl text-sm text-slate-600 dark:text-slate-400">
+        Upfront fees are only half the story. We add the hidden exchange-rate markup back in so you
+        can compare the <strong class="font-semibold text-slate-800 dark:text-slate-200">real payout</strong>
+        your recipient gets.
+      </p>
+    </section>
+
+    <!-- Control panel -->
+    <section
+      class="mt-6 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:p-6"
+    >
+      <div class="grid gap-5 sm:grid-cols-2">
+        <!-- Amount -->
+        <div>
+          <label for="amount" class="mb-1.5 block text-sm font-medium">You send</label>
+          <div class="relative">
+            <span class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-lg font-semibold text-slate-400">¥</span>
+            <input
+              id="amount"
+              type="number"
+              inputmode="numeric"
+              min={MIN_AMOUNT_JPY}
+              max={MAX_AMOUNT_JPY}
+              value={DEFAULT_AMOUNT_JPY}
+              class="w-full rounded-xl border border-slate-300 bg-slate-50 py-3 pl-9 pr-4 text-lg font-semibold tabular-nums outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30 dark:border-slate-700 dark:bg-slate-950"
+            />
+          </div>
+          <div class="mt-2 flex flex-wrap gap-2" id="quick-amounts">
+            {
+              quickAmounts.map((amt) => (
+                <button
+                  type="button"
+                  data-amount={amt}
+                  class="rounded-lg border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-medium text-slate-600 transition hover:border-indigo-400 hover:text-indigo-600 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:hover:border-indigo-500"
+                >
+                  ¥{amt.toLocaleString('en-US')}
+                </button>
+              ))
+            }
+          </div>
+        </div>
+
+        <!-- Currency -->
+        <div>
+          <label for="currency" class="mb-1.5 block text-sm font-medium">They receive</label>
+          <select
+            id="currency"
+            class="w-full rounded-xl border border-slate-300 bg-slate-50 py-3 pl-4 pr-10 text-base font-medium outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30 dark:border-slate-700 dark:bg-slate-950"
+          >
+            {
+              CURRENCIES.map((c) => (
+                <option value={c.code} selected={c.code === DEFAULT_CURRENCY}>
+                  {c.flag} {c.country} — {c.code} ({c.name})
+                </option>
+              ))
+            }
+          </select>
+          <p class="mt-2 text-xs text-slate-500 dark:text-slate-400" id="rate-line">Loading rate…</p>
+        </div>
+      </div>
+
+      <!-- Delivery method toggle -->
+      <div class="mt-5">
+        <span class="mb-1.5 block text-sm font-medium">Receiving method</span>
+        <div
+          id="delivery-toggle"
+          role="tablist"
+          class="inline-flex flex-wrap gap-1 rounded-xl bg-slate-100 p-1 dark:bg-slate-950"
+        >
+          {
+            deliveryOptions.map((opt, i) => (
+              <button
+                type="button"
+                role="tab"
+                data-delivery={opt.value}
+                aria-selected={i === 0 ? 'true' : 'false'}
+                class="rounded-lg px-3 py-1.5 text-sm font-medium text-slate-600 transition aria-selected:bg-white aria-selected:text-indigo-600 aria-selected:shadow-sm dark:text-slate-300 dark:aria-selected:bg-slate-800 dark:aria-selected:text-indigo-400"
+              >
+                {opt.label}
+              </button>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Results header -->
+    <section class="mt-8 flex items-end justify-between gap-4">
+      <div>
+        <h3 class="text-lg font-semibold">Comparison</h3>
+        <p class="text-xs text-slate-500 dark:text-slate-400" id="results-meta">Ranked by real payout</p>
+      </div>
+      <div
+        id="loading-pill"
+        class="hidden items-center gap-2 rounded-full bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-600 dark:bg-indigo-950 dark:text-indigo-300"
+      >
+        <svg class="h-3.5 w-3.5 animate-spin" viewBox="0 0 24 24" fill="none">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+          <path class="opacity-90" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.4 0 0 5.4 0 12h4z" />
+        </svg>
+        Updating…
+      </div>
+    </section>
+
+    <!-- Results container (rendered by client script from embedded data) -->
+    <section id="results" class="mt-4 space-y-3" aria-live="polite"></section>
+
+    <noscript>
+      <p class="mt-4 rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-800">
+        This comparison needs JavaScript for live updates. You can still query the API directly at
+        <code>/api/simulate?amountJPY=100000&amp;targetCurrency=IDR</code>.
+      </p>
+    </noscript>
+
+    <footer class="mt-12 border-t border-slate-200 pt-6 text-xs text-slate-400 dark:border-slate-800">
+      <p>
+        Fees and FX markups are illustrative defaults for simulation — verify each provider's current
+        published rates before sending. Mid-market rates via open.er-api.com, cached in Cloudflare KV.
+      </p>
+    </footer>
+  </div>
+
+  <!-- Bootstrap data for the client renderer -->
+  <script is:inline type="application/json" id="bootstrap-data" set:html={JSON.stringify(bootstrap)}></script>
+
+  <script src="../scripts/simulator.ts"></script>
+</Layout>
