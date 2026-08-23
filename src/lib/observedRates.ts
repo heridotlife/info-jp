@@ -1,6 +1,7 @@
 import type { CurrencyCode, ObservedRateSet } from '../types/remittance';
 import type { RateAdapter } from './sources';
 import { RATE_ADAPTERS } from './sources';
+import { MANUAL_RATES } from '../data/manual-rates';
 
 /**
  * ============================================================================
@@ -22,6 +23,10 @@ import { RATE_ADAPTERS } from './sources';
  * sanity-bound reject, no adapter) resolves `undefined` and its row falls
  * down the fallback ladder manual → modeled. Failures are collected in
  * `fetchErrors` — this resolver NEVER throws past itself.
+ *
+ * Ladder (plan "Approach" §5): observed (KV hit or live adapter fetch) →
+ * manual (checked-in `src/data/manual-rates.ts`, never KV-cached; entries
+ * older than 24 h are expired and fall through) → modeled (no entry).
  *
  * Mid-market rates are a separate read-through (src/lib/rates.ts, 10-min
  * TTL). When a mid-market table is available, fetched observed rates get a
@@ -211,6 +216,22 @@ export async function resolveObservedRates(
     await Promise.race([worker, budget]);
     for (const providerId of pending) {
       fetchErrors[providerId] = 'abandoned: overall fetch budget exceeded';
+    }
+  }
+
+  // 4. Manual rung: checked-in rates fill providers with no observed set.
+  //    Never KV-cached (they ship in the bundle); expired entries (> 24 h)
+  //    fall through to modeled. `stale` (12–24 h) still serves — the UI
+  //    shows the amber badge + update date. The same sanity bound guards
+  //    against checked-in typos when a mid-market table is available.
+  for (const providerId of providerIds) {
+    if (byProvider[providerId] !== undefined) continue;
+    const manual = MANUAL_RATES.find((entry) => entry.providerId === providerId);
+    if (!manual || !isUsableSet(manual)) continue;
+    if (classifyStaleness(manual.fetchedAt) === 'expired') continue;
+    const bounded = options.midMarketRates ? applySanityBound(manual, options.midMarketRates) : manual;
+    if (Object.keys(bounded.rates).length > 0) {
+      byProvider[providerId] = bounded;
     }
   }
 

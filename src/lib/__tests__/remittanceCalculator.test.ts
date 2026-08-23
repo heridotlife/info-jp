@@ -81,6 +81,19 @@ describe('calculator: modeled path', () => {
     expect(sbi.appliedRate).toBeCloseTo(105 * (1 - 0.016), 10);
     expect(sbi.markupPct).toBeCloseTo(0.016, 10);
   });
+
+  it('carries a provider-specific modeled-basis label (Revolut published terms)', () => {
+    // Revolut is Cloudflare-walled — never observed; its modeled row must
+    // disclose the basis instead of the generic label (task 21).
+    const rv = byId(runPHP(undefined, THURSDAY).results, 'revolut-jp');
+    expect(rv.rateSource.kind).toBe('modeled');
+    expect(rv.rateSource.sourceLabel).toBe(
+      'per published terms (weekday interbank + 1 % weekend)',
+    );
+    // Everyone else keeps the generic honest label.
+    const sbi = byId(runIDR().results, 'sbi-remit');
+    expect(sbi.rateSource.sourceLabel).toBe('estimated from modeled markup');
+  });
 });
 
 // --- observed path ------------------------------------------------------------

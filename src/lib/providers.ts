@@ -189,6 +189,9 @@ export const PROVIDERS: readonly Provider[] = [
       kind: 'flat',
       feeJPY: 300, // representative Standard-plan transfer fee
     },
+    // Cloudflare-walled (research P2) — never labeled observed; the modeled
+    // basis is their published terms, so the breakdown says so (task 21).
+    modeledSourceLabel: 'per published terms (weekday interbank + 1 % weekend)',
     note: 'Mid-market rate on weekdays; ~1% FX markup on weekends (Standard plan).',
   },
 

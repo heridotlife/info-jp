@@ -177,6 +177,13 @@ export interface Provider {
   fee: FeeModel;
   /** Optional footnote surfaced in the expandable card (points, promos, etc.). */
   note?: string;
+  /**
+   * Provenance label for this provider's MODELED rates (shown in the
+   * breakdown's "Rate source" line). Providers whose markup models a
+   * published terms sheet (e.g. Revolut) say so here instead of the generic
+   * "estimated from modeled markup" — an honest-basis label, never "observed".
+   */
+  modeledSourceLabel?: string;
 }
 
 // ---------------------------------------------------------------------------

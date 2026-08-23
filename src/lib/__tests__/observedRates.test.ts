@@ -204,9 +204,66 @@ describe('resolveObservedRates', () => {
 
   it('providers without adapters resolve undefined (modeled fallback), no error', async () => {
     const { kv } = mockKV();
-    const { byProvider, fetchErrors } = await resolveObservedRates(['kyodai', 'brastel'], kv, {});
+    const { byProvider, fetchErrors } = await resolveObservedRates(['brastel'], kv, {});
     expect(byProvider).toEqual({});
     expect(fetchErrors).toEqual({});
+  });
+
+  // --- manual rung (task 21) -------------------------------------------------
+
+  it('manual entry fills a provider with no observed set (kyodai ladder)', async () => {
+    const { kv, puts } = mockKV();
+    const { byProvider, fetchErrors } = await resolveObservedRates(['kyodai'], kv, {
+      midMarketRates: { IDR: 111.37 },
+    });
+    // withinSanityBound(111.1 vs 111.37) → passes; never KV-cached.
+    expect(byProvider.kyodai).toMatchObject({
+      providerId: 'kyodai',
+      method: 'manual',
+      rates: { IDR: 111.1 },
+    });
+    expect(puts).toHaveLength(0);
+    expect(fetchErrors).toEqual({});
+  });
+
+  it('observed beats manual when an adapter/KV entry exists for the same provider', async () => {
+    const { kv } = mockKV();
+    const live = {
+      providerId: 'kyodai',
+      rates: { IDR: 103.2 },
+      fetchedAt: '2026-08-23T09:00:00Z',
+      source: 'live-adapter',
+      method: 'live' as const,
+    };
+    const { byProvider } = await resolveObservedRates(['kyodai'], kv, {
+      adapters: { kyodai: adapterReturning(live) },
+    });
+    expect(byProvider.kyodai).toEqual(live); // observed, not the manual entry
+  });
+
+  it('a manual rate outside the sanity band is dropped (typo guard)', async () => {
+    // Mid 111.37 × 10 (a decimal-shift typo) → far above ×1.02 → dropped.
+    const { kv } = mockKV();
+    const { byProvider } = await resolveObservedRates(['kyodai'], kv, {
+      midMarketRates: { IDR: 11.137 }, // makes 111.1 read as ×10 of mid
+    });
+    expect(byProvider.kyodai).toBeUndefined();
+  });
+
+  it('expired manual entries fall through to modeled; fresh manual survives', async () => {
+    // The checked-in entry ages in real time — pin the clock with vi.
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2026-08-23T12:00:00Z'));
+    try {
+      const fresh = await resolveObservedRates(['kyodai'], mockKV().kv, {});
+      expect(fresh.byProvider.kyodai?.method).toBe('manual'); // captured < 24 h ago
+
+      vi.setSystemTime(new Date('2026-08-25T12:00:00Z')); // +2 days
+      const expired = await resolveObservedRates(['kyodai'], mockKV().kv, {});
+      expect(expired.byProvider.kyodai).toBeUndefined(); // → modeled downstream
+    } finally {
+      vi.useRealTimers();
+    }
   });
 
   it('sanity bound: out-of-band corridors dropped; fully-rejected set is an error', async () => {
@@ -278,9 +335,14 @@ describe('simulate integration with resolver (SBI observed rate)', () => {
       // Fixture IDR rate 111.11 vs mid 111.37 → observed markup ≈ 0.23%.
       expect(sbi.appliedRate).toBeCloseTo(111.11, 6);
       expect(sbi.markupPct).toBeCloseTo((111.37 - 111.11) / 111.37, 6);
-      // Others stay modeled; coverage counts agree.
+      // Others stay modeled; Kyodai rides the manual rung; coverage agrees.
+      const kyodai = payload.results.find((r) => r.providerId === 'kyodai')!;
+      expect(kyodai.rateSource.kind).toBe('manual');
+      expect(kyodai.rateSource.sourceLabel).toContain('kyodai.co.jp');
+      expect(kyodai.rateSource.fetchedAt).toBeTruthy();
       expect(payload.meta.observedCoverage.observed).toBe(1);
-      expect(payload.meta.observedCoverage.modeled).toBe(payload.results.length - 1);
+      expect(payload.meta.observedCoverage.manual).toBe(1);
+      expect(payload.meta.observedCoverage.modeled).toBe(payload.results.length - 2);
     } finally {
       globalThis.fetch = original;
     }

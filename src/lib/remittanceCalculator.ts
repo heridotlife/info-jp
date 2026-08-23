@@ -134,7 +134,10 @@ function computeForProvider(
   } else {
     markupPct = resolveMarkup(provider.rateMarkup, currency, isWeekend);
     appliedRate = midMarketRate * (1 - markupPct);
-    rateSource = { kind: 'modeled', sourceLabel: 'estimated from modeled markup' };
+    rateSource = {
+      kind: 'modeled',
+      sourceLabel: provider.modeledSourceLabel ?? 'estimated from modeled markup',
+    };
   }
 
   const receiveAmount = amountConvertedJPY * appliedRate;
