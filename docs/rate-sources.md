@@ -69,7 +69,7 @@ the observation time and relies on the 12 h KV TTL for freshness.
 | Seven Bank / WU | IDR PHP VND INR NPR BDT THB USD | `GET https://www.sevenbank.co.jp/t/html/file/CurrentFXList.xml` (one board; rows keyed by two-letter countrycode — `ID` for Indonesia — plus a `<currencycode>` per currency) | adapter (`src/lib/sources/seven-bank-wu.ts`) | `fxrate` per-1-JPY (live 2026-08-23: IDR 110.916 vs mid 111.370); VN/PH blocks carry sibling USD rows — adapter matches countrycode + currencycode | 12 h KV | **observed** (all 8 corridors live 2026-08-23) | IDR **verified** (task 8); others illustrative
 | PayForex | all | — | — | — | — | modeled | illustrative |
 | Revolut Japan | all | — | — | — | — | modeled ("per published terms" relabel: task 21) | illustrative |
-| Smiles | all | — | — | — | — | modeled | IDR **verified** (task 8); others illustrative |
+| Smiles | NPR INR PHP VND IDR BDT (THB absent from board 2026-08-23) | `GET https://www.smileswallet.com/japan/exchange-rates/` (server-rendered; `class='exchange_rate'` anchors per country block) | adapter (`src/lib/sources/smiles.ts`) | anchor text `<rate> <CCY>` per-1-JPY, ~3–4 significant digits | 12 h KV | **observed** (6 corridors live 2026-08-23; THB skipped → modeled) | IDR **verified** (task 8); others illustrative |
 | Kyodai | all | — | — | — | — | modeled (manual rates: task 21) | IDR **verified** (task 8); others illustrative |
 | JRF | all | — | — | — | — | modeled | illustrative |
 | Brastel | all | — | — | — | — | modeled (spike: task 19) | illustrative |
