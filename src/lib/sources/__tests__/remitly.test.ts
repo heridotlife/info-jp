@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it, vi } from 'vitest';
 import { simulate } from '../../remittanceCalculator';
 import type { RateTable } from '../../rates';
-import type { ObservedRateSet } from '../../types/remittance';
+import type { ObservedRateSet } from '../../../types/remittance';
 import { REMITLY_ENDPOINT, fetchRemitlyRates, parseRemitlyPage } from '../remitly';
 
 /**
@@ -58,7 +58,7 @@ describe('remitly: parseRemitlyPage', () => {
 
 describe('remitly: fetchRemitlyRates', () => {
   it('fetches the page and stores the promo rate WITH isPromo', async () => {
-    const impl = vi.fn(async () =>
+    const impl = vi.fn(async (_input: RequestInfo | URL) =>
       new Response(fixture('converter.html'), {
         status: 200,
         headers: { 'content-type': 'text/html' },

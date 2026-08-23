@@ -87,7 +87,7 @@ describe('city-express: parseRatesBoard', () => {
 
 describe('city-express: fetchCityExpressRates', () => {
   it('fetches the board URL and declares the verified corridors', async () => {
-    const impl = vi.fn(async () =>
+    const impl = vi.fn(async (_input: RequestInfo | URL) =>
       new Response(fixture('rates.json'), {
         status: 200,
         headers: { 'content-type': 'application/json' },

@@ -64,7 +64,7 @@ describe('instarem: parseComputedValue', () => {
 
 describe('instarem: fetchInstaremRates', () => {
   it('quotes the canonical amount and stores the standard rate when promo detected', async () => {
-    const impl = vi.fn(async () =>
+    const impl = vi.fn(async (_input: RequestInfo | URL) =>
       new Response(fixture('computed-value.json'), {
         status: 200,
         headers: { 'content-type': 'application/json' },

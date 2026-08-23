@@ -57,7 +57,7 @@ describe('smiles: parseExchangeRates', () => {
 
 describe('smiles: fetchSmilesRates', () => {
   it('fetches the page URL and declares the quoted registry corridors', async () => {
-    const impl = vi.fn(async () =>
+    const impl = vi.fn(async (_input: RequestInfo | URL) =>
       new Response(fixture('exchange-rates.html'), {
         status: 200,
         headers: { 'content-type': 'text/html' },

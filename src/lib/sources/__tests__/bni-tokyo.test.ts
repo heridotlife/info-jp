@@ -74,7 +74,7 @@ describe('bni-tokyo: parseBniTokyoRates', () => {
 
 describe('bni-tokyo: fetchBniTokyoRates', () => {
   it('fetches the plain-HTTP board URL and stores the TTS rate', async () => {
-    const impl = vi.fn(async () =>
+    const impl = vi.fn(async (_input: RequestInfo | URL) =>
       new Response(fixture('faq-et.html'), {
         status: 200,
         headers: { 'content-type': 'text/html' },

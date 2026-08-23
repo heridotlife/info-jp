@@ -49,7 +49,7 @@ describe('dcom: parseDcomRates', () => {
 
 describe('dcom: fetchDcomRates', () => {
   it('fetches the page URL and declares the IDR send rate', async () => {
-    const impl = vi.fn(async () =>
+    const impl = vi.fn(async (_input: RequestInfo | URL) =>
       new Response(fixture('fx-rate.html'), {
         status: 200,
         headers: { 'content-type': 'text/html' },

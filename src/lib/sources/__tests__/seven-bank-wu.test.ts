@@ -119,7 +119,7 @@ describe('seven-bank-wu: sanity bound', () => {
 
 describe('seven-bank-wu: fetchSevenBankRates', () => {
   it('fetches the board URL and declares every live-verified corridor', async () => {
-    const impl = vi.fn(async () =>
+    const impl = vi.fn(async (_input: RequestInfo | URL) =>
       new Response(fixture('CurrentFXList.xml'), {
         status: 200,
         headers: { 'content-type': 'text/xml' },

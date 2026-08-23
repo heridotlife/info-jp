@@ -46,9 +46,10 @@ export const SEVEN_BANK_SOURCE_LABEL =
 
 /**
  * CurrencyCode → Seven Bank countrycode (the `ID`-not-`IDR` mapping, pinned
- * live 2026-08-23; every corridor of the provider registry is covered).
+ * live 2026-08-23). Partial: Seven Bank quotes 8 of the simulator's 11
+ * corridors — EUR/CNY/KRW are not offered and map to no country code.
  */
-export const COUNTRY_CODES: Readonly<Record<CurrencyCode, string>> = {
+export const COUNTRY_CODES: Readonly<Partial<Record<CurrencyCode, string>>> = {
   IDR: 'ID',
   PHP: 'PH',
   VND: 'VN',
@@ -95,7 +96,8 @@ export function pickRate(
   board: Map<string, Record<string, number>>,
   currency: CurrencyCode,
 ): number | undefined {
-  const block = board.get(COUNTRY_CODES[currency]);
+  const code = COUNTRY_CODES[currency];
+  const block = code === undefined ? undefined : board.get(code);
   if (!block) return undefined; // country not on the board → corridor skipped
   const rate = block[currency];
   return typeof rate === 'number' && Number.isFinite(rate) && rate > 0 ? rate : undefined;
