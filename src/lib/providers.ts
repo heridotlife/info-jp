@@ -271,19 +271,36 @@ export const PROVIDERS: readonly Provider[] = [
     name: 'Japan Remit Finance (JRF)',
     logoText: 'JRF',
     brandColor: '#c8102e',
-    website: 'https://www.jrf.co.jp/',
+    website: 'https://www.jpremit.com/',
     supportedCurrencies: ['PHP', 'VND', 'IDR', 'INR', 'NPR', 'THB'],
     deliveryTypes: ['bank', 'wallet'],
     speed: { label: 'Hours – 1 day', rankMinutes: 480 },
-    rateMarkup: { default: 0.016 },
+    rateMarkup: {
+      // Modeled placeholder only — superseded by the observed-rate adapter
+      // (live 2026-08-23: IDR 111.2 vs mid 111.37 → −0.15%; spike task 20).
+      default: 0.016,
+    },
     fee: {
       kind: 'tiered',
+      // Global (illustrative for non-IDR corridors).
       tiers: [
         { upToJPY: 50_000, feeJPY: 450 },
         { upToJPY: 100_000, feeJPY: 650 },
         { upToJPY: null, feeJPY: 900 },
       ],
+      // VERIFIED JPY→IDR bank-deposit (acc_depo) fee table.
+      // Source: JRF's own public fee API POST /api/country/service/fee/all
+      // (Indonesia, acc_depo), fetched live 2026-08-23 during the task-20
+      // spike; ranges ¥1k–¥60k / ¥60,001–¥300k / ¥300,001–¥1M.
+      byCurrency: {
+        IDR: [
+          { upToJPY: 60_000, feeJPY: 850 },
+          { upToJPY: 300_000, feeJPY: 1_450 },
+          { upToJPY: 1_000_000, feeJPY: 1_950 },
+        ],
+      },
     },
+    note: 'Rates and fees from jpremit.com (today-rates board + published fee schedule, Indonesia).',
   },
 
   // --------------------------------------------------------------------------

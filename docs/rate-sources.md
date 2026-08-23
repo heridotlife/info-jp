@@ -71,7 +71,7 @@ the observation time and relies on the 12 h KV TTL for freshness.
 | Revolut Japan | all | — | — | — | — | modeled ("per published terms" relabel: task 21) | illustrative |
 | Smiles | NPR INR PHP VND IDR BDT (THB absent from board 2026-08-23) | `GET https://www.smileswallet.com/japan/exchange-rates/` (server-rendered; `class='exchange_rate'` anchors per country block) | adapter (`src/lib/sources/smiles.ts`) | anchor text `<rate> <CCY>` per-1-JPY, ~3–4 significant digits | 12 h KV | **observed** (6 corridors live 2026-08-23; THB skipped → modeled) | IDR **verified** (task 8); others illustrative |
 | Kyodai | all | — | — | — | — | modeled (manual rates: task 21) | IDR **verified** (task 8); others illustrative |
-| JRF | all | — | — | — | — | modeled (spike: task 20, in flight) | illustrative |
+| JRF | PHP VND IDR INR NPR THB | `GET https://www.jpremit.com/api/fetch/country/fx/rates/extended` (one JSON board; header `X-Requested-With: XMLHttpRequest`) | adapter (`src/lib/sources/jrf.ts`) | `fx_rate` per-1-JPY; rows with `fx_rate: ""` are unquoted payment variants — skipped; first numeric row per currency wins | 12 h KV | **observed** (spike task 20 SUCCESS: endpoint reverse-engineered from the Vue SPA's axios calls, live from node + workerd 2026-08-23; INR quotes above mid on some days — the sanity bound may drop that corridor) | IDR **verified** (own fee API `POST /api/country/service/fee/all` acc_depo, 2026-08-23); others illustrative |
 | Brastel | all | — | — | — | — | **modeled — spike task 19 FAILED** (see spike notes) | illustrative |
 | Instarem | IDR | `GET https://www.instarem.com/api/v1/public/transaction/computed-value?source_currency=JPY&destination_currency=IDR&source_amount=10000` (anonymous) | adapter (`src/lib/sources/instarem.ts`) | `instarem_fx_rate` per-1-JPY (⚠️ NOT the reference `fx_rate`); promo cross-check vs `regular_instarem_fx_rate` — diverged quote → standard rate stored | 12 h KV | **observed** (live 2026-08-23: standard 110.8606; promo quote 110.9719 detected, not stored) | IDR **verified** (¥0, `regular_transaction_fee_amount: 0`, live 2026-08-23); corridor limit ¥5k–¥1M |
 | City Express | IDR NPR VND PHP INR BDT THB KRW | `GET https://exchange.city-remit.net/api/rates` (one JSON board) | adapter (`src/lib/sources/city-express.ts`) | `rate` per-1-JPY; `GOLDENRATE` promo rows dropped (§9) | 12 h KV | **observed** (8 corridors live 2026-08-23) | IDR **verified** (cityremit.com/service-fee, 2026-08-23); others illustrative |
@@ -109,6 +109,18 @@ modeled.** No browser-captured manual rate exists, so no manual entry either
 so far). Rerun trigger: if Brastel's SPA ever becomes fetchable (or a genuine
 captured rate is taken in a browser), add `src/data/manual-rates.json` entry or
 an adapter.
+
+### JRF — task 20 verdict: AUTOMATED (adapter landed)
+
+`https://www.jpremit.com/today-rates` is a Vue SPA whose 2.5 MB `app.js`
+bundle contains every axios call as string literals. The board the page
+renders is a plain anonymous `GET /api/fetch/country/fx/rates/extended`
+(Laravel JSON, no session, no CSRF). Verified from node + workerd egress
+2026-08-23; their fee schedule is equally open
+(`POST /api/country/service/fee/all` → IDR acc_depo tiers ¥850/¥1,450/¥1,950,
+now the verified `byCurrency.IDR` fee override). The registry's JRF website
+corrected to `https://www.jpremit.com/` (the site's own title: "JRF (Japan
+Remit Finance Co., Ltd.) … www.jpremit.com").
 
 ### Fee tables verified so far
 

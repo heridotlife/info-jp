@@ -4,6 +4,7 @@ import { fetchCityExpressRates } from './city-express';
 import { fetchDcomRates } from './dcom';
 import { fetchInstaremRates } from './instarem';
 import { fetchJmeRates } from './jme';
+import { fetchJrfRates } from './jrf';
 import { fetchPayForexRates } from './payforex';
 import { fetchRemitlyRates } from './remitly';
 import { fetchSbiRemitRates } from './sbi-remit';
@@ -42,6 +43,7 @@ export const RATE_ADAPTERS: Readonly<Record<string, RateAdapter>> = {
   instarem: { fetchRates: (fetchImpl?: typeof fetch) => fetchInstaremRates(fetchImpl ?? fetch) },
   'city-express': { fetchRates: (fetchImpl?: typeof fetch) => fetchCityExpressRates(fetchImpl ?? fetch) },
   jme: { fetchRates: (fetchImpl?: typeof fetch) => fetchJmeRates(fetchImpl ?? fetch) },
+  jrf: { fetchRates: (fetchImpl?: typeof fetch) => fetchJrfRates(fetchImpl ?? fetch) },
   dcom: { fetchRates: (fetchImpl?: typeof fetch) => fetchDcomRates(fetchImpl ?? fetch) },
   remitly: { fetchRates: (fetchImpl?: typeof fetch) => fetchRemitlyRates(fetchImpl ?? fetch) },
   'bni-tokyo': { fetchRates: (fetchImpl?: typeof fetch) => fetchBniTokyoRates(fetchImpl ?? fetch) },
