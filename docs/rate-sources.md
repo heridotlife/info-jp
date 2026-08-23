@@ -71,8 +71,8 @@ the observation time and relies on the 12 h KV TTL for freshness.
 | Revolut Japan | all | — | — | — | — | modeled ("per published terms" relabel: task 21) | illustrative |
 | Smiles | NPR INR PHP VND IDR BDT (THB absent from board 2026-08-23) | `GET https://www.smileswallet.com/japan/exchange-rates/` (server-rendered; `class='exchange_rate'` anchors per country block) | adapter (`src/lib/sources/smiles.ts`) | anchor text `<rate> <CCY>` per-1-JPY, ~3–4 significant digits | 12 h KV | **observed** (6 corridors live 2026-08-23; THB skipped → modeled) | IDR **verified** (task 8); others illustrative |
 | Kyodai | all | — | — | — | — | modeled (manual rates: task 21) | IDR **verified** (task 8); others illustrative |
-| JRF | all | — | — | — | — | modeled | illustrative |
-| Brastel | all | — | — | — | — | modeled (spike: task 19) | illustrative |
+| JRF | all | — | — | — | — | modeled (spike: task 20, in flight) | illustrative |
+| Brastel | all | — | — | — | — | **modeled — spike task 19 FAILED** (see spike notes) | illustrative |
 | Instarem | IDR | `GET https://www.instarem.com/api/v1/public/transaction/computed-value?source_currency=JPY&destination_currency=IDR&source_amount=10000` (anonymous) | adapter (`src/lib/sources/instarem.ts`) | `instarem_fx_rate` per-1-JPY (⚠️ NOT the reference `fx_rate`); promo cross-check vs `regular_instarem_fx_rate` — diverged quote → standard rate stored | 12 h KV | **observed** (live 2026-08-23: standard 110.8606; promo quote 110.9719 detected, not stored) | IDR **verified** (¥0, `regular_transaction_fee_amount: 0`, live 2026-08-23); corridor limit ¥5k–¥1M |
 | City Express | IDR NPR VND PHP INR BDT THB KRW | `GET https://exchange.city-remit.net/api/rates` (one JSON board) | adapter (`src/lib/sources/city-express.ts`) | `rate` per-1-JPY; `GOLDENRATE` promo rows dropped (§9) | 12 h KV | **observed** (8 corridors live 2026-08-23) | IDR **verified** (cityremit.com/service-fee, 2026-08-23); others illustrative |
 | JME | IDR | `GET https://japanremit.com/exchange-rate` (server-rendered tables; JME pane only — MoneyGram pane never read) | adapter (`src/lib/sources/jme.ts`) | BANK DEPOSIT method row per-1-JPY (live 110.1035); ⚠️ empty-method row is a promo ABOVE mid (112.4665) — structurally excluded | 12 h KV | **observed** (live 2026-08-23) | IDR **verified** (task plan table, 2026-08-23); global tiers = published schedule |
@@ -83,6 +83,32 @@ the observation time and relies on the 12 h KV TTL for freshness.
 Rows are replaced as adapters land (tasks 9–20): each onboarding task fills in
 the URL/method/quoting-units columns and flips rate status to **observed** per
 verified corridor, or documents the spike/manual outcome.
+
+---
+
+## Spike notes
+
+### Brastel WIMS gateway — task 19 verdict: NOT AUTOMATABLE (stays modeled)
+
+Probed 2026-08-23 from **both** node egress and the workerd runtime
+(`npx wrangler pages dev ./dist`, temporary probe route since removed):
+
+| Stage | Result |
+| --- | --- |
+| `GET www.brastel.com/web/WIMS/Manager.aspx?action=GetAllBestExchangeRates&xslFile=getwebmethodxml.xsl&seeXmlOnly=true` | HTTP 200 from **both** runtimes (the P1 "method not found" / P2 "TLS refused" split does not reproduce from our egress) — but the payload is a WIMS error envelope: `Method not found: GetAllBestExchangeRates`, `<MethodList />` empty (no introspection) |
+| 8 candidate action names (`GetExchangeRates`, `GetAllExchangeRates`, `GetBestExchangeRates`, `ExchangeRateList`, …) | all `Method not found` |
+| `remit.brastel.com` (the remit SPA that would reveal the real action name) | **HTTP 403 openresty** from node AND workerd — WAF blocks our egress outright |
+| `brastelremit.jp/eng/home` | **HTTP 403 openresty** from node AND workerd |
+| `www.brastel.com/pages/eng/remit/` | HTTP 200 but a JS stub with no rate links; `rates_from_mobile.xsl` is the calling-card page, not remittance |
+
+Conclusion: the gateway is reachable but the remit-rates method is undiscoverable
+without reading the WAF-walled SPA — replaying past the WAF would cross the
+plan's no-session-spoofing / politeness line. **No adapter; Brastel stays
+modeled.** No browser-captured manual rate exists, so no manual entry either
+(manual entries require a genuinely captured value — Kyodai's is the only one
+so far). Rerun trigger: if Brastel's SPA ever becomes fetchable (or a genuine
+captured rate is taken in a browser), add `src/data/manual-rates.json` entry or
+an adapter.
 
 ### Fee tables verified so far
 
