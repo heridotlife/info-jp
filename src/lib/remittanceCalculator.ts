@@ -1,5 +1,6 @@
 import type {
   FeeModel,
+  FeeTier,
   ObservedRateSet,
   Provider,
   RateMarkup,
@@ -62,8 +63,16 @@ function resolveMarkup(markup: RateMarkup, currency: CurrencyCode, isWeekend: bo
   return base + weekend;
 }
 
-/** Evaluate an upfront fee (JPY) for a given send amount. */
-export function computeUpfrontFee(fee: FeeModel, amountJPY: number): number {
+/** Resolve the effective tier list for a tiered fee + currency. */
+function resolveTiers(fee: Extract<FeeModel, { kind: 'tiered' }>, currency?: CurrencyCode): FeeTier[] {
+  return (currency !== undefined ? fee.byCurrency?.[currency] : undefined) ?? fee.tiers;
+}
+
+/**
+ * Evaluate an upfront fee (JPY) for a given send amount (and corridor, for
+ * per-currency tier overrides).
+ */
+export function computeUpfrontFee(fee: FeeModel, amountJPY: number, currency?: CurrencyCode): number {
   switch (fee.kind) {
     case 'flat':
       return fee.feeJPY;
@@ -74,13 +83,14 @@ export function computeUpfrontFee(fee: FeeModel, amountJPY: number): number {
     }
 
     case 'tiered': {
-      for (const tier of fee.tiers) {
+      const tiers = resolveTiers(fee, currency);
+      for (const tier of tiers) {
         if (tier.upToJPY === null || amountJPY <= tier.upToJPY) {
           return tier.feeJPY;
         }
       }
       // Amount exceeded every bounded tier and no open-ended tier was defined.
-      return fee.tiers[fee.tiers.length - 1]?.feeJPY ?? 0;
+      return tiers[tiers.length - 1]?.feeJPY ?? 0;
     }
   }
 }
@@ -93,7 +103,7 @@ function computeForProvider(
   isWeekend: boolean,
   observed?: ObservedRateSet,
 ): SimulationResult {
-  const feeJPY = roundYen(computeUpfrontFee(provider.fee, amountJPY));
+  const feeJPY = roundYen(computeUpfrontFee(provider.fee, amountJPY, currency));
   const amountConvertedJPY = Math.max(amountJPY - feeJPY, 0);
 
   // Observed rates (when the corridor has one) replace the modeled markup

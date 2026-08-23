@@ -81,11 +81,23 @@ export const PROVIDERS: readonly Provider[] = [
     },
     fee: {
       kind: 'tiered',
+      // Global (illustrative for non-IDR corridors).
       tiers: [
         { upToJPY: 30_000, feeJPY: 250 },
         { upToJPY: 100_000, feeJPY: 400 },
         { upToJPY: null, feeJPY: 880 },
       ],
+      // VERIFIED JPY→IDR bank-transfer fee table.
+      // Source: SBI Remit published fee schedule, verified 2026-08-23
+      // (research pass 2, plan “Verified fee tier tables”); see docs/rate-sources.md.
+      byCurrency: {
+        IDR: [
+          { upToJPY: 10_000, feeJPY: 460 },
+          { upToJPY: 50_000, feeJPY: 880 },
+          { upToJPY: 250_000, feeJPY: 1_480 },
+          { upToJPY: 1_000_000, feeJPY: 1_980 },
+        ],
+      },
     },
   },
 
@@ -108,11 +120,26 @@ export const PROVIDERS: readonly Provider[] = [
     },
     fee: {
       kind: 'tiered',
+      // Global (illustrative for non-IDR corridors).
       tiers: [
         { upToJPY: 30_000, feeJPY: 550 },
         { upToJPY: 100_000, feeJPY: 990 },
         { upToJPY: null, feeJPY: 1_500 },
       ],
+      // VERIFIED JPY→IDR fee table (Western Union cash pickup via Seven Bank ATM).
+      // Source: Seven Bank send-charge schedule (Sendcharge), verified 2026-08-23
+      // (research pass 2, plan “Verified fee tier tables”); see docs/rate-sources.md.
+      byCurrency: {
+        IDR: [
+          { upToJPY: 10_000, feeJPY: 400 },
+          { upToJPY: 30_000, feeJPY: 450 },
+          { upToJPY: 50_000, feeJPY: 500 },
+          { upToJPY: 100_000, feeJPY: 890 },
+          { upToJPY: 250_000, feeJPY: 990 },
+          { upToJPY: 500_000, feeJPY: 1_350 },
+          { upToJPY: 1_000_000, feeJPY: 1_750 },
+        ],
+      },
     },
     note: 'Cash pickup at Western Union agents worldwide, often within minutes.',
   },
@@ -180,11 +207,23 @@ export const PROVIDERS: readonly Provider[] = [
     rateMarkup: { default: 0.015 },
     fee: {
       kind: 'tiered',
+      // Global (illustrative for non-IDR corridors).
       tiers: [
         { upToJPY: 50_000, feeJPY: 400 },
         { upToJPY: 100_000, feeJPY: 600 },
         { upToJPY: null, feeJPY: 990 },
       ],
+      // VERIFIED JPY→IDR bank-transfer fee table.
+      // Source: Smiles published fee schedule, verified 2026-08-23
+      // (research pass 2, plan “Verified fee tier tables”); see docs/rate-sources.md.
+      byCurrency: {
+        IDR: [
+          { upToJPY: 10_000, feeJPY: 400 },
+          { upToJPY: 50_000, feeJPY: 600 },
+          { upToJPY: 250_000, feeJPY: 1_000 },
+          { upToJPY: 1_000_000, feeJPY: 1_450 },
+        ],
+      },
     },
     note: 'Earn/redeem points to offset the transfer fee.',
   },
@@ -204,11 +243,23 @@ export const PROVIDERS: readonly Provider[] = [
     rateMarkup: { default: 0.017 },
     fee: {
       kind: 'tiered',
+      // Global (illustrative for non-IDR corridors).
       tiers: [
         { upToJPY: 50_000, feeJPY: 500 },
         { upToJPY: 100_000, feeJPY: 700 },
         { upToJPY: null, feeJPY: 1_000 },
       ],
+      // VERIFIED JPY→IDR bank-transfer fee table.
+      // Source: Kyodai Remittance published fee schedule, verified 2026-08-23
+      // (research pass 2, plan “Verified fee tier tables”); see docs/rate-sources.md.
+      byCurrency: {
+        IDR: [
+          { upToJPY: 10_000, feeJPY: 450 },
+          { upToJPY: 50_000, feeJPY: 880 },
+          { upToJPY: 250_000, feeJPY: 1_480 },
+          { upToJPY: 1_000_000, feeJPY: 1_980 },
+        ],
+      },
     },
   },
 

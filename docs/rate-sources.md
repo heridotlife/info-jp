@@ -64,13 +64,13 @@ the observation time and relies on the 12 h KV TTL for freshness.
 
 | Provider | Corridor | Source URL | Method | Quoting units | Cache TTL | Rate status | Fee status |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| SBI Remit | IDR PHP VND NPR CNY THB | `POST https://www.remit.co.jp/kaigaisoukin/exchangeratecommission/exchange/` (form `currency=<CCY>&mode=receive&base=JPY`, one call per currency) | adapter (`src/lib/sources/sbi-remit.ts`) | API already per-1-JPY incl. CNY/THB (live-verified 2026-08-23; page *display* uses `data-rate` multipliers — CNY/USD/BRL only — which do NOT apply to the API) | 12 h KV | **observed** (INR, BDT: board returns `rate:null` → modeled) | illustrative (verified IDR tiers land in task 8) |
+| SBI Remit | IDR PHP VND NPR CNY THB | `POST https://www.remit.co.jp/kaigaisoukin/exchangeratecommission/exchange/` (form `currency=<CCY>&mode=receive&base=JPY`, one call per currency) | adapter (`src/lib/sources/sbi-remit.ts`) | API already per-1-JPY incl. CNY/THB (live-verified 2026-08-23; page *display* uses `data-rate` multipliers — CNY/USD/BRL only — which do NOT apply to the API) | 12 h KV | **observed** (INR, BDT: board returns `rate:null` → modeled) | IDR **verified** (task 8); others illustrative |
 | Wise | all | — | — | — | — | modeled | illustrative (percentage) |
-| Seven Bank / WU | all | — | — | — | — | modeled | illustrative |
+| Seven Bank / WU | all | — | — | — | — | modeled | IDR **verified** (task 8); others illustrative |
 | PayForex | all | — | — | — | — | modeled | illustrative |
 | Revolut Japan | all | — | — | — | — | modeled ("per published terms" relabel: task 21) | illustrative |
-| Smiles | all | — | — | — | — | modeled | illustrative |
-| Kyodai | all | — | — | — | — | modeled (manual rates: task 21) | illustrative (verified IDR tiers: task 8) |
+| Smiles | all | — | — | — | — | modeled | IDR **verified** (task 8); others illustrative |
+| Kyodai | all | — | — | — | — | modeled (manual rates: task 21) | IDR **verified** (task 8); others illustrative |
 | JRF | all | — | — | — | — | modeled | illustrative |
 | Brastel | all | — | — | — | — | modeled (spike: task 19) | illustrative |
 
@@ -80,9 +80,20 @@ verified corridor, or documents the spike/manual outcome.
 
 ### Fee tables verified so far
 
-None checked in yet — task 8 lands the verified JPY→IDR tier tables (SBI
-Remit, Seven Bank/WU, Smiles, Kyodai) with per-currency overrides. All
-non-IDR corridors stay illustrative.
+Checked in with task 8 (2026-08-23) as `byCurrency.IDR` overrides in
+`src/lib/providers.ts` — verified on the JPY→IDR corridor (research pass 2,
+plan "Verified fee tier tables"); tiers are inclusive upper bounds:
+
+| Provider | Method | Tiers (send band → fee) |
+| --- | --- | --- |
+| SBI Remit | bank | <¥10k → ¥460 · <¥50k → ¥880 · <¥250k → ¥1,480 · ≤¥1M → ¥1,980 |
+| Seven Bank/WU | cash (WU) | <¥10k → ¥400 · <¥30k → ¥450 · <¥50k → ¥500 · <¥100k → ¥890 · <¥250k → ¥990 · <¥500k → ¥1,350 · ≤¥1M → ¥1,750 |
+| Smiles | bank | <¥10k → ¥400 · <¥50k → ¥600 · <¥250k → ¥1,000 · ≤¥1M → ¥1,450 |
+| Kyodai | bank | <¥10k → ¥450 · <¥50k → ¥880 · <¥250k → ¥1,480 · ≤¥1M → ¥1,980 |
+
+Every non-IDR corridor of these providers keeps the illustrative global tiers
+(marked above). Still unverified: Wise (percentage model by design), PayForex,
+JRF, Brastel, and all non-IDR corridors.
 
 ---
 

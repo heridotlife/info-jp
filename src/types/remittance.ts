@@ -69,8 +69,14 @@ export interface FeeTier {
 export type FeeModel =
   /** Single flat fee regardless of amount (e.g. Revolut standard weekday). */
   | { kind: 'flat'; feeJPY: number }
-  /** Tiered flat-fee matrix (most Japanese providers). */
-  | { kind: 'tiered'; tiers: FeeTier[] }
+  /**
+   * Tiered flat-fee matrix (most Japanese providers). `tiers` is the global
+   * default; `byCurrency` overrides it per corridor (mirroring
+   * `rateMarkup.byCurrency`) — used for fee tables verified on one corridor
+   * (e.g. JPY→IDR) while others stay illustrative. Resolution: the currency's
+   * tiers when present, else `tiers`.
+   */
+  | { kind: 'tiered'; tiers: FeeTier[]; byCurrency?: Partial<Record<CurrencyCode, FeeTier[]>> }
   /**
    * Percentage-of-amount fee, optionally with a fixed component and/or a floor.
    * Wise-style: `percent` of the send amount + a small `fixedJPY`.

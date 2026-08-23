@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { isJapanWeekend, simulate } from '../remittanceCalculator';
+import { computeUpfrontFee, isJapanWeekend, simulate } from '../remittanceCalculator';
+import { PROVIDERS } from '../providers';
 import type { ObservedRateSet } from '../../types/remittance';
 import type { RateTable } from '../rates';
 
@@ -255,5 +256,62 @@ describe('calculator: promo policy', () => {
     const tagged = results.filter((r) => r.tags.includes('best-value'));
     expect(tagged.length).toBe(1);
     expect(tagged[0].providerId).toBe(results[0].providerId);
+  });
+});
+
+// --- per-currency fee tiers (tasks.md task 8) -----------------------------------
+
+describe('fee tiers: byCurrency overrides (verified IDR tables)', () => {
+  const sbi = PROVIDERS.find((p) => p.id === 'sbi-remit')!;
+  const sevenBank = PROVIDERS.find((p) => p.id === 'seven-bank-wu')!;
+  const smiles = PROVIDERS.find((p) => p.id === 'smiles')!;
+  const kyodai = PROVIDERS.find((p) => p.id === 'kyodai')!;
+
+  it('byCurrency IDR tiers override the global tiers', () => {
+    // Global SBI tiers would price ¥100,000 at ¥400; verified IDR says ¥1,480.
+    expect(computeUpfrontFee(sbi.fee, 100_000, 'IDR')).toBe(1_480);
+    // Non-IDR corridors keep the global tiers.
+    expect(computeUpfrontFee(sbi.fee, 100_000, 'PHP')).toBe(400);
+    expect(computeUpfrontFee(sbi.fee, 100_000, 'THB')).toBe(400);
+  });
+
+  it('falls back to global tiers when the corridor has no override', () => {
+    expect(computeUpfrontFee(smiles.fee, 100_000, 'PHP')).toBe(600); // global
+    expect(computeUpfrontFee(kyodai.fee, 100_000, 'VND')).toBe(700); // global
+  });
+
+  it('prices tier boundaries exactly (¥10,000 vs ¥10,001 …)', () => {
+    // SBI IDR: <10k → 460, <50k → 880, <250k → 1480, ≤1M → 1980.
+    expect(computeUpfrontFee(sbi.fee, 9_999, 'IDR')).toBe(460);
+    expect(computeUpfrontFee(sbi.fee, 10_000, 'IDR')).toBe(460); // bound inclusive
+    expect(computeUpfrontFee(sbi.fee, 10_001, 'IDR')).toBe(880);
+    expect(computeUpfrontFee(sbi.fee, 50_001, 'IDR')).toBe(1_480);
+    expect(computeUpfrontFee(sbi.fee, 1_000_000, 'IDR')).toBe(1_980);
+
+    // Seven Bank/WU IDR 7-tier table.
+    expect(computeUpfrontFee(sevenBank.fee, 10_000, 'IDR')).toBe(400);
+    expect(computeUpfrontFee(sevenBank.fee, 30_000, 'IDR')).toBe(450);
+    expect(computeUpfrontFee(sevenBank.fee, 30_001, 'IDR')).toBe(500);
+    expect(computeUpfrontFee(sevenBank.fee, 100_000, 'IDR')).toBe(890);
+    expect(computeUpfrontFee(sevenBank.fee, 250_001, 'IDR')).toBe(1_350);
+    expect(computeUpfrontFee(sevenBank.fee, 500_001, 'IDR')).toBe(1_750);
+
+    // Smiles + Kyodai IDR tables.
+    expect(computeUpfrontFee(smiles.fee, 250_000, 'IDR')).toBe(1_000);
+    expect(computeUpfrontFee(smiles.fee, 250_001, 'IDR')).toBe(1_450);
+    expect(computeUpfrontFee(kyodai.fee, 10_001, 'IDR')).toBe(880);
+    expect(computeUpfrontFee(kyodai.fee, 250_001, 'IDR')).toBe(1_980);
+  });
+
+  it('the simulation uses the corridor-specific tiers end-to-end', () => {
+    const { results } = runIDR();
+    const sbiRow = byId(results, 'sbi-remit');
+    expect(sbiRow.feeJPY).toBe(1_480); // verified IDR tier at ¥100,000
+    const phpRun = simulate(
+      { amountJPY: 100_000, targetCurrency: 'PHP', deliveryType: 'all', at: THURSDAY },
+      RATES,
+    );
+    const sbiPhp = phpRun.results.find((r) => r.providerId === 'sbi-remit')!;
+    expect(sbiPhp.feeJPY).toBe(400); // global tier at ¥100,000
   });
 });
