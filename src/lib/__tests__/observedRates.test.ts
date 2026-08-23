@@ -212,6 +212,11 @@ describe('resolveObservedRates', () => {
   // --- manual rung (task 21) -------------------------------------------------
 
   it('manual entry fills a provider with no observed set (kyodai ladder)', async () => {
+    // Pin the wall clock to the capture window: MANUAL_RATES entries expire
+    // 24 h after their fetchedAt, so real-date runs of this suite would rot.
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2026-08-23T12:00:00+09:00'));
+    try {
     const { kv, puts } = mockKV();
     const { byProvider, fetchErrors } = await resolveObservedRates(['kyodai'], kv, {
       midMarketRates: { IDR: 111.37 },
@@ -224,7 +229,10 @@ describe('resolveObservedRates', () => {
     });
     expect(puts).toHaveLength(0);
     expect(fetchErrors).toEqual({});
-  });
+    } finally {
+      vi.useRealTimers();
+    }
+    });
 
   it('observed beats manual when an adapter/KV entry exists for the same provider', async () => {
     const { kv } = mockKV();
@@ -420,6 +428,10 @@ describe('simulate integration with resolver (SBI observed rate)', () => {
   }
 
   it('COLD: SBI fetch succeeds → rateSource.kind "observed" with live timestamp', async () => {
+    // Pin the wall clock: the Kyodai manual entry (fetchedAt 2026-08-23 JST)
+    // must still be inside its 24 h freshness window for the manual rung.
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2026-08-23T12:00:00+09:00'));
     const { kv } = mockKV();
     const original = globalThis.fetch;
     globalThis.fetch = sbiFixtureFetch(); // adapter's wrapped fetch reads fixtures
@@ -442,6 +454,7 @@ describe('simulate integration with resolver (SBI observed rate)', () => {
       expect(payload.meta.observedCoverage.modeled).toBe(payload.results.length - 2);
     } finally {
       globalThis.fetch = original;
+      vi.useRealTimers();
     }
   });
 
