@@ -73,6 +73,7 @@ the observation time and relies on the 12 h KV TTL for freshness.
 | Kyodai | all | — | — | — | — | modeled (manual rates: task 21) | IDR **verified** (task 8); others illustrative |
 | JRF | all | — | — | — | — | modeled | illustrative |
 | Brastel | all | — | — | — | — | modeled (spike: task 19) | illustrative |
+| Instarem | IDR | `GET https://www.instarem.com/api/v1/public/transaction/computed-value?source_currency=JPY&destination_currency=IDR&source_amount=10000` (anonymous) | adapter (`src/lib/sources/instarem.ts`) | `instarem_fx_rate` per-1-JPY (⚠️ NOT the reference `fx_rate`); promo cross-check vs `regular_instarem_fx_rate` — diverged quote → standard rate stored | 12 h KV | **observed** (live 2026-08-23: standard 110.8606; promo quote 110.9719 detected, not stored) | IDR **verified** (¥0, `regular_transaction_fee_amount: 0`, live 2026-08-23); corridor limit ¥5k–¥1M |
 
 Rows are replaced as adapters land (tasks 9–20): each onboarding task fills in
 the URL/method/quoting-units columns and flips rate status to **observed** per
@@ -90,6 +91,7 @@ plan "Verified fee tier tables"); tiers are inclusive upper bounds:
 | Seven Bank/WU | cash (WU) | <¥10k → ¥400 · <¥30k → ¥450 · <¥50k → ¥500 · <¥100k → ¥890 · <¥250k → ¥990 · <¥500k → ¥1,350 · ≤¥1M → ¥1,750 |
 | Smiles | bank | <¥10k → ¥400 · <¥50k → ¥600 · <¥250k → ¥1,000 · ≤¥1M → ¥1,450 |
 | Kyodai | bank | <¥10k → ¥450 · <¥50k → ¥880 · <¥250k → ¥1,480 · ≤¥1M → ¥1,980 |
+| Instarem | bank | flat **¥0** (verified live: `regular_transaction_fee_amount: 0`, 2026-08-23) |
 
 Every non-IDR corridor of these providers keeps the illustrative global tiers
 (marked above). Still unverified: Wise (percentage model by design), PayForex,

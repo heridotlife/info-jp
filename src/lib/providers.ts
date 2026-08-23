@@ -308,6 +308,33 @@ export const PROVIDERS: readonly Provider[] = [
       ],
     },
   },
+  // --------------------------------------------------------------------------
+  // INSTAREM — new-provider onboarding 2026-08-23. Observed rates via its
+  // computed-value quote API (adapter supersedes the modeled markup below).
+  // --------------------------------------------------------------------------
+  {
+    id: 'instarem',
+    name: 'Instarem',
+    logoText: 'IN',
+    brandColor: '#5b53ff',
+    website: 'https://www.instarem.com/en-jp/',
+    supportedCurrencies: ['IDR'], // grown only as corridors verify
+    deliveryTypes: ['bank'],
+    speed: { label: 'Hours – 1 day', rankMinutes: 480 },
+    rateMarkup: {
+      // Modeled placeholder only — superseded by the observed-rate adapter
+      // (live 2026-08-23: regular pricing margin ≈ 0.35% on IDR).
+      default: 0.003,
+      byCurrency: { IDR: 0.0035 },
+    },
+    fee: {
+      // Verified live IDR, `regular_transaction_fee_amount: 0` (research P2,
+      // reconfirmed from our egress 2026-08-23).
+      kind: 'flat',
+      feeJPY: 0,
+    },
+    note: 'Corridor limit ¥5,000–¥1,000,000 (JPY→IDR). ¥0 transfer fee verified. Quotes can carry a first-transaction rate bonus — the comparison stores the standard (regular) rate when they diverge.',
+  },
 ];
 
 /** Total number of providers, handy for meta/analytics. */
