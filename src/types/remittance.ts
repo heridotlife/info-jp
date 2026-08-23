@@ -100,6 +100,52 @@ export interface RateMarkup {
 }
 
 // ---------------------------------------------------------------------------
+// Observed rates (per-provider, actually-quoted)
+// ---------------------------------------------------------------------------
+
+/**
+ * A set of *actually observed* exchange rates for one provider, fetched live
+ * from the provider's own rate board (adapter) or checked in by hand (manual).
+ *
+ * Rates use the app's canonical unit: 1 JPY → X target currency, identical to
+ * the mid-market table — including per-currency quoting multipliers (e.g. SBI
+ * quotes CNY per ¥10,000; adapters normalize to per-1-JPY before storing).
+ */
+export interface ObservedRateSet {
+  providerId: string;
+  /** Observed rate per corridor: 1 JPY → rates[ccy] of that currency. */
+  rates: Partial<Record<CurrencyCode, number>>;
+  /** ISO timestamp the provider's board was fetched/read. */
+  fetchedAt: string;
+  /** Human-readable source label (page URL or short description). */
+  source: string;
+  /** `'live'` = fetched from the provider now; `'manual'` = checked in by hand. */
+  method: 'live' | 'manual';
+  /** Set when the rates price a specific send amount (quote APIs, §8). */
+  quoteAmountJPY?: number;
+  /** True when the rate is a promo not durably attainable (never `best-value`). */
+  isPromo?: boolean;
+}
+
+/**
+ * Provenance of the exchange rate behind one simulation row.
+ *  - `'observed'` — live from the provider's rate board (via adapter)
+ *  - `'manual'`   — checked-in rate, human-updated (staleness applies)
+ *  - `'modeled'`  — estimated from the provider's modeled markup (old default)
+ */
+export interface RateSourceInfo {
+  kind: 'observed' | 'manual' | 'modeled';
+  /** ISO timestamp the rate was observed (observed/manual only). */
+  fetchedAt?: string;
+  /** Where the rate came from (URL/label for observed+manual; basis for modeled). */
+  sourceLabel: string;
+  /** Promo rates rank + display but can never win the `best-value` tag. */
+  isPromo?: boolean;
+  /** Present when the rate prices a specific send amount (quote APIs). */
+  quoteAmountJPY?: number;
+}
+
+// ---------------------------------------------------------------------------
 // Provider
 // ---------------------------------------------------------------------------
 
@@ -172,6 +218,9 @@ export interface SimulationResult {
   deliveryTypes: DeliveryType[];
   speedLabel: string;
   speedRankMinutes: number;
+
+  /** Provenance of this row's exchange rate (observed / manual / modeled). */
+  rateSource: RateSourceInfo;
 
   tags: ResultTag[];
 }

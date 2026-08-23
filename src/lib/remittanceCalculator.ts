@@ -1,7 +1,9 @@
 import type {
   FeeModel,
+  ObservedRateSet,
   Provider,
   RateMarkup,
+  RateSourceInfo,
   ResultTag,
   SimulationInput,
   SimulationResponse,
@@ -88,12 +90,42 @@ function computeForProvider(
   currency: CurrencyCode,
   midMarketRate: number,
   isWeekend: boolean,
+  observed?: ObservedRateSet,
 ): SimulationResult {
-  const markupPct = resolveMarkup(provider.rateMarkup, currency, isWeekend);
   const feeJPY = roundYen(computeUpfrontFee(provider.fee, amountJPY));
-
-  const appliedRate = midMarketRate * (1 - markupPct);
   const amountConvertedJPY = Math.max(amountJPY - feeJPY, 0);
+
+  // Observed rates (when the corridor has one) replace the modeled markup
+  // entirely: `rateMarkup`/`weekendSurcharge` are ignored — the provider's own
+  // quoted rate IS what the recipient gets, by definition.
+  const observedRate = observed?.rates[currency];
+  let appliedRate: number;
+  let markupPct: number;
+  let rateSource: RateSourceInfo;
+
+  if (
+    observed &&
+    typeof observedRate === 'number' &&
+    Number.isFinite(observedRate) &&
+    observedRate > 0
+  ) {
+    appliedRate = observedRate;
+    // Observed markup = how far the provider's real rate sits below mid-market.
+    // May be negative (rate better than mid); UI treats ≤ 0 as “mid-market ✓”.
+    markupPct = (midMarketRate - observedRate) / midMarketRate;
+    rateSource = {
+      kind: observed.method === 'manual' ? 'manual' : 'observed',
+      fetchedAt: observed.fetchedAt,
+      sourceLabel: observed.source,
+      ...(observed.isPromo ? { isPromo: true } : {}),
+      ...(observed.quoteAmountJPY !== undefined ? { quoteAmountJPY: observed.quoteAmountJPY } : {}),
+    };
+  } else {
+    markupPct = resolveMarkup(provider.rateMarkup, currency, isWeekend);
+    appliedRate = midMarketRate * (1 - markupPct);
+    rateSource = { kind: 'modeled', sourceLabel: 'estimated from modeled markup' };
+  }
+
   const receiveAmount = amountConvertedJPY * appliedRate;
   const markupCostJPY = amountConvertedJPY * markupPct;
   const netCostJPY = feeJPY + markupCostJPY;
@@ -120,6 +152,8 @@ function computeForProvider(
     speedLabel: provider.speed.label,
     speedRankMinutes: provider.speed.rankMinutes,
 
+    rateSource,
+
     tags: [], // filled in by `assignTags`
   };
 }
@@ -128,15 +162,21 @@ function computeForProvider(
 function assignTags(results: SimulationResult[]): void {
   if (results.length === 0) return;
 
-  const bestValue = results.reduce((a, b) => (b.receiveAmount > a.receiveAmount ? b : a));
-  const fastest = results.reduce((a, b) => (b.speedRankMinutes < a.speedRankMinutes ? b : a));
-  const lowestFee = results.reduce((a, b) => (b.feeJPY < a.feeJPY ? b : a));
-
+  // A promo rate is not durably attainable by a repeat customer, so it must
+  // never carry the headline `best-value` recommendation. It still ranks by
+  // payout and remains eligible for `fastest` / `lowest-fee` (not rate-derived).
   const add = (result: SimulationResult, tag: ResultTag) => {
     if (!result.tags.includes(tag)) result.tags.push(tag);
   };
 
-  add(bestValue, 'best-value');
+  const bestValuePool = results.filter((r) => !r.rateSource.isPromo);
+  if (bestValuePool.length > 0) {
+    const bestValue = bestValuePool.reduce((a, b) => (b.receiveAmount > a.receiveAmount ? b : a));
+    add(bestValue, 'best-value');
+  }
+  const fastest = results.reduce((a, b) => (b.speedRankMinutes < a.speedRankMinutes ? b : a));
+  const lowestFee = results.reduce((a, b) => (b.feeJPY < a.feeJPY ? b : a));
+
   add(fastest, 'fastest');
   add(lowestFee, 'lowest-fee');
 }
@@ -146,8 +186,16 @@ function assignTags(results: SimulationResult[]): void {
  *
  * @param input  amount, currency, delivery filter, and optional timestamp
  * @param rates  mid-market rate table (fetch via src/lib/rates.ts)
+ * @param observedByProvider  optional per-provider observed rates
+ *   (`ObservedRateSet` keyed by providerId, from src/lib/observedRates.ts);
+ *   a provider with a rate for the corridor uses it, everyone else keeps the
+ *   modeled-markup behavior.
  */
-export function simulate(input: SimulationInput, rates: RateTable): SimulationResponse {
+export function simulate(
+  input: SimulationInput,
+  rates: RateTable,
+  observedByProvider?: Record<string, ObservedRateSet>,
+): SimulationResponse {
   const { amountJPY, targetCurrency, deliveryType } = input;
   const at = input.at ? new Date(input.at) : new Date();
   const weekend = isJapanWeekend(at);
@@ -175,7 +223,16 @@ export function simulate(input: SimulationInput, rates: RateTable): SimulationRe
 
   const results = PROVIDERS.filter((p) => p.supportedCurrencies.includes(targetCurrency))
     .filter((p) => deliveryType === 'all' || p.deliveryTypes.includes(deliveryType))
-    .map((p) => computeForProvider(p, amountJPY, targetCurrency, midMarketRate, weekend))
+    .map((p) =>
+      computeForProvider(
+        p,
+        amountJPY,
+        targetCurrency,
+        midMarketRate,
+        weekend,
+        observedByProvider?.[p.id],
+      ),
+    )
     // Best value (largest payout) first.
     .sort((a, b) => b.receiveAmount - a.receiveAmount);
 
