@@ -1,67 +1,100 @@
-# CI: unit tests (vitest) then type-check + build (astro).
-# verify:rates is intentionally NOT run here — it hits live provider
-# endpoints, which is flaky and impolite from shared CI runners. Adapter
-# behaviour is covered by unit tests using fixtures instead.
 name: CI
 
 on:
+  # `push` only on main. develop is validated via pull_request (feature →
+  # develop PRs and the develop → main release PR), so pushing to develop
+  # would otherwise run twice: once for `push` and once for that PR's
+  # `synchronize`.
   push:
     branches: [main]
   pull_request:
-  workflow_dispatch:
+    branches: [main, develop]
 
 permissions:
   contents: read
 
-# One run per ref; a new push to a PR supersedes (cancels) the old run.
-concurrency:
-  group: ci-${{ github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
-
 jobs:
+  lint-and-type-check:
+    name: Lint and Type Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      # npm stack (bun is not used in this repo): setup-node with the npm
+      # cache covers install and all script execution — no separate runtime
+      # setup needed, unlike heridotlife's bun + node pair.
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # NOTE: ESLint and Prettier steps are intentionally absent — this repo
+      # has no eslint/prettier config yet. Add both here (matching the
+      # heridotlife lint-and-type-check job) once configs land.
+      - name: Run type check
+        run: npm run check
+
   test:
+    name: Test
     runs-on: ubuntu-latest
-    timeout-minutes: 10
-    strategy:
-      matrix:
-        node: [22]
-    name: test (node ${{ matrix.node }})
-    steps:
-      - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
         with:
-          node-version: ${{ matrix.node }}
+          node-version: '24'
           cache: npm
 
-      - run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
-      - run: npm test
+      # Plain unit tests only. heridotlife also runs `test:coverage` (with
+      # thresholds) and uploads to Codecov; this repo has no
+      # @vitest/coverage-v8 dependency and no coverage thresholds configured,
+      # so coverage is skipped rather than adding devDependencies for it.
+      - name: Run unit tests
+        run: npm test
 
-  build:
-    needs: test # fail fast: don't burn build minutes on red tests
+  e2e-local:
+    name: E2E (local boot)
     runs-on: ubuntu-latest
-    timeout-minutes: 10
-    strategy:
-      matrix:
-        node: [22]
-    name: build (node ${{ matrix.node }})
-    steps:
-      - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
         with:
-          node-version: ${{ matrix.node }}
+          node-version: '24'
           cache: npm
 
-      - run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
-      - run: npm run check
+      # Per-PR boot smoke: scripts/e2e-local.mjs builds the site, boots it
+      # with `wrangler pages dev` (real workerd + Miniflare KV), and asserts
+      # a static asset (GET /favicon.svg → 200) and the SSR worker itself
+      # (unmatched route → 404, proving the built worker boots and routes).
+      #
+      # The smoke never calls the real routes (GET / or /api/simulate): both
+      # cold-resolve FX rates from live provider endpoints when the KV cache
+      # is empty, which is impolite and flaky from shared CI runners — the
+      # same reason `npm run verify:rates` is not run here. Adapter
+      # behaviour is covered by unit tests using fixtures instead.
+      - name: Build, boot Pages dev server, and run e2e smoke
+        run: npm run test:e2e:local
 
-      - run: npm run build
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: dist-node-${{ matrix.node }}
-          path: dist/
-          retention-days: 7 # handy for manual Pages deploys
+  # NOTE: there is no standalone build job — the e2e-local job above
+  # exercises the build. Pages deploys are owner-managed via
+  # `npm run deploy` (which builds itself), so CI does not upload a dist
+  # artifact.
