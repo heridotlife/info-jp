@@ -1,5 +1,6 @@
 import type { ObservedRateSet } from '../../types/remittance';
 import { fetchSbiRemitRates } from './sbi-remit';
+import { fetchSevenBankRates } from './seven-bank-wu';
 import { fetchWiseRates } from './wise';
 
 /**
@@ -27,6 +28,7 @@ export interface RateAdapter {
 export const RATE_ADAPTERS: Readonly<Record<string, RateAdapter>> = {
   'sbi-remit': { fetchRates: (fetchImpl?: typeof fetch) => fetchSbiRemitRates(fetchImpl ?? fetch) },
   wise: { fetchRates: (fetchImpl?: typeof fetch) => fetchWiseRates(fetchImpl ?? fetch) },
+  'seven-bank-wu': { fetchRates: (fetchImpl?: typeof fetch) => fetchSevenBankRates(fetchImpl ?? fetch) },
 };
 
 /**
@@ -37,8 +39,8 @@ export const RATE_ADAPTERS: Readonly<Record<string, RateAdapter>> = {
  *
  *   SBI Remit            8 POSTs (one per supported currency, one cached set)
  *   Wise                11 GETs  (one quote per supported currency)
- *   10 other adapters   ~10 fetches (1 each; PayForex needs 2–3 for its
- *                        CSRF dance → +2)
+ *   9 other adapters    ~9 fetches (Seven Bank is 1 XML board; PayForex
+ *                        needs 2–3 for its CSRF dance → +2)
  *   mid-market table     1 fetch (open.er-api.com, 10-min TTL)
  *   ────────────────────────────────────────────────────────────────────
  *   ≈ 32 subrequests  «  50 limit

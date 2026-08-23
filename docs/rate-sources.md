@@ -66,7 +66,7 @@ the observation time and relies on the 12 h KV TTL for freshness.
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | SBI Remit | IDR PHP VND NPR CNY THB | `POST https://www.remit.co.jp/kaigaisoukin/exchangeratecommission/exchange/` (form `currency=<CCY>&mode=receive&base=JPY`, one call per currency) | adapter (`src/lib/sources/sbi-remit.ts`) | API already per-1-JPY incl. CNY/THB (live-verified 2026-08-23; page *display* uses `data-rate` multipliers — CNY/USD/BRL only — which do NOT apply to the API) | 12 h KV | **observed** (INR, BDT: board returns `rate:null` → modeled) | IDR **verified** (task 8); others illustrative |
 | Wise | USD EUR INR PHP IDR VND CNY NPR BDT THB KRW | `GET https://wise.com/gateway/v1/quotes/?source=JPY&target=<CCY>&rateType=FIXED&sourceAmount=10000` (one call per corridor) | adapter (`src/lib/sources/wise.ts`) | `rate` is per-1-JPY, arithmetic-verified 2026-08-23 ((¥10,000 − ¥289 fee) × 111.001 = targetAmount) | 12 h KV | **observed** (all 11 corridors live 2026-08-23; markup ≈ 0 as expected: IDR −0.33%) | illustrative (percentage — quote fees are amount-aware: ¥289 at ¥10k IDR) |
-| Seven Bank / WU | all | — | — | — | — | modeled | IDR **verified** (task 8); others illustrative |
+| Seven Bank / WU | IDR PHP VND INR NPR BDT THB USD | `GET https://www.sevenbank.co.jp/t/html/file/CurrentFXList.xml` (one board; rows keyed by two-letter countrycode — `ID` for Indonesia — plus a `<currencycode>` per currency) | adapter (`src/lib/sources/seven-bank-wu.ts`) | `fxrate` per-1-JPY (live 2026-08-23: IDR 110.916 vs mid 111.370); VN/PH blocks carry sibling USD rows — adapter matches countrycode + currencycode | 12 h KV | **observed** (all 8 corridors live 2026-08-23) | IDR **verified** (task 8); others illustrative
 | PayForex | all | — | — | — | — | modeled | illustrative |
 | Revolut Japan | all | — | — | — | — | modeled ("per published terms" relabel: task 21) | illustrative |
 | Smiles | all | — | — | — | — | modeled | IDR **verified** (task 8); others illustrative |
@@ -104,5 +104,8 @@ JRF, Brastel, and all non-IDR corridors.
 - Wise quote `fee` is amount-aware (¥289 at the ¥10,000 IDR reference quote) —
   the registry keeps the percentage model; amount-tiered fee modeling is a
   documented gap (plan §8).
+- Seven Bank `Sendcharge.xml` (fee cross-check for task 8's IDR tiers) no
+  longer exists — the URL serves the bank's HTML homepage (2026-08-23). The
+  verified IDR tiers stand on research pass 2; divergence check not possible.
 - Workers-egress confirmation for production (post-deploy cold request) is
   task 22; everything above ran on local workerd via `wrangler pages dev`.
