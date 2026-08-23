@@ -63,7 +63,9 @@ export const RATE_ADAPTERS: Readonly<Record<string, RateAdapter>> = {
  *   ────────────────────────────────────────────────────────────────────
  *   ≈ 32 subrequests  «  50 limit
  *
- * (The plan's "~13 adapters + 1 + 2–3 ≈ under 20" glossed SBI's per-currency
- * POSTs; the honest total is still comfortably inside the limit.) KV reads
- * and writes are NOT fetch subrequests. Warm requests make zero fetches.
+ * Task-22 retry budget: a transient adapter failure gets ONE retry, capped
+ * at MAX_RETRIES_PER_REQUEST = 5 retries per cold request (observedRates.ts)
+ * → worst case 32 + 5 = 37 « 50. Retries only run while the adapter's own
+ * 8 s deadline has ≥ 1.5 s left, so timeouts never double. KV reads/writes
+ * are NOT fetch subrequests. Warm requests make zero fetches.
  */

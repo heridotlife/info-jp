@@ -18,8 +18,10 @@
  * Run: npm run verify:rates
  */
 import { RATE_ADAPTERS } from '../src/lib/sources';
+import { DOCUMENTED_SKIPS } from '../src/lib/sources/shared';
 import { withinSanityBound } from '../src/lib/observedRates';
 import { SBI_REMIT_ENDPOINT } from '../src/lib/sources/sbi-remit';
+import { PROVIDERS } from '../src/lib/providers';
 import type { CurrencyCode, ObservedRateSet } from '../src/types/remittance';
 
 /** Drift tolerated between adapter fetch and independent re-fetch (rates tick). */
@@ -71,6 +73,7 @@ async function main(): Promise<number> {
   console.log('');
 
   const failures: string[] = [];
+  const live: Record<string, Partial<Record<CurrencyCode, number>>> = {};
 
   for (const [providerId, adapter] of Object.entries(RATE_ADAPTERS)) {
     console.log(`── ${providerId} ──`);
@@ -86,6 +89,7 @@ async function main(): Promise<number> {
 
     console.log(`  source: ${set.source}${set.isPromo ? '  [PROMO RATE — never best-value]' : ''}`);
     console.log(`  fetchedAt: ${set.fetchedAt}${set.quoteAmountJPY ? `  (quoted at ¥${set.quoteAmountJPY.toLocaleString()})` : ''}`);
+    live[providerId] = set.rates;
 
     for (const [code, rate] of Object.entries(set.rates) as Array<[CurrencyCode, number]>) {
       const midRate = mid[code];
@@ -138,13 +142,53 @@ async function main(): Promise<number> {
     }
   }
 
+  // LIVE corridor matrix — every declared corridor answered or documented.
+  await corridorMatrix(live, failures);
+
   if (failures.length > 0) {
     console.error('RESULT: FAIL');
     for (const f of failures) console.error(`  ✗ ${f}`);
     return 1;
   }
+  console.log('');
   console.log('RESULT: PASS — every registered adapter verified live from this egress');
   return 0;
+}
+
+/**
+ * LIVE corridor matrix (task 22): for every provider-with-adapter, check the
+ * adapter's live output against the provider's declared `supportedCurrencies`.
+ * A missing corridor must be a DOCUMENTED_SKIPS entry — an unexpected gap is a
+ * regression and fails the run (unit twin: corridor-matrix.test.ts).
+ */
+async function corridorMatrix(
+  live: Record<string, Partial<Record<CurrencyCode, number>>>,
+  failures: string[],
+): Promise<void> {
+  console.log('── live corridor matrix (adapter output vs provider registry) ──');
+  for (const provider of PROVIDERS) {
+    const rates = live[provider.id];
+    if (!rates) continue; // adapter already failed above (recorded)
+    const skips = new Set<string>(DOCUMENTED_SKIPS[provider.id] ?? []);
+    const cells: string[] = [];
+    for (const code of provider.supportedCurrencies as CurrencyCode[]) {
+      const present = rates[code] !== undefined;
+      const skipped = skips.has(code);
+      if (present) {
+        cells.push(`${code}✓`);
+      } else if (skipped) {
+        cells.push(`${code}·skip`);
+      } else {
+        cells.push(`${code}✗MISSING`);
+        failures.push(`matrix: ${provider.id} ${code} declared but not returned live (and not a documented skip)`);
+      }
+    }
+    // A documented skip that starts answering again is worth knowing (not a failure).
+    const revived = [...skips].filter((c) => rates[c as CurrencyCode] !== undefined);
+    const revivedNote = revived.length > 0 ? `  (skip now quoting again: ${revived.join(',')})` : '';
+    console.log(`  ${provider.id}: ${cells.join(' ')}${revivedNote}`);
+  }
+  console.log('');
 }
 
 process.exit(await main());

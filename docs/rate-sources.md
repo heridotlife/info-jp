@@ -86,6 +86,51 @@ verified corridor, or documents the spike/manual outcome.
 
 ---
 
+## Adapter hardening (task 22, 2026-08-23)
+
+- **Per-adapter timeout** — every adapter fetch runs under one
+  `AbortSignal.timeout(8 000)` deadline (shared across its single retry);
+  the whole cold wave is bounded by a ~10 s overall budget.
+- **Sanity bound, relative + absolute** — parsed rates must sit within
+  [mid × 0.85, mid × 1.02] (when mid is known) AND inside the corridor's
+  absolute band (`src/lib/sources/shared.ts`; IDR 80–150 per-1-JPY, similar
+  envelopes for all 11 corridors). The absolute band closes the
+  "no mid-market → unchecked" gap: decimal-shift and quoting-unit bugs are
+  rejected even when the mid table is unavailable. Rejections never cache.
+- **Retry-once on transient failure** — network-layer errors (fetch
+  `TypeError`), timeouts and 5xx get a single retry inside the SAME adapter
+  deadline (≥ 1.5 s must remain); deterministic parse failures do not retry.
+  A per-request retry budget (max 5) keeps the worst-case subrequest count at
+  ≈ 37 < 50 (see the math in `src/lib/sources/index.ts`).
+- **Per-source isolation** — every adapter runs in its own try/catch inside
+  a `Promise.allSettled` wave; a failing (or crashing) adapter can never
+  affect another provider's fetch, and the resolver never throws past itself
+  (covered by unit tests incl. the corridor-matrix isolation case).
+- **Per-source status** — every cold fetch records
+  `meta.sourceStatus[providerId] = { lastSuccessAt | lastFailureAt, lastError }`;
+  failures persist to KV (`observed:<id>:status:v1`, 7-day TTL) so warm
+  requests still surface the last known failure alongside `meta.fetchErrors`.
+- **Corridor matrix, unit + live** — `corridor-matrix.test.ts` runs every
+  registered adapter against ALL corridors its provider declares (fixture-
+  backed; a missing corridor must be a `DOCUMENTED_SKIPS` entry — the test
+  caught PayForex's IDR-only adapter and forced its documentation).
+  `npm run verify:rates` prints the same matrix LIVE (IDR included) and fails
+  on any unexpected gap (see the run above).
+
+### Post-deploy egress check — status
+
+Task 22's "first production fetch from Workers egress" check requires a
+production deploy, which is outside this branch's scope (no deploy was
+performed). What IS confirmed: every adapter fetched live from **node**
+egress (`verify:rates`, above) and the full IDR corridor — all 12 adapters —
+served end-to-end from the **workerd** runtime via
+`npx wrangler pages dev ./dist` (Task-6 gate + the task-22 smoke test,
+including the JRF adapter and the Brastel/JRF spike probes). Remaining for
+deploy day: one cold request against production, record observed rows +
+`meta.sourceStatus` here.
+
+---
+
 ## Spike notes
 
 ### Brastel WIMS gateway — task 19 verdict: NOT AUTOMATABLE (stays modeled)
@@ -162,5 +207,10 @@ JRF, Brastel, and all non-IDR corridors.
   "standard rate fully login-walled" verdict for the range, though the exact
   per-config rate still requires login. Stored rate stays promo-flagged;
   modeling the everyday range is a possible future refinement.
-- Workers-egress confirmation for production (post-deploy cold request) is
-  task 22; everything above ran on local workerd via `wrangler pages dev`.
+- PayForex's non-IDR corridors sit behind a POST receipt-code fragment that
+  was never reverse-engineered — `DOCUMENTED_SKIPS` marks them; the corridor
+  matrix enforces the documentation (task 22).
+- Production (deployed) Workers-egress confirmation remains for deploy day —
+  see "Post-deploy egress check" under Adapter hardening. Everything else
+  ran live from node egress (`verify:rates`) and the local workerd runtime
+  (`wrangler pages dev`).

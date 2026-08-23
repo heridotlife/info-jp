@@ -32,13 +32,16 @@ async function run(input: SimulationInput, locals: App.Locals): Promise<Response
   const corridorProviderIds = PROVIDERS.filter((p) => p.supportedCurrencies.includes(input.targetCurrency)).map(
     (p) => p.id,
   );
-  const { byProvider, fetchErrors } = await resolveObservedRates(corridorProviderIds, kv, {
+  const { byProvider, fetchErrors, sourceStatus } = await resolveObservedRates(corridorProviderIds, kv, {
     midMarketRates: rates.rates,
   });
 
   const payload = simulate(input, rates, byProvider);
   if (Object.keys(fetchErrors).length > 0) {
     payload.meta.fetchErrors = fetchErrors;
+  }
+  if (Object.keys(sourceStatus).length > 0) {
+    payload.meta.sourceStatus = sourceStatus;
   }
 
   return new Response(JSON.stringify(payload), { status: 200, headers: JSON_HEADERS });

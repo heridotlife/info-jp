@@ -284,7 +284,104 @@ describe('resolveObservedRates', () => {
     });
     expect(r2.byProvider['sbi-remit']).toBeUndefined();
     expect(r2.fetchErrors['sbi-remit']).toMatch(/sanity/);
-    expect(puts).toHaveLength(0);
+    expect(puts.filter((p) => !p.key.includes(':status:'))).toHaveLength(0);
+  });
+
+  it('absolute corridor band applies even with NO mid-market table (unit-bug guard)', async () => {
+    // No midMarketRates: the relative bound cannot run, but the absolute
+    // IDR band [80, 150] still rejects a decimal-shift bug (task 22).
+    const { kv } = mockKV();
+    const shifted = adapterReturning(setId({ IDR: 1111 }));
+    const r = await resolveObservedRates(['sbi-remit'], kv, {
+      adapters: { 'sbi-remit': shifted },
+    });
+    expect(r.byProvider['sbi-remit']).toBeUndefined();
+    expect(r.fetchErrors['sbi-remit']).toMatch(/sanity/);
+  });
+
+  // --- retry-once on transient failure (task 22) ----------------------------
+
+  it('retries a transient failure exactly once, then succeeds', async () => {
+    const { kv } = mockKV();
+    let calls = 0;
+    const flaky: RateAdapter = {
+      fetchRates: vi.fn(async () => {
+        calls += 1;
+        if (calls === 1) throw new TypeError('fetch failed');
+        return setId({ IDR: 103.2 });
+      }),
+    };
+    const r = await resolveObservedRates(['sbi-remit'], kv, {
+      adapters: { 'sbi-remit': flaky },
+      midMarketRates: { IDR: 105 },
+    });
+    expect(flaky.fetchRates).toHaveBeenCalledTimes(2);
+    expect(r.byProvider['sbi-remit']?.rates.IDR).toBeCloseTo(103.2, 6);
+    expect(r.fetchErrors).toEqual({});
+  });
+
+  it('does NOT retry deterministic parse failures', async () => {
+    const { kv } = mockKV();
+    const parseFail: RateAdapter = {
+      fetchRates: vi.fn(async () => {
+        throw new Error('SBI Remit: no currencies parsed from rate board');
+      }),
+    };
+    await resolveObservedRates(['sbi-remit'], kv, { adapters: { 'sbi-remit': parseFail } });
+    expect(parseFail.fetchRates).toHaveBeenCalledTimes(1);
+  });
+
+  it('caps retries per request (subrequest budget guard)', async () => {
+    const { kv } = mockKV();
+    const ids = ['a', 'b', 'c', 'd', 'e', 'f', 'g'].map((n) => `net-fail-${n}`);
+    const adapters: Record<string, RateAdapter> = {};
+    for (const id of ids) {
+      adapters[id] = {
+        fetchRates: vi.fn(async () => {
+          throw new TypeError('fetch failed');
+        }),
+      };
+    }
+    await resolveObservedRates(ids, kv, { adapters, overallBudgetMs: 6_000 });
+    const totalCalls = Object.values(adapters).reduce(
+      (sum, a) => sum + (a.fetchRates as ReturnType<typeof vi.fn>).mock.calls.length,
+      0,
+    );
+    // 7 first attempts + at most MAX_RETRIES_PER_REQUEST retries.
+    expect(totalCalls).toBeLessThanOrEqual(ids.length + 5);
+  });
+
+  // --- per-source status (task 22) ------------------------------------------
+
+  it('records lastSuccessAt on live success and surfaces it on warm requests', async () => {
+    const { kv } = mockKV();
+    const fresh = setId({ IDR: 103.2 });
+    const r1 = await resolveObservedRates(['sbi-remit'], kv, {
+      adapters: { 'sbi-remit': adapterReturning(fresh) },
+    });
+    expect(r1.sourceStatus['sbi-remit']?.lastSuccessAt).toBe(fresh.fetchedAt);
+
+    // Warm: KV hit carries the same lastSuccessAt forward.
+    const r2 = await resolveObservedRates(['sbi-remit'], kv, {
+      adapters: { 'sbi-remit': adapterReturning(fresh) },
+    });
+    expect(r2.sourceStatus['sbi-remit']?.lastSuccessAt).toBe(fresh.fetchedAt);
+  });
+
+  it('persists lastFailureAt to a 7-day status key and reads it back next request', async () => {
+    const { kv, puts } = mockKV();
+    const failing = adapterRejecting('connection reset by peer');
+    const adapters = { 'sbi-remit': failing };
+    const r1 = await resolveObservedRates(['sbi-remit'], kv, { adapters });
+    expect(r1.sourceStatus['sbi-remit']?.lastFailureAt).toBeTruthy();
+    expect(r1.sourceStatus['sbi-remit']?.lastError).toBe('connection reset by peer');
+
+    const statusPut = puts.find((p) => p.key === 'observed:sbi-remit:status:v1');
+    expect(statusPut?.opts).toEqual({ expirationTtl: 604_800 });
+
+    // Next request (still failing, fresh KV): status key present from before.
+    const r2 = await resolveObservedRates(['sbi-remit'], kv, { adapters });
+    expect(r2.sourceStatus['sbi-remit']?.lastError).toBe('connection reset by peer');
   });
 });
 

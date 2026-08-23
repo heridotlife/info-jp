@@ -254,6 +254,22 @@ export interface SimulationMeta {
   observedCoverage: { observed: number; manual: number; modeled: number };
   /** Per-provider observed-rate fetch failures (providerId → message). */
   fetchErrors?: Record<string, string>;
+  /**
+   * Per-source health (task 22): last success/failure per adapter provider,
+   * persisted in KV (`observed:<id>:status:v1`, 7-day TTL) and refreshed on
+   * every cold fetch. Failures never include non-adapter providers.
+   */
+  sourceStatus?: Record<string, SourceStatusInfo>;
+}
+
+/** Last-known health of one rate source (see `SimulationMeta.sourceStatus`). */
+export interface SourceStatusInfo {
+  /** ISO timestamp of the last successful live fetch (observed entries only). */
+  lastSuccessAt?: string;
+  /** ISO timestamp of the last failed fetch attempt. */
+  lastFailureAt?: string;
+  /** The last failure's error message, when known. */
+  lastError?: string;
 }
 
 export interface SimulationResponse {

@@ -1,7 +1,8 @@
-import type { CurrencyCode, ObservedRateSet } from '../types/remittance';
+import type { CurrencyCode, ObservedRateSet, SourceStatusInfo } from '../types/remittance';
 import type { RateAdapter } from './sources';
 import { RATE_ADAPTERS } from './sources';
 import { MANUAL_RATES } from '../data/manual-rates';
+import { isTransientNetworkError, withinCorridorBand } from './sources/shared';
 
 /**
  * ============================================================================
@@ -36,13 +37,27 @@ import { MANUAL_RATES } from '../data/manual-rates';
 /** Observed-rate cache lifetime: 12 h (`expirationTtl` for every KV put). */
 export const OBSERVED_TTL_SECONDS = 12 * 60 * 60; // 43 200 s
 
-/** Per-adapter fetch timeout (one AbortSignal.timeout per adapter). */
+/** Per-adapter fetch timeout (one shared deadline across both attempts). */
 export const PER_ADAPTER_TIMEOUT_MS = 8_000;
 
 /** Overall cold-start budget; adapters unsettled at expiry are abandoned. */
 export const OVERALL_BUDGET_MS = 10_000;
 
+/** Retry only while at least this much of the adapter deadline remains. */
+export const RETRY_FLOOR_MS = 1_500;
+
+/**
+ * Max single-retries per cold request (task 22). Caps the worst-case
+ * subrequest count under the free plan's 50/request limit — see the math in
+ * src/lib/sources/index.ts.
+ */
+export const MAX_RETRIES_PER_REQUEST = 5;
+
+/** How long a recorded fetch failure stays readable in KV (`status` keys). */
+export const STATUS_TTL_SECONDS = 7 * 24 * 60 * 60; // 604 800 s
+
 const kvKey = (providerId: string): string => `observed:${providerId}:v1`;
+const statusKey = (providerId: string): string => `observed:${providerId}:status:v1`;
 
 // ---------------------------------------------------------------------------
 // Staleness classification (plan "Approach" §11)
@@ -77,8 +92,10 @@ export function classifyStaleness(fetchedAt: string | undefined, now = Date.now(
 /**
  * Observed corridor rates must sit within [mid × 0.85, mid × 1.02] — wide
  * enough for honest provider spreads, tight enough to catch quoting-unit
- * bugs (e.g. a CNY rate quoted per ¥10,000). Corridors without a mid-market
- * value pass through unchecked ("where available").
+ * bugs (e.g. a CNY rate quoted per ¥10,000) — AND inside the corridor's
+ * absolute band (src/lib/sources/shared.ts). Corridors without a mid-market
+ * value still get the absolute-band check (closes the "no mid → unchecked"
+ * gap).
  */
 export function withinSanityBound(rate: number, mid: number): boolean {
   return rate >= mid * 0.85 && rate <= mid * 1.02;
@@ -91,7 +108,8 @@ function applySanityBound(
   const rates: Partial<Record<CurrencyCode, number>> = {};
   for (const [code, rate] of Object.entries(set.rates) as Array<[CurrencyCode, number]>) {
     const midRate = mid[code];
-    if (midRate === undefined || withinSanityBound(rate, midRate)) {
+    const relativeOk = midRate === undefined || withinSanityBound(rate, midRate);
+    if (relativeOk && withinCorridorBand(rate, code)) {
       rates[code] = rate;
     }
     // else: corridor rejected (dropped silently — recorded as an error below
@@ -109,6 +127,8 @@ export interface ObservedRatesResolution {
   byProvider: Record<string, ObservedRateSet>;
   /** Provider-level failure messages for `meta.fetchErrors` (never thrown). */
   fetchErrors: Record<string, string>;
+  /** Per-source health surfaced as `meta.sourceStatus` (task 22). */
+  sourceStatus: Record<string, SourceStatusInfo>;
 }
 
 export interface ResolveOptions {
@@ -153,9 +173,12 @@ export async function resolveObservedRates(
 
   const byProvider: Record<string, ObservedRateSet> = {};
   const fetchErrors: Record<string, string> = {};
+  const sourceStatus: Record<string, SourceStatusInfo> = {};
   const due: Array<{ providerId: string; adapter: RateAdapter }> = [];
 
-  // 1. KV read-through check: a present entry is fresh by construction.
+  // 1. KV read-through check: a present entry is fresh by construction. The
+  //    per-source `status` key (last failure) is read in the same pass for
+  //    adapter providers so `meta.sourceStatus` survives warm requests.
   for (const providerId of providerIds) {
     let cached: unknown;
     try {
@@ -165,34 +188,69 @@ export async function resolveObservedRates(
     }
     if (isUsableSet(cached)) {
       byProvider[providerId] = cached;
+      if (adapters[providerId]) {
+        sourceStatus[providerId] = { lastSuccessAt: cached.fetchedAt };
+      }
     } else {
       const adapter = adapters[providerId];
-      if (adapter) due.push({ providerId, adapter });
+      if (adapter) {
+        due.push({ providerId, adapter });
+        let status: unknown;
+        try {
+          status = kv ? await kv.get<unknown>(statusKey(providerId), 'json') : null;
+        } catch {
+          status = null;
+        }
+        if (typeof status === 'object' && status !== null) {
+          const s = status as SourceStatusInfo;
+          if (s.lastFailureAt || s.lastError) sourceStatus[providerId] = { ...s };
+        }
+      }
       // No adapter → stays absent (modeled). Not an error: expected state.
     }
   }
 
   // 2. Cold-start fan-out: every due adapter fetches in parallel, each under
-  //    its own timeout signal, all under the overall budget. Results are
-  //    collected as they settle so a budget expiry keeps whatever landed.
+  //    its own deadline, all under the overall budget. Results are collected
+  //    as they settle so a budget expiry keeps whatever landed. A TRANSIENT
+  //    failure (network/timeout/5xx) gets one retry inside the SAME adapter
+  //    deadline, while a per-request retry budget caps worst-case
+  //    subrequests (task 22). One adapter's failure never touches another.
   if (due.length > 0) {
     const pending = new Set(due.map((d) => d.providerId));
+    let retryBudget = MAX_RETRIES_PER_REQUEST;
+
+    const timedFetchFor = (deadline: number): typeof fetch =>
+      (<typeof fetch>(<unknown>((url: unknown, init?: RequestInit) =>
+        fetch(url as RequestInfo, {
+          ...init,
+          signal: AbortSignal.timeout(Math.max(200, deadline - Date.now())),
+        }))));
+
     const worker = (async () => {
       await Promise.allSettled(
         due.map(async ({ providerId, adapter }) => {
+          const deadline = Date.now() + perAdapterTimeoutMs;
+          const attempt = (): Promise<ObservedRateSet> => adapter.fetchRates(timedFetchFor(deadline));
           try {
-            // One timeout signal for the WHOLE adapter (all its fetches).
-            const signal = AbortSignal.timeout(perAdapterTimeoutMs);
-            const timedFetch = (<typeof fetch>(<unknown>((url: unknown, init?: RequestInit) =>
-              fetch(url as RequestInfo, { ...init, signal }))));
-            const fetched = await adapter.fetchRates(timedFetch);
-            const bounded = options.midMarketRates
-              ? applySanityBound(fetched, options.midMarketRates)
-              : fetched;
+            let fetched: ObservedRateSet;
+            try {
+              fetched = await attempt();
+            } catch (first) {
+              const transient = isTransientNetworkError(first);
+              const room = deadline - Date.now() >= RETRY_FLOOR_MS;
+              if (!transient || !room || retryBudget <= 0) throw first;
+              retryBudget -= 1;
+              fetched = await attempt(); // the single retry
+            }
+            const bounded = applySanityBound(fetched, options.midMarketRates ?? {});
             if (Object.keys(bounded.rates).length === 0) {
-              throw new Error('sanity-bound reject: no corridor rates within [mid×0.85, mid×1.02]');
+              throw new Error(
+                'sanity-bound reject: no corridor rates within [mid×0.85, mid×1.02] / corridor band',
+              );
             }
             byProvider[providerId] = bounded;
+            sourceStatus[providerId] = { lastSuccessAt: bounded.fetchedAt };
             pending.delete(providerId);
             // Cache for the next 12 h; a failed write is non-fatal.
             try {
@@ -204,7 +262,20 @@ export async function resolveObservedRates(
             }
           } catch (err) {
             pending.delete(providerId);
-            fetchErrors[providerId] = errorMessage(err);
+            const message = errorMessage(err);
+            fetchErrors[providerId] = message;
+            sourceStatus[providerId] = { lastFailureAt: new Date().toISOString(), lastError: message };
+            // Persist the failure for warm-request visibility (7 d TTL);
+            // a failed write is non-fatal.
+            try {
+              await kv?.put(
+                statusKey(providerId),
+                JSON.stringify(sourceStatus[providerId]),
+                { expirationTtl: STATUS_TTL_SECONDS },
+              );
+            } catch {
+              /* status is best-effort */
+            }
           }
         }),
       );
@@ -215,7 +286,9 @@ export async function resolveObservedRates(
     const budget = new Promise<void>((resolve) => setTimeout(resolve, overallBudgetMs));
     await Promise.race([worker, budget]);
     for (const providerId of pending) {
-      fetchErrors[providerId] = 'abandoned: overall fetch budget exceeded';
+      const message = 'abandoned: overall fetch budget exceeded';
+      fetchErrors[providerId] = message;
+      sourceStatus[providerId] = { lastFailureAt: new Date().toISOString(), lastError: message };
     }
   }
 
@@ -229,11 +302,11 @@ export async function resolveObservedRates(
     const manual = MANUAL_RATES.find((entry) => entry.providerId === providerId);
     if (!manual || !isUsableSet(manual)) continue;
     if (classifyStaleness(manual.fetchedAt) === 'expired') continue;
-    const bounded = options.midMarketRates ? applySanityBound(manual, options.midMarketRates) : manual;
+    const bounded = applySanityBound(manual, options.midMarketRates ?? {});
     if (Object.keys(bounded.rates).length > 0) {
       byProvider[providerId] = bounded;
     }
   }
 
-  return { byProvider, fetchErrors };
+  return { byProvider, fetchErrors, sourceStatus };
 }
