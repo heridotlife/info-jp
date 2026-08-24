@@ -71,11 +71,12 @@ describe('jme: parseJmeRates', () => {
 
 describe('jme: fetchJmeRates', () => {
   it('fetches the page URL and declares the bank-deposit IDR rate', async () => {
-    const impl = vi.fn(async () =>
-      new Response(fixture('exchange-rate.html'), {
-        status: 200,
-        headers: { 'content-type': 'text/html' },
-      }),
+    const impl = vi.fn(
+      async (_input: RequestInfo | URL) =>
+        new Response(fixture('exchange-rate.html'), {
+          status: 200,
+          headers: { 'content-type': 'text/html' },
+        })
     );
     const set = await fetchJmeRates(impl as unknown as typeof fetch);
 
@@ -92,11 +93,13 @@ describe('jme: fetchJmeRates', () => {
 
   it('rejects (provider-level failure) when the bank-deposit row disappears', async () => {
     // Remove the method label from EVERY copy (desktop + mobile tables).
-    const pruned = fixture('exchange-rate.html').split('BANK DEPOSIT, CASH PICK UP').join('METHOD GONE');
+    const pruned = fixture('exchange-rate.html')
+      .split('BANK DEPOSIT, CASH PICK UP')
+      .join('METHOD GONE');
     expect(pruned).not.toContain('BANK DEPOSIT, CASH PICK UP');
     const impl = vi.fn(async () => new Response(pruned, { status: 200 }));
     await expect(fetchJmeRates(impl as unknown as typeof fetch)).rejects.toThrow(
-      /no BANK DEPOSIT method rows parsed/,
+      /no BANK DEPOSIT method rows parsed/
     );
   });
 
@@ -110,7 +113,7 @@ describe('jme: fetchJmeRates', () => {
       throw new Error('ECONNREFUSED');
     });
     await expect(fetchJmeRates(dead as unknown as typeof fetch)).rejects.toThrow(
-      /page fetch failed/i,
+      /page fetch failed/i
     );
   });
 });

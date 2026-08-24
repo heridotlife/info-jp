@@ -62,7 +62,7 @@ function flowFetch(overrides: { sim?: Response; ajax?: Response } = {}) {
   const impl = async (url: string | URL | Request, init?: RequestInit): Promise<Response> => {
     const u = String(url);
     const headers = Object.fromEntries(
-      new Headers(init?.headers as HeadersInit | undefined),
+      new Headers(init?.headers as HeadersInit | undefined)
     ) as Record<string, string>;
     calls.push({ url: u, init, headers });
     if (u === PAYFOREX_SIMULATOR_URL) {
@@ -136,10 +136,10 @@ describe('payforex: fetchPayForexRates', () => {
   });
 
   it('rejects when the response carries no parsable currencyRate', async () => {
-    const blank = new Response(
-      JSON.stringify({ result: 'OK', resultData: { currencyRate: '' } }),
-      { status: 200, headers: { 'content-type': 'application/json' } },
-    );
+    const blank = new Response(JSON.stringify({ result: 'OK', resultData: { currencyRate: '' } }), {
+      status: 200,
+      headers: { 'content-type': 'application/json' },
+    });
     const { impl } = flowFetch({ ajax: blank });
     await expect(fetchPayForexRates(impl)).rejects.toThrow(/currencyRate missing\/unparsable/);
   });
@@ -149,7 +149,7 @@ describe('payforex: fetchPayForexRates', () => {
       throw new Error('ECONNREFUSED');
     });
     await expect(fetchPayForexRates(dead as unknown as typeof fetch)).rejects.toThrow(
-      /session\/CSRF step failed/,
+      /session\/CSRF step failed/
     );
   });
 });

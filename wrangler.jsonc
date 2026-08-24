@@ -21,7 +21,7 @@
     {
       "binding": "RATES_KV",
       "id": "REPLACE_WITH_PROD_KV_ID",
-      "preview_id": "REPLACE_WITH_PREVIEW_KV_ID"
+      "preview_id": "REPLACE_WITH_PREVIEW_KV_ID",
     },
     // Astro's Cloudflare adapter auto-enables its session store on a KV binding
     // named SESSION. This app doesn't use sessions, but declaring the binding
@@ -29,7 +29,7 @@
     {
       "binding": "SESSION",
       "id": "REPLACE_WITH_SESSION_KV_ID",
-      "preview_id": "REPLACE_WITH_SESSION_PREVIEW_KV_ID"
-    }
-  ]
+      "preview_id": "REPLACE_WITH_SESSION_PREVIEW_KV_ID",
+    },
+  ],
 }

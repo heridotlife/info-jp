@@ -1,0 +1,9 @@
+dist/
+.astro/
+node_modules/
+.wrangler/
+coverage/
+bun.lock
+
+# Recorded real-world HTML fixtures (scraped pages) — not formattable
+src/lib/sources/fixtures/

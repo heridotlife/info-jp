@@ -12,5 +12,5 @@ type Runtime = import('@astrojs/cloudflare').Runtime<Env>;
 
 declare namespace App {
   // `Astro.locals.runtime.env.RATES_KV` and friends are typed via this.
-  interface Locals extends Runtime {}
+  type Locals = Runtime;
 }

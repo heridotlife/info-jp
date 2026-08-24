@@ -51,7 +51,7 @@ describe('wise: request shape', () => {
   it('always requests rateType=FIXED (REFERENCE/NOMINAL answer HTTP 400)', () => {
     const url = quoteUrl('IDR');
     expect(url).toBe(
-      'https://wise.com/gateway/v1/quotes/?source=JPY&target=IDR&rateType=FIXED&sourceAmount=10000',
+      'https://wise.com/gateway/v1/quotes/?source=JPY&target=IDR&rateType=FIXED&sourceAmount=10000'
     );
     expect(url).not.toContain('rateType=REFERENCE');
     expect(url).not.toContain('rateType=NOMINAL');
@@ -70,15 +70,18 @@ function fixtureFetch(overrides: Record<string, Response> = {}) {
     const target = /target=([A-Z]{3})/.exec(u)?.[1] ?? '???';
     const override = overrides[target];
     if (override) return override;
-    const text = target === 'IDR' || target === 'PHP' ? fixture(`${target}.json`) : JSON.stringify({
-      source: 'JPY',
-      target,
-      sourceAmount: 10000,
-      targetAmount: 100000,
-      rate: 1.0,
-      rateType: 'FIXED',
-      fee: 100,
-    });
+    const text =
+      target === 'IDR' || target === 'PHP'
+        ? fixture(`${target}.json`)
+        : JSON.stringify({
+            source: 'JPY',
+            target,
+            sourceAmount: 10000,
+            targetAmount: 100000,
+            rate: 1.0,
+            rateType: 'FIXED',
+            fee: 100,
+          });
     return new Response(text, { status: 200, headers: { 'content-type': 'application/json' } });
   };
   return { impl: impl as unknown as typeof fetch, calls };
@@ -96,9 +99,19 @@ describe('wise: fetchWiseRates', () => {
     expect(set.isPromo).toBeUndefined();
 
     // All 11 registry corridors quoted.
-    expect(Object.keys(set.rates).sort()).toEqual(
-      ['BDT', 'CNY', 'EUR', 'IDR', 'INR', 'KRW', 'NPR', 'PHP', 'THB', 'USD', 'VND'],
-    );
+    expect(Object.keys(set.rates).sort()).toEqual([
+      'BDT',
+      'CNY',
+      'EUR',
+      'IDR',
+      'INR',
+      'KRW',
+      'NPR',
+      'PHP',
+      'THB',
+      'USD',
+      'VND',
+    ]);
     expect(set.rates.IDR).toBe(111.001); // fixture verbatim
     expect(set.rates.PHP).toBe(0.388131);
 
@@ -138,7 +151,7 @@ describe('wise: fetchWiseRates', () => {
   it('rejects (provider-level failure) when nothing parses', async () => {
     const garbage = vi.fn(async () => new Response('<html>login</html>', { status: 200 }));
     await expect(fetchWiseRates(garbage as unknown as typeof fetch)).rejects.toThrow(
-      /no corridors parsed/i,
+      /no corridors parsed/i
     );
   });
 

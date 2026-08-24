@@ -34,7 +34,7 @@ const {
           if (stored === 'dark' || (!stored && prefersDark)) {
             document.documentElement.classList.add('dark');
           }
-        } catch (_) {
+        } catch {
           /* localStorage may be unavailable; ignore. */
         }
       })();

@@ -103,7 +103,7 @@ export function withinSanityBound(rate: number, mid: number): boolean {
 
 function applySanityBound(
   set: ObservedRateSet,
-  mid: Partial<Record<CurrencyCode, number>>,
+  mid: Partial<Record<CurrencyCode, number>>
 ): ObservedRateSet {
   const rates: Partial<Record<CurrencyCode, number>> = {};
   for (const [code, rate] of Object.entries(set.rates) as Array<[CurrencyCode, number]>) {
@@ -165,7 +165,7 @@ function isUsableSet(value: unknown): value is ObservedRateSet {
 export async function resolveObservedRates(
   providerIds: readonly string[],
   kv?: KVNamespace,
-  options: ResolveOptions = {},
+  options: ResolveOptions = {}
 ): Promise<ObservedRatesResolution> {
   const adapters = options.adapters ?? RATE_ADAPTERS;
   const perAdapterTimeoutMs = options.perAdapterTimeoutMs ?? PER_ADAPTER_TIMEOUT_MS;
@@ -220,18 +220,21 @@ export async function resolveObservedRates(
     const pending = new Set(due.map((d) => d.providerId));
     let retryBudget = MAX_RETRIES_PER_REQUEST;
 
-    const timedFetchFor = (deadline: number): typeof fetch =>
-      (<typeof fetch>(<unknown>((url: unknown, init?: RequestInit) =>
+    const timedFetchFor = (deadline: number): typeof fetch => <typeof fetch>(<unknown>((
+        url: unknown,
+        init?: RequestInit
+      ) =>
         fetch(url as RequestInfo, {
           ...init,
           signal: AbortSignal.timeout(Math.max(200, deadline - Date.now())),
-        }))));
+        })));
 
     const worker = (async () => {
       await Promise.allSettled(
         due.map(async ({ providerId, adapter }) => {
           const deadline = Date.now() + perAdapterTimeoutMs;
-          const attempt = (): Promise<ObservedRateSet> => adapter.fetchRates(timedFetchFor(deadline));
+          const attempt = (): Promise<ObservedRateSet> =>
+            adapter.fetchRates(timedFetchFor(deadline));
           try {
             let fetched: ObservedRateSet;
             try {
@@ -246,7 +249,7 @@ export async function resolveObservedRates(
             const bounded = applySanityBound(fetched, options.midMarketRates ?? {});
             if (Object.keys(bounded.rates).length === 0) {
               throw new Error(
-                'sanity-bound reject: no corridor rates within [mid×0.85, mid×1.02] / corridor band',
+                'sanity-bound reject: no corridor rates within [mid×0.85, mid×1.02] / corridor band'
               );
             }
             byProvider[providerId] = bounded;
@@ -264,20 +267,21 @@ export async function resolveObservedRates(
             pending.delete(providerId);
             const message = errorMessage(err);
             fetchErrors[providerId] = message;
-            sourceStatus[providerId] = { lastFailureAt: new Date().toISOString(), lastError: message };
+            sourceStatus[providerId] = {
+              lastFailureAt: new Date().toISOString(),
+              lastError: message,
+            };
             // Persist the failure for warm-request visibility (7 d TTL);
             // a failed write is non-fatal.
             try {
-              await kv?.put(
-                statusKey(providerId),
-                JSON.stringify(sourceStatus[providerId]),
-                { expirationTtl: STATUS_TTL_SECONDS },
-              );
+              await kv?.put(statusKey(providerId), JSON.stringify(sourceStatus[providerId]), {
+                expirationTtl: STATUS_TTL_SECONDS,
+              });
             } catch {
               /* status is best-effort */
             }
           }
-        }),
+        })
       );
     })();
 

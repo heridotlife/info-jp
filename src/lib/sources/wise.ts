@@ -36,7 +36,8 @@ import type { CurrencyCode, ObservedRateSet } from '../../types/remittance';
 export const WISE_QUOTE_ENDPOINT = 'https://wise.com/gateway/v1/quotes/';
 
 /** Human label carried on the ObservedRateSet. */
-export const WISE_SOURCE_LABEL = 'wise.com quote gateway (gateway/v1/quotes/, rateType=FIXED, ¥10,000 quote)';
+export const WISE_SOURCE_LABEL =
+  'wise.com quote gateway (gateway/v1/quotes/, rateType=FIXED, ¥10,000 quote)';
 
 /** Canonical reference amount for amount-aware quote APIs (plan §8). */
 export const WISE_QUOTE_AMOUNT_JPY = 10_000;
@@ -67,7 +68,8 @@ interface WiseQuoteResponse {
 }
 
 /** Descriptive UA — we are a comparison site reading a public quote gateway. */
-const USER_AGENT = 'info-jp-remittance-simulator/0.1 (provider rate comparison; contact: mail@heri.life)';
+const USER_AGENT =
+  'info-jp-remittance-simulator/0.1 (provider rate comparison; contact: mail@heri.life)';
 
 /** Build the quote URL for one corridor. Exported for the request-shape test. */
 export function quoteUrl(target: CurrencyCode): string {
@@ -123,7 +125,7 @@ export async function fetchWiseRates(fetchImpl: typeof fetch = fetch): Promise<O
       } catch {
         // Network/parse failure for one corridor — skip it, never throw.
       }
-    }),
+    })
   );
 
   if (Object.keys(rates).length === 0) {

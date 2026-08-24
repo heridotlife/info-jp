@@ -26,7 +26,7 @@ interface MockKV {
 
 function mockKV(seed: Record<string, unknown> = {}): MockKV {
   const store = new Map<string, string>(
-    Object.entries(seed).map(([k, v]) => [k, JSON.stringify(v)]),
+    Object.entries(seed).map(([k, v]) => [k, JSON.stringify(v)])
   );
   const puts: MockKV['puts'] = [];
   const kv = {
@@ -71,8 +71,7 @@ describe('classifyStaleness', () => {
   const now = Date.parse('2026-08-23T12:00:00Z');
 
   it('classifies fresh / stale / expired bands', () => {
-    const at = (hoursAgo: number) =>
-      new Date(now - hoursAgo * 60 * 60 * 1000).toISOString();
+    const at = (hoursAgo: number) => new Date(now - hoursAgo * 60 * 60 * 1000).toISOString();
 
     expect(classifyStaleness(at(3), now)).toBe('fresh'); // < 12 h
     expect(classifyStaleness(at(11.9), now)).toBe('fresh');
@@ -145,11 +144,9 @@ describe('resolveObservedRates', () => {
     const ok = adapterReturning(setId({ IDR: 103.2 }));
     const bad = adapterRejecting('connection reset');
 
-    const { byProvider, fetchErrors } = await resolveObservedRates(
-      ['sbi-remit', 'jrf'],
-      kv,
-      { adapters: { 'sbi-remit': ok, jrf: bad } },
-    );
+    const { byProvider, fetchErrors } = await resolveObservedRates(['sbi-remit', 'jrf'], kv, {
+      adapters: { 'sbi-remit': ok, jrf: bad },
+    });
 
     expect(byProvider['sbi-remit']).toBeDefined();
     expect(byProvider.jrf).toBeUndefined();
@@ -160,7 +157,10 @@ describe('resolveObservedRates', () => {
     const { kv } = mockKV();
     const slow: RateAdapter = {
       fetchRates: vi.fn(
-        () => new Promise<ObservedRateSet>(() => { /* never settles */ }),
+        () =>
+          new Promise<ObservedRateSet>(() => {
+            /* never settles */
+          })
       ),
     };
     const started = Date.now();
@@ -192,7 +192,7 @@ describe('resolveObservedRates', () => {
     };
 
     await expect(
-      resolveObservedRates(['sbi-remit'], brokenKV, { adapters: { 'sbi-remit': crashy } }),
+      resolveObservedRates(['sbi-remit'], brokenKV, { adapters: { 'sbi-remit': crashy } })
     ).resolves.toMatchObject({ fetchErrors: { 'sbi-remit': 'sync boom' } });
 
     // KV put fails but the fetched set is still returned.
@@ -217,22 +217,22 @@ describe('resolveObservedRates', () => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date('2026-08-23T12:00:00+09:00'));
     try {
-    const { kv, puts } = mockKV();
-    const { byProvider, fetchErrors } = await resolveObservedRates(['kyodai'], kv, {
-      midMarketRates: { IDR: 111.37 },
-    });
-    // withinSanityBound(111.1 vs 111.37) → passes; never KV-cached.
-    expect(byProvider.kyodai).toMatchObject({
-      providerId: 'kyodai',
-      method: 'manual',
-      rates: { IDR: 111.1 },
-    });
-    expect(puts).toHaveLength(0);
-    expect(fetchErrors).toEqual({});
+      const { kv, puts } = mockKV();
+      const { byProvider, fetchErrors } = await resolveObservedRates(['kyodai'], kv, {
+        midMarketRates: { IDR: 111.37 },
+      });
+      // withinSanityBound(111.1 vs 111.37) → passes; never KV-cached.
+      expect(byProvider.kyodai).toMatchObject({
+        providerId: 'kyodai',
+        method: 'manual',
+        rates: { IDR: 111.1 },
+      });
+      expect(puts).toHaveLength(0);
+      expect(fetchErrors).toEqual({});
     } finally {
       vi.useRealTimers();
     }
-    });
+  });
 
   it('observed beats manual when an adapter/KV entry exists for the same provider', async () => {
     const { kv } = mockKV();
@@ -353,7 +353,7 @@ describe('resolveObservedRates', () => {
     await resolveObservedRates(ids, kv, { adapters, overallBudgetMs: 6_000 });
     const totalCalls = Object.values(adapters).reduce(
       (sum, a) => sum + (a.fetchRates as ReturnType<typeof vi.fn>).mock.calls.length,
-      0,
+      0
     );
     // 7 first attempts + at most MAX_RETRIES_PER_REQUEST retries.
     expect(totalCalls).toBeLessThanOrEqual(ids.length + 5);
@@ -414,13 +414,17 @@ const RATES: RateTable = {
 };
 
 describe('simulate integration with resolver (SBI observed rate)', () => {
-  const input = { amountJPY: 100_000, targetCurrency: 'IDR' as const, deliveryType: 'all' as const };
+  const input = {
+    amountJPY: 100_000,
+    targetCurrency: 'IDR' as const,
+    deliveryType: 'all' as const,
+  };
 
   async function runResolved(kv: KVNamespace) {
     const { byProvider, fetchErrors } = await resolveObservedRates(
       ['sbi-remit', 'wise', 'kyodai'],
       kv,
-      { midMarketRates: RATES.rates },
+      { midMarketRates: RATES.rates }
     );
     const payload = simulate(input, RATES, byProvider);
     if (Object.keys(fetchErrors).length) payload.meta.fetchErrors = fetchErrors;

@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it, vi } from 'vitest';
 import { simulate } from '../../remittanceCalculator';
 import type { RateTable } from '../../rates';
-import type { ObservedRateSet } from '../../types/remittance';
+import type { ObservedRateSet } from '../../../types/remittance';
 import { REMITLY_ENDPOINT, fetchRemitlyRates, parseRemitlyPage } from '../remitly';
 
 /**
@@ -48,7 +48,7 @@ describe('remitly: parseRemitlyPage', () => {
     expect(parseRemitlyPage('<html>client-rendered now</html>')).toBeUndefined();
     expect(parseRemitlyPage('')).toBeUndefined();
     expect(
-      parseRemitlyPage('{"merchandisingFacts":{"effectiveRateAsLowAs":"n/a"}}'),
+      parseRemitlyPage('{"merchandisingFacts":{"effectiveRateAsLowAs":"n/a"}}')
     ).toBeUndefined();
     expect(parseRemitlyPage('{"merchandisingFacts":{}}')).toBeUndefined();
   });
@@ -58,11 +58,12 @@ describe('remitly: parseRemitlyPage', () => {
 
 describe('remitly: fetchRemitlyRates', () => {
   it('fetches the page and stores the promo rate WITH isPromo', async () => {
-    const impl = vi.fn(async () =>
-      new Response(fixture('converter.html'), {
-        status: 200,
-        headers: { 'content-type': 'text/html' },
-      }),
+    const impl = vi.fn(
+      async (_input: RequestInfo | URL) =>
+        new Response(fixture('converter.html'), {
+          status: 200,
+          headers: { 'content-type': 'text/html' },
+        })
     );
     const set = await fetchRemitlyRates(impl as unknown as typeof fetch);
 
@@ -85,10 +86,10 @@ describe('remitly: fetchRemitlyRates', () => {
   it('rejects when the promo block disappears from the page', async () => {
     const redesigned = vi.fn(
       async () =>
-        new Response('<!DOCTYPE html><html><body>new design</body></html>', { status: 200 }),
+        new Response('<!DOCTYPE html><html><body>new design</body></html>', { status: 200 })
     );
     await expect(fetchRemitlyRates(redesigned as unknown as typeof fetch)).rejects.toThrow(
-      /promo rate not found/,
+      /promo rate not found/
     );
   });
 
@@ -97,7 +98,7 @@ describe('remitly: fetchRemitlyRates', () => {
       throw new Error('ECONNREFUSED');
     });
     await expect(fetchRemitlyRates(dead as unknown as typeof fetch)).rejects.toThrow(
-      /page fetch failed/i,
+      /page fetch failed/i
     );
   });
 });
@@ -132,7 +133,7 @@ describe('remitly: promo policy end-to-end through simulate', () => {
     const response = simulate(
       { amountJPY: 100_000, targetCurrency: 'IDR', deliveryType: 'all' },
       rates,
-      { remitly: promoSet, 'sbi-remit': standardSet },
+      { remitly: promoSet, 'sbi-remit': standardSet }
     );
 
     const remitly = response.results.find((r) => r.providerId === 'remitly');
@@ -153,6 +154,8 @@ describe('remitly: promo policy end-to-end through simulate', () => {
     expect(taggedBest.length).toBe(1);
     expect(taggedBest[0].rateSource.isPromo).not.toBe(true);
     expect(remitly?.receiveAmount).toBeGreaterThan(taggedBest[0].receiveAmount);
-    expect(response.results.every((r) => !r.rateSource.isPromo || !r.tags.includes('best-value'))).toBe(true);
+    expect(
+      response.results.every((r) => !r.rateSource.isPromo || !r.tags.includes('best-value'))
+    ).toBe(true);
   });
 });

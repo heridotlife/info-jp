@@ -37,11 +37,15 @@ export interface RateAdapter {
 export const RATE_ADAPTERS: Readonly<Record<string, RateAdapter>> = {
   'sbi-remit': { fetchRates: (fetchImpl?: typeof fetch) => fetchSbiRemitRates(fetchImpl ?? fetch) },
   wise: { fetchRates: (fetchImpl?: typeof fetch) => fetchWiseRates(fetchImpl ?? fetch) },
-  'seven-bank-wu': { fetchRates: (fetchImpl?: typeof fetch) => fetchSevenBankRates(fetchImpl ?? fetch) },
+  'seven-bank-wu': {
+    fetchRates: (fetchImpl?: typeof fetch) => fetchSevenBankRates(fetchImpl ?? fetch),
+  },
   smiles: { fetchRates: (fetchImpl?: typeof fetch) => fetchSmilesRates(fetchImpl ?? fetch) },
   payforex: { fetchRates: (fetchImpl?: typeof fetch) => fetchPayForexRates(fetchImpl ?? fetch) },
   instarem: { fetchRates: (fetchImpl?: typeof fetch) => fetchInstaremRates(fetchImpl ?? fetch) },
-  'city-express': { fetchRates: (fetchImpl?: typeof fetch) => fetchCityExpressRates(fetchImpl ?? fetch) },
+  'city-express': {
+    fetchRates: (fetchImpl?: typeof fetch) => fetchCityExpressRates(fetchImpl ?? fetch),
+  },
   jme: { fetchRates: (fetchImpl?: typeof fetch) => fetchJmeRates(fetchImpl ?? fetch) },
   jrf: { fetchRates: (fetchImpl?: typeof fetch) => fetchJrfRates(fetchImpl ?? fetch) },
   dcom: { fetchRates: (fetchImpl?: typeof fetch) => fetchDcomRates(fetchImpl ?? fetch) },

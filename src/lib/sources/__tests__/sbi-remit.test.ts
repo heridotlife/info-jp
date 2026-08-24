@@ -1,11 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it, vi } from 'vitest';
-import {
-  SBI_REMIT_ENDPOINT,
-  fetchSbiRemitRates,
-  parseRate,
-  toPerJPY,
-} from '../sbi-remit';
+import { SBI_REMIT_ENDPOINT, fetchSbiRemitRates, parseRate, toPerJPY } from '../sbi-remit';
 
 /**
  * Fixture-driven tests for the SBI Remit adapter (tasks.md task 3).
@@ -126,7 +121,7 @@ describe('sbi-remit: fetchSbiRemitRates', () => {
   it('rejects (provider-level failure) when nothing parses', async () => {
     const garbage = vi.fn(async () => new Response('<html>login</html>', { status: 200 }));
     await expect(fetchSbiRemitRates(garbage as unknown as typeof fetch)).rejects.toThrow(
-      /no currencies parsed/i,
+      /no currencies parsed/i
     );
   });
 

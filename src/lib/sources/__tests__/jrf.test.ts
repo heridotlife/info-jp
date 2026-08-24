@@ -1,11 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { readFileSync } from 'node:fs';
-import {
-  JRF_ENDPOINT,
-  JRF_SOURCE_LABEL,
-  fetchJrfRates,
-  parseRates,
-} from '../jrf';
+import { JRF_ENDPOINT, JRF_SOURCE_LABEL, fetchJrfRates, parseRates } from '../jrf';
 import type { ObservedRateSet } from '../../../types/remittance';
 
 /**
@@ -13,7 +8,10 @@ import type { ObservedRateSet } from '../../../types/remittance';
  * workerd egress 2026-08-23). Fixture pinned verbatim from the live board.
  */
 
-const fixtureBody = readFileSync(new URL('../fixtures/jrf/extended.json', import.meta.url), 'utf-8');
+const fixtureBody = readFileSync(
+  new URL('../fixtures/jrf/extended.json', import.meta.url),
+  'utf-8'
+);
 
 /** fetch stub serving the pinned fixture. */
 function fixtureFetch(status = 200): typeof fetch {
@@ -86,7 +84,10 @@ describe('fetchJrfRates', () => {
 
   it('rejects when no corridor could be parsed', async () => {
     const empty = (async (_u: unknown, _i?: unknown) =>
-      new Response('[]', { status: 200, headers: { 'content-type': 'application/json' } })) as unknown as typeof fetch;
+      new Response('[]', {
+        status: 200,
+        headers: { 'content-type': 'application/json' },
+      })) as unknown as typeof fetch;
     await expect(fetchJrfRates(empty)).rejects.toThrow(/no currencies parsed/);
   });
 });

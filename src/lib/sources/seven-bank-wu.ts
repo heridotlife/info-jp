@@ -46,9 +46,10 @@ export const SEVEN_BANK_SOURCE_LABEL =
 
 /**
  * CurrencyCode → Seven Bank countrycode (the `ID`-not-`IDR` mapping, pinned
- * live 2026-08-23; every corridor of the provider registry is covered).
+ * live 2026-08-23). Partial: Seven Bank quotes 8 of the simulator's 11
+ * corridors — EUR/CNY/KRW are not offered and map to no country code.
  */
-export const COUNTRY_CODES: Readonly<Record<CurrencyCode, string>> = {
+export const COUNTRY_CODES: Readonly<Partial<Record<CurrencyCode, string>>> = {
   IDR: 'ID',
   PHP: 'PH',
   VND: 'VN',
@@ -63,7 +64,8 @@ export const COUNTRY_CODES: Readonly<Record<CurrencyCode, string>> = {
 const PROBE_CURRENCIES: readonly CurrencyCode[] = Object.keys(COUNTRY_CODES) as CurrencyCode[];
 
 /** Descriptive UA — we are a comparison site reading a public rate board. */
-const USER_AGENT = 'info-jp-remittance-simulator/0.1 (provider rate comparison; contact: mail@heri.life)';
+const USER_AGENT =
+  'info-jp-remittance-simulator/0.1 (provider rate comparison; contact: mail@heri.life)';
 
 /**
  * Minimal dependency-free parse of the country/currency structure.
@@ -93,9 +95,10 @@ export function parseFxList(xml: string): Map<string, Record<string, number>> {
 /** Pick one corridor's rate out of a parsed board, or `undefined` to skip. */
 export function pickRate(
   board: Map<string, Record<string, number>>,
-  currency: CurrencyCode,
+  currency: CurrencyCode
 ): number | undefined {
-  const block = board.get(COUNTRY_CODES[currency]);
+  const code = COUNTRY_CODES[currency];
+  const block = code === undefined ? undefined : board.get(code);
   if (!block) return undefined; // country not on the board → corridor skipped
   const rate = block[currency];
   return typeof rate === 'number' && Number.isFinite(rate) && rate > 0 ? rate : undefined;
@@ -109,7 +112,9 @@ export function pickRate(
  *
  * @param fetchImpl injectable for tests (defaults to the platform `fetch`)
  */
-export async function fetchSevenBankRates(fetchImpl: typeof fetch = fetch): Promise<ObservedRateSet> {
+export async function fetchSevenBankRates(
+  fetchImpl: typeof fetch = fetch
+): Promise<ObservedRateSet> {
   let xml: string;
   try {
     const res = await fetchImpl(SEVEN_BANK_ENDPOINT, {
@@ -118,7 +123,7 @@ export async function fetchSevenBankRates(fetchImpl: typeof fetch = fetch): Prom
     if (!res.ok) throw new Error(`CurrentFXList.xml HTTP ${res.status}`);
     xml = await res.text();
   } catch (err) {
-    throw new Error(`Seven Bank: board fetch failed (${(err as Error).message})`);
+    throw new Error(`Seven Bank: board fetch failed (${(err as Error).message})`, { cause: err });
   }
 
   const board = parseFxList(xml);

@@ -9,6 +9,9 @@ node_modules/
 .wrangler/
 .dev.vars
 
+# test coverage (vitest --coverage)
+coverage/
+
 # logs
 npm-debug.log*
 yarn-debug.log*

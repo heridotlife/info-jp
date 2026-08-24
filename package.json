@@ -4,15 +4,23 @@
   "type": "module",
   "private": true,
   "description": "Japanese Remittance Service Simulator & Comparison Engine (Astro + Cloudflare)",
+  "packageManager": "bun@1.3.14",
+  "engines": {
+    "bun": ">=1.3.0"
+  },
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
     "preview": "wrangler pages dev ./dist",
     "deploy": "astro build && wrangler pages deploy ./dist",
     "check": "astro check",
+    "lint": "eslint . && prettier --check .",
+    "lint:fix": "eslint --fix . && prettier --write .",
     "test": "vitest run",
     "test:watch": "vitest",
-    "verify:rates": "tsx scripts/verify-rates.ts",
+    "test:coverage": "vitest run --coverage",
+    "verify:rates": "bun scripts/verify-rates.ts",
+    "test:e2e:local": "bun scripts/e2e-local.mjs",
     "astro": "astro"
   },
   "dependencies": {
@@ -22,11 +30,17 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
     "@cloudflare/workers-types": "^4.20250510.0",
+    "@eslint/js": "^10.0.1",
     "@tailwindcss/vite": "^4.1.0",
     "@types/node": "^26.2.0",
+    "@vitest/coverage-v8": "^4.1.11",
+    "eslint": "^10.9.0",
+    "eslint-plugin-astro": "^3.1.0",
+    "prettier": "^3.9.6",
+    "prettier-plugin-astro": "^0.14.1",
     "tailwindcss": "^4.1.0",
-    "tsx": "^4.23.12",
     "typescript": "^5.8.0",
+    "typescript-eslint": "^8.67.0",
     "vitest": "^4.1.11",
     "wrangler": "^4.20.0"
   }

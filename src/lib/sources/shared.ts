@@ -27,7 +27,9 @@ import type { CurrencyCode } from '../../types/remittance';
  */
 
 /** Absolute per-1-JPY sanity envelope per corridor (unit-bug guard). */
-export const CORRIDOR_SANITY_BANDS: Readonly<Record<CurrencyCode, Readonly<{ min: number; max: number }>>> = {
+export const CORRIDOR_SANITY_BANDS: Readonly<
+  Record<CurrencyCode, Readonly<{ min: number; max: number }>>
+> = {
   IDR: { min: 80, max: 150 }, //   brief: 80–150 IDR/JPY (2026 mid ≈ 111)
   PHP: { min: 0.25, max: 0.6 }, // mid ≈ 0.39
   VND: { min: 100, max: 250 }, //  mid ≈ 164
@@ -55,13 +57,16 @@ export function withinCorridorBand(rate: number, code: CurrencyCode): boolean {
  */
 export function isTransientNetworkError(err: unknown): boolean {
   if (err instanceof TypeError) return true; // fetch() network failure
-  const name = typeof err === 'object' && err !== null ? String((err as { name?: unknown }).name ?? '') : '';
+  const name =
+    typeof err === 'object' && err !== null ? String((err as { name?: unknown }).name ?? '') : '';
   if (name === 'TimeoutError' || name === 'AbortError') return true;
   const message =
     typeof err === 'object' && err !== null
       ? String((err as { message?: unknown }).message ?? err)
       : String(err);
-  return /network|fetch failed|econn|socket|hang up|abandoned|timed? ?out|(^|\D)5\d{2}(\D|$)/i.test(message);
+  return /network|fetch failed|econn|socket|hang up|abandoned|timed? ?out|(^|\D)5\d{2}(\D|$)/i.test(
+    message
+  );
 }
 
 /**

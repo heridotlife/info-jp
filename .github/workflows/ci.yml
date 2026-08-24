@@ -1,0 +1,126 @@
+name: CI
+
+on:
+  # `push` only on main. develop is validated via pull_request (feature →
+  # develop PRs and the develop → main release PR), so pushing to develop
+  # would otherwise run twice: once for `push` and once for that PR's
+  # `synchronize`.
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main, develop]
+
+permissions:
+  contents: read
+
+jobs:
+  lint-and-type-check:
+    name: Lint and Type Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: .bun-version
+
+      # Node is still required: `bun run` drives the scripts, but Astro
+      # (build/check) and Vitest execute under Node via their bin shebangs.
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Run ESLint
+        run: bunx eslint .
+
+      - name: Run Prettier check
+        run: bunx prettier --check .
+
+      - name: Run type check
+        run: bun run check
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: .bun-version
+
+      # Node is still required: `bun run` drives the scripts, but Astro
+      # (build/check) and Vitest execute under Node via their bin shebangs.
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      # Gating: the coverage thresholds in vitest.config.ts (98% statements /
+      # 87% branches / 99% functions / 99% lines, global) fail this step — and
+      # the job — if regressed.
+      - name: Run tests with coverage
+        run: bun run test:coverage
+
+      # heridotlife also uploads lcov to Codecov; this repo has no
+      # CODECOV_TOKEN, so the report is archived as an artifact instead.
+      - name: Archive coverage report
+        uses: actions/upload-artifact@v7
+        with:
+          name: coverage-report
+          path: coverage/
+          retention-days: 30
+
+  e2e-local:
+    name: E2E (local boot)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: .bun-version
+
+      # Node is still required: `bun run` drives the scripts, but Astro
+      # (build/check) and Vitest execute under Node via their bin shebangs.
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      # Per-PR boot smoke: scripts/e2e-local.mjs builds the site, boots it
+      # with `wrangler pages dev` (real workerd + Miniflare KV), and asserts
+      # a static asset (GET /favicon.svg → 200) and the SSR worker itself
+      # (unmatched route → 404, proving the built worker boots and routes).
+      #
+      # The smoke never calls the real routes (GET / or /api/simulate): both
+      # cold-resolve FX rates from live provider endpoints when the KV cache
+      # is empty, which is impolite and flaky from shared CI runners — the
+      # same reason `bun run verify:rates` is not run here. Adapter
+      # behaviour is covered by unit tests using fixtures instead.
+      - name: Build, boot Pages dev server, and run e2e smoke
+        run: bun run test:e2e:local
+
+  # NOTE: there is no standalone build job — the e2e-local job above
+  # exercises the build. Pages deploys are owner-managed via
+  # `bun run deploy` (which builds itself), so CI does not upload a dist
+  # artifact.
